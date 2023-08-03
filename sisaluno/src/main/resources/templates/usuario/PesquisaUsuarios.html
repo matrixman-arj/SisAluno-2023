@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"	
+	  layout:decorate="~{layout/layoutPadrao}"
+	  xmlns:sisaluno="http://sisaluno.decex.eb.mil.br"
+	  xmlns:data="http://www.thymeleaf.org/extras/data"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+	<title>Pesquisar usuários</title>	
+</head>
+
+<body>	
+<section layout:fragment="conteudo">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-10">
+					<h1>Pesquisar usuários</h1>
+				</div>
+				
+				<div class="col-sm-2">
+					<div class="decex-page-header-controls">
+					
+						<a class="btn btn-default" th:href="@{/usuarios/novo}" sec:authorize="hasRole('ROLE_ADMINISTRACAO')">
+							<i class="glyphicon  glyphicon-plus-sign"></i> <span class="hidden-xs  hidden-sm">Novo usuário</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>	
+	 </div>
+	 	 
+	 <div class="container-fluid">
+		<form method="GET" th:object="${usuarioFilter}">
+			<div class="row">
+				<div class="form-group col-sm-4">
+					<label class="control-label" for="identidade">Identidade</label>
+					<input type="text" class="form-control" id="identidade" autofocus="autofocus" th:field="*{identidade}"/>				
+				</div>
+				
+				<div class="form-group col-sm-4">
+					<label for="posto" class="control-label">Posto</label>
+					<select id="posto" class="form-control" th:field="*{posto}">
+	                    <option value="">Selecione posto</option>
+	                    <option th:each="posto : ${postos}" th:value="${posto}" th:text="${posto.descricao}" th:field="*{posto}">DECEx</option>
+	                </select>
+				</div>
+				
+				<div class="form-group col-sm-4">
+					<label class="control-label" for="nomeGuerra">Nome de guerra</label>
+					<input type="text" class="form-control" id="nomeGuerra" th:field="*{nomeGuerra}"/>				
+				</div>
+			</div>
+			
+			<div class="row">				
+				<div class="form-group col-sm-4" >
+					<label for="om" class="control-label">OM</label>					
+					<select id="om" class="form-control" th:field="*{om}">
+	                    <option value="">Selecione a OM</option>
+	                    <option th:each="om : ${organizacoesMilitares}" th:value="${om.codigo}" th:text="${om.sigla}" >DECEx</option>
+	                </select>
+	            </div>				
+	                
+				<div class="form-group col-sm-4">
+					<label class="control-label" for="email">E-mail</label>
+					<input type="text" class="form-control" id="email"/ th:field="*{email}">				
+				</div>
+				
+				<div class="col-lg-6 col-sm-4 form-group sc-required">
+					<label class="control-label">Grupos</label>
+					<div>
+						<th:block th:each="grupo : ${grupos}">
+							<div class="checkbox  checkbox-inline">
+								<input th:id="|id_${grupo}|" type="checkbox" th:value="${grupo.codigo}" th:field="*{grupos}"/>
+								<label th:for="|id_${grupo}|" th:text="${grupo.nome}">Super-Admin</label>
+							</div>
+						</th:block>
+						<div class="checkbox  checkbox-inline">
+							<input id="todosGrupos" type="checkbox" th:checked="*{grupos} == null" name="grupos"/>
+							<label for="todosGrupos">Todos</label>
+						</div>																		
+					</div>
+				</div>				              
+			</div>
+			
+			<button type="submit" class="btn btn-primary">Pesquisar</button>
+		</form>
+		
+		<div class="table-responsive sc-tabela-simples">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th class="table-usuarios-col-foto"></th>
+						<th class="table-usuarios-col-idt">Identidade</th>
+						<th class="table-usuarios-col-posto">Posto</th>
+						<th class="table-usuarios-col-nomeGuerra">
+<!-- 							<th:block th:replace="fragments/Ordenacao :: order (${pagina}, 'nomeGuerra', 'Nome' )"></th:block> -->
+							<sisaluno:order page="${pagina}" field="nomeGuerra" text="Nome"/>
+						</th>
+						<th class="table-usuarios-col-om">Organização Militar</th>
+						<th class="table-usuarios-col-email">E-mail</th>
+						<th class="table-usuarios-col-grupo">Grupos</th>
+						<th class="table-usuarios-col-acoes">Ações</th>
+					</tr>
+				</thead>
+				
+				<tbody>
+					<tr th:each="usuario : ${pagina.conteudo}">
+						<td class="text-center">
+							<img th:src="@{/fotos/thumbnail.{foto}(foto=${usuario.fotoOuMock})}" class="img-responsive">
+						</td>
+						<td th:text="${usuario.identidade}">Identidade</td>
+						<td th:text="${usuario.posto}">Posto</td>
+						<td th:text="${usuario.nomeGuerra}">Nome de Guerra</td>
+						<td th:text="${usuario.om.sigla}">Organização Militar</td>
+						<td th:text="${usuario.email}">E-mail</td>
+						<td>
+							<span th:each="grupo : ${usuario.grupos}" th:text="|${grupo.nome}${grupoStat.last ? '' : ', '}|"></span>
+						</td>
+						
+						<td class="text-center">														
+							<a class="btn btn-link btn-xs js-tooltip" title="Editar" 
+									th:href="@{/usuarios/{codigo}(codigo=${usuario.codigo})}">
+								<i class="glyphicon glyphicon-pencil"></i>
+							</a>
+							
+							<a class="btn btn-link btn-xs js-tooltip js-exclusao-btn" title="Excluir" href="#" 
+									data:url="@{/usuarios/{codigo}(codigo=${usuario.codigo})}"
+									data:codigo="${usuario.codigo}" data:objeto="${usuario.nomeGuerra}">
+								<i class="glyphicon glyphicon-remove"></i>
+							</a>
+							
+						</td>
+					</tr>
+					<tr th:if="${pagina.vazia}">
+						<td colspan="7" style="text-align: center; color: red;">Nenhum usuário encontrado</td>
+					</tr>
+				</tbody>
+				
+			</table>
+		</div>
+		
+		<sisaluno:pagination page="${pagina}"/>
+		
+	</div>
+	 			
+</section>
+<th:block layout:fragment="javascript-extra">
+	<script th:src="@{/javascripts/multiselecao.js}"></script>
+	<script th:src="@{/javascripts/siscomplemento.dialogo-excluir.js}"></script>
+</th:block>
+</body>
+</html>

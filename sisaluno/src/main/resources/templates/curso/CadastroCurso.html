@@ -1,0 +1,170 @@
+<!DOCTYPE html >
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"	  			
+	  			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  			xmlns:th="http://www.thymeleaf.org"
+	  			layout:decorate="~{layout/layoutPadrao}"
+	  			xmlns:sisaluno="http://sisaluno.decex.eb.mil.br">
+<head>
+	<title>Cadastro de cursos</title>
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/stylesheets/vendors/bootstrap-switch.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/stylesheets/vendors/select2.min.css}"/>		
+	<link rel="stylesheet" th:href="@{/stylesheets/vendors/upload.min.css}"/>
+	
+<!-- 	<link rel="stylesheet" th:href="@{/stylesheets/sisaluno.css}"/>	 -->
+</head>
+
+<body>	 
+ <!-- Aqui inicia a configuração do conteúdo do nosso formulário -->
+ <section layout:fragment="conteudo">
+
+
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-10">
+					<h1 th:if="${curso.novo}">Cadastrar curso</h1>
+					<h1 th:unless="${curso.novo}">Edição de curso -  [[${curso.sku}]]</h1>
+				</div>			
+				<div class="col-xs-2">
+					<div class="decex-page-header-controls">
+					
+						<a class="btn  btn-default" th:href="@{/cursos}">
+							<i class="glyphicon  glyphicon-search"></i> <span class="hidden-xs  hidden-sm">Pesquisa</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">		
+		
+		<form method="POST" th:object="${curso}" class="form-vertical  js-form-loading" autocomplete="off" 
+				th:action="${curso.novo} ? @{/cursos/novo} : @{/cursos/{codigo}(codigo=${curso.codigo})}">
+		
+			<sisaluno:message/>
+			
+			
+			<input  type="hidden" th:field="*{codigo}">
+			
+			<!--############################## Inicio da primeira linha###################################### -->
+			<div class="row">
+				<div class="col-sm-3 form-group sc-required" sisaluno:classforerror="sku">					
+					<label for="sku" class="control-label">Código do curso</label>
+					<input id="sku" type="text" class="form-control js-sku" th:field="*{sku}"/>					
+				</div>				
+				
+				<!--Select para quem estiver cadastrando um curso, informar qual é a modalidade para o curso  -->
+				<div class="col-sm-3 form-group">
+					<label for="modalidade" class="control-label">Modalidade</label>
+					<select id="cfgsCurso" class="form-control" th:field="*{modalidade}" onchange="verificaEspSgt(this.value)">
+	                    <option value="">Selecione a modalidade</option>
+	                    <option th:each="modalidade : ${modalidades}" th:value="${modalidade}" th:text="${modalidade.descricao}">FORMACAO</option>
+	                </select>
+				</div>
+				
+				<div class="col-sm-3 form-group">
+					<label for="descr" class="control-label">Especialidade</label>
+					<select id="cfgsCurso" class="form-control" th:field="*{descr}" onchange="verificaEspSgt(this.value)">
+	                    <option value="">Selecione a especialidade ou arma</option>
+	                    <option th:each="especialidade : ${armas}" th:value="${especialidade.descricao}" th:text="${especialidade.descricao}">ARTILHARIA</option>
+	                </select>
+				</div>
+				
+				<!-- Select para quem estiver cadastrando um curso, informar para qual universo está disponível o curso -->
+				<div class="col-sm-3 form-group sc-required" sisaluno:classforerror="universo">
+					<label for="universo" class="control-label">Universo</label>
+					<select id="universo" class="form-control" th:field="*{universo}" onchange="verificaFormac(this.value)">
+	                    <option value="">Selecione o universo</option>
+	                    <option th:each="universo : ${universos}" th:value="${universo}" th:text="${universo.descricao}">FORM_GRAD_OF</option>
+	                </select>
+				</div>
+			</div>
+			<!--############################## Final da primeira linha ###################################### -->
+			
+			<!--############################## Inicio da segnda linha ###################################### -->	
+			<div class="row">
+				<div class="col-sm-3 form-group sc-required" sisaluno:classforerror="vinculo">
+					<label for="vinculo" class="control-label">Vinculo</label>
+					<select id="vinculo" class="form-control" th:field="*{vinculo}" onchange="verificaFormac(this.value)">
+	                    <option value="">Selecione o vinculo</option>
+	                    <option th:each="vinculo : ${vinculos}" th:value="${vinculo}" th:text="${vinculo.descricao}">CARREIRA</option>
+	                </select>
+				</div>
+				
+				<div class="col-sm-3 form-group sc-required" sisaluno:classforerror="tipoVinculo">
+					<label for="tipoVinculo" class="control-label">Tipo de Vinculo</label>
+					<select id="tipoVinculo" class="form-control" th:field="*{tipoVinculo}" onchange="verificaFormac(this.value)">
+	                    <option value="">Selecione o tipo de vinculo</option>
+	                    <option th:each="tipoVinculo : ${tiposVinculo}" th:value="${tipoVinculo}" th:text="${tipoVinculo}">OTT</option>
+	                </select>
+				</div>
+				
+				<!-- Select para quem estiver cadastrando um curso, informar a qual linha pertence o curso -->
+				<div class="col-sm-3 form-group sc-required">
+					<label for="linha" class="control-label">Linha</label>
+					<select id="linha" class="form-control" th:field="*{linha}">
+	                    <option value="">Selecione a linha</option>
+	                    <option th:each="linha : ${linhas}" th:value="${linha}" th:text="${linha.descricao}">BELICA</option>
+	                </select>
+				</div>
+				
+			</div>			
+			<!--############################## Final da segunda linha ###################################### -->				
+			<div class="row">
+				<div class="form-group  col-sm-12">
+					<input type="hidden" th:field="*{foto}">
+					<input type="hidden" th:field="*{contentType}">
+					<input type="hidden" th:field="*{novaFoto}">
+				
+					<label class="control-label">Foto</label>
+					
+					<div class="js-container-foto-usuario" th:attr="data-url-fotos=@{/fotos}">
+					
+
+						<div id="upload-drop" class="sc-upload">
+							<i class="glyphicon  glyphicon-cloud-upload"></i>
+							<span>Arraste a foto aqui ou </span>
+							<a class="sc-upload-form-file">selecione <input id="upload-select" type="file" accept=".jpg,.jpeg,.png"/></a>
+						</div>
+					</div>
+						
+				</div>
+			</div>						
+			
+			<br>													
+		<div class="row">	
+						
+			<div class="col-sm-3 form-group">
+				<button class="btn  btn-primary" type="submit">Salvar</button>					
+			</div>
+		</div>
+
+		</form>
+	</div>
+	<th:block th:replace="hbs/FotoUsuario"></th:block>
+</section>
+	<!-- E aqui finaliza a configuração do conteúdo do nosso formulário -->
+	
+<th:block layout:fragment="javascript-extra">
+	<script th:src="@{/javascripts/vendors/bootstrap-switch.min.js}"></script>	
+	<script th:src="@{/layout/javascripts/pais.js}"></script>
+	<script th:src="@{/layout/javascripts/colegio.js}"></script>
+	<script th:src="@{/layout/javascripts/formacao.js}"></script>
+	<script th:src="@{/layout/javascripts/EspecialidadeSgt.js}"></script>
+	<script th:src="@{/layout/javascripts/EspecialidadeOF.js}"></script>	
+		
+	<script th:src="@{/javascripts/vendors/uikit.min.js}"></script>
+	<script th:src="@{/javascripts/vendors/upload.min.js}"></script>
+	<script th:src="@{/javascripts/vendors/handlebars.min.js}"></script>	
+	<script th:src="@{/javascripts/usuario.upload-foto.js}"></script>
+			
+	<script>
+		$('.js-status').bootstrapSwitch();
+	</script>
+
+</th:block>
+	
+</body>
+</html>

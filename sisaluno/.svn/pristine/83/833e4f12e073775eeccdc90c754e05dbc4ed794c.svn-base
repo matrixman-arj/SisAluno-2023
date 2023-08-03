@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"	
+	  layout:decorate="~{layout/layoutPadrao}"
+	  xmlns:siscomplemento="http://siscomplemento.decex.eb.mil.br"
+	  xmlns:data="http://www.thymeleaf.org/extras/data"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+	<title>Pesquisar alunos</title>	
+</head>
+
+<body>	
+<section layout:fragment="conteudo">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-10">
+					<h1>Pesquisar alunos</h1>
+				</div>
+				
+				<div class="col-xs-2">
+					<div class="decex-page-header-controls">
+						<a class="btn btn-default" th:href="@{/complementos/novo}">
+							<i class="glyphicon  glyphicon-plus-sign"></i> <span class="hidden-xs  hidden-sm">Novo aluno</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>	
+	 </div>
+	 
+	 <div class="container-fluid">
+		<form method="GET" th:object="${complementoFilter}">
+			<div class="row">
+				<div class="form-group col-sm-4">
+					<label class="control-label" for="cpf">CPF</label>
+					<input type="text" class="form-control" id="cpf" autofocus="autofocus" th:field="*{cpf}"/>				
+				</div>
+			</div>			
+				
+			<button type="submit" class="btn btn-primary">Pesquisar</button><br>		
+		</form>
+		
+		<div class="table-responsive sc-tabela-simples">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						
+						<th class="table-complementos-col-idt">CPF</th>
+						<th class="table-complementos-col-nome">
+<!-- 							<th:block th:replace="fragments/Ordenacao :: order (${pagina}, 'nome', 'Nome' )"></th:block> -->
+								<siscomplemento:order page="${complementosPorOm}" field="nome" text="Nome"/>
+						</th>
+						<th class="table-complementos-col-origemEscolar">Origem Escolar</th>
+						<th class="table-complementos-col-colegioMiltar">Colégio Militar</th>
+						<th class="table-complementos-col-origemCivilOuMilitar">Origem Civil ou Militar</th>
+						<th class="table-complementos-col-situacaoNoCurso">Situação</th>
+						
+						<th class="table-complementos-col-acoes">Ações</th>
+					</tr>
+				</thead>
+				
+				<tbody>
+					<tr th:each="complemento : ${complementosPorOm.conteudo}">
+						
+						<td th:text="${complemento.cpf}">CPF</td>
+						<td th:text="${complemento.nome}">Nome</td>
+						<td th:text="${complemento.origemEscolar}">Origem Escolar</td>
+						<td th:text="${complemento.colegioMiltar}">Colégio Militar</td>
+						<td th:text="${complemento.origemCivilOuMilitar}">Origem Civil ou Militar</td>
+						
+						
+						<td>
+							<span th:each="situacao : ${complemento.situacoes}" th:text="|${situacao.nome}${situacaoStat.last ? '' : ', '}|"></span>
+						</td>
+						<td class="text-center">
+							<a class="btn btn-link btn-xs js-tooltip" title="Editar" th:href="@{/complementos/{codigo}(codigo=${complemento.codigo})}" >
+								<i class="glyphicon glyphicon-pencil"></i>
+							</a>
+							
+							<a class="btn btn-link btn-xs js-tooltip js-exclusao-btn" title="Excluir" href="#" 
+									data:url="@{/complementos/{codigo}(codigo=${complemento.codigo})}"
+									data:codigo="${complemento.codigo}" data:objeto="${complemento.nome}" >
+								<i class="glyphicon glyphicon-remove"></i>
+							</a>
+						</td>
+					</tr>
+					<tr th:if="${complementosPorOm.vazia}">
+						<td colspan="7" style="text-align: center; color: red;">Nenhum aluno encontrado</td>
+					</tr>
+				</tbody>				
+			</table>
+		</div>
+		
+		<siscomplemento:pagination page="${complementosPorOm}"/>
+	</div>
+	 			
+</section>
+<th:block layout:fragment="javascript-extra">
+	<script th:src="@{/javascripts/multiselecao.js}"></script>
+	<script th:src="@{/javascripts/siscomplemento.dialogo-excluir.js}"></script>
+</th:block>
+</body>
+</html>

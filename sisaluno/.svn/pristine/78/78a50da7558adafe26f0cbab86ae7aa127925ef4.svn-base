@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"	
+	  layout:decorate="~{layout/layoutPadrao}"
+	  xmlns:sisaluno="http://sisaluno.decex.eb.mil.br"
+	  xmlns:data="http://www.thymeleaf.org/extras/data"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+	<title>Pesquisar cursos</title>	
+</head>
+
+<body>	
+<section layout:fragment="conteudo">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-10">
+					<h1>Pesquisar cursos</h1>
+				</div>
+				
+				<div class="col-xs-2">
+					<div class="decex-page-header-controls">
+						<a class="btn btn-default" th:href="@{/cursos/novo}">
+							<i class="glyphicon  glyphicon-plus-sign"></i> <span class="hidden-xs  hidden-sm">Novo curso</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>	
+	 </div>
+	 
+	 <div class="container-fluid">
+		<form method="GET" th:object="${cursoFilter}">
+			<div class="row">
+				<div class="form-group col-sm-4">
+					<label class="control-label" for="sku">Código do curso</label>					
+					<input type="text" class="form-control js-sku" id="sku" autofocus="autofocus" th:field="*{sku}"/>				
+				</div>
+			</div>			
+				
+			<button type="submit" class="btn btn-primary">Pesquisar</button><br>		
+		</form>
+	
+	
+		<div class="table-responsive sc-tabela-simples">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th class="table-alunos-col-foto">Foto</th>					
+							<th class="table-alunos-col-idt">SKU</th>
+							
+							<th class="table-alunos-col-colegioMiltar">Modalidade</th>						
+							<th class="table-alunos-col-nome">Universo</th>
+							<th class="table-alunos-col-nome">Especialidade/Arma</th>					
+							<th class="table-alunos-col-origemEscolar">Linha</th>
+							<th class="table-alunos-col-origemEscolar">Vinculo</th>
+							<th class="table-alunos-col-origemEscolar">Tipo de Vinculo</th>
+							<th class="table-alunos-col-acoes">Ações</th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<tr th:each="curso : ${pagina.conteudo}">
+						
+							<td class="text-center">
+								
+								<!--  <img th:if="${curso.universo == FORM_OF}" th:src="@{/fotos/thumbnail.patente-oficial.png}" class="img-responsive">
+								<img th:if="${curso.universo == FORM_GRAD_PCA}" th:src="@{/fotos/thumbnail.divisa.png}" class="img-responsive">
+								<img th:if="${curso.universo == OF_PRACA}" th:src="@{/fotos/thumbnail.Posto-oficial-praça.png}" class="img-responsive">-->
+								<img th:src="@{/fotos/thumbnail.{foto}(foto=${curso.fotoOuMock})}" class="img-responsive">
+							</td>
+							<td th:text="${curso.sku}">Codigo do curso</td>
+							
+							<td th:text="${curso.modalidade}">Modalidade</td>
+							<td th:text="${curso.universo}">Nome</td>
+							<td th:text="${curso.descr}">Arma</td>
+							<td th:text="${curso.linha}">Linha</td>
+							<td th:text="${curso.vinculo}">Viculo</td>
+							<td th:text="${curso.tipoVinculo}">Viculo</td>
+													
+							<td class="text-left">
+								<a class="btn btn-link btn-xs js-tooltip" title="Editar" th:href="@{/cursos/{codigo}(codigo=${curso.codigo})}"  >
+									<i class="glyphicon glyphicon-pencil"></i>
+								</a>
+								
+								<a class="btn btn-link btn-xs js-tooltip js-exclusao-btn" title="Excluir" href="#" 
+										data:url="@{/cursos/{codigo}(codigo=${curso.codigo})}"
+										data:codigo="${curso.codigo}" data:objeto="${curso.sku}">
+									<i class="glyphicon glyphicon-remove"></i>
+								</a>
+							</td>
+						</tr>
+						
+						<tr th:if="${pagina.vazia}" >
+							<td colspan="9" style="text-align: center; color: red;">Nenhum aluno encontrado</td>
+						</tr>				
+									
+					</tbody>
+		 		</table>
+		 	</div>
+	 		<sisaluno:pagination page="${pagina}" />
+	 </div>	
+</section>
+<th:block layout:fragment="javascript-extra">
+	
+	<script th:src="@{/javascripts/multiselecao.js}"></script>
+	<script th:src="@{/javascripts/sisaluno.dialogo-excluir.js}"></script>
+</th:block>
+</body>
+</html>

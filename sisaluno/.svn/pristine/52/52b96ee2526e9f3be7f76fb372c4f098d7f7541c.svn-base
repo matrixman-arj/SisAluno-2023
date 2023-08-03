@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/layoutPadrao}"
+	   xmlns:sisaluno="http://sisaluno.decex.eb.mil.br">
+
+<head>
+	<title>Cadastrar estados</title>	
+</head>
+
+<body>	
+<section layout:fragment="conteudo">
+
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="row">						
+				<div class="col-xs-10">
+					<h1 th:if="${estado.novo}">Cadastrar estados</h1>
+					<h1 th:unless="${estado.novo}">Edição do estado - [[${estado.nome}]]</h1>
+				</div>
+				<div class="col-xs-2">					
+					<div class="decex-page-header-controls">
+						<a class="btn btn-default" th:href="@{/estados}">
+							<i class="glyphicon glyphicon-search"></i> <span class="hidden-xs hidden-sm">Pesquisar</span>
+						</a>
+					</div>						
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">	
+		<form method="POST" th:object="${estado}" class="form-vertical  js-form-loading" autocomplete="off" 
+				th:action="${estado.novo} ? @{/estados/novo} : @{/estados/{codigo}(codigo=${estado.codigo})}">					
+			<sisaluno:message/>
+			
+			<input  type="hidden" th:field="*{codigo}">
+		
+			<div class="row">
+				<div class="form-group  col-sm-4  bw-required" sisaluno:classforerror="regiao">
+					<label for="regiao" class="control-label">Região</label>
+					<select id="regiao" class="form-control" th:field="*{regiao}">
+	                    <option value="">Selecione a região</option>
+	                    <option th:each="regiao : ${regioes}" th:value="${regiao.codigo}" th:text="${regiao.nome}">Norte</option>
+	                </select>
+				</div>
+				
+				<div class="form-group  col-sm-4  bw-required" sisaluno:classforerror="nome">
+					<label for="nome" class="control-label">Nome</label>
+					<input type="text" class="form-control" id="nome" th:field="*{nome}"/>
+				</div>
+				
+				<div class="form-group  col-sm-4  bw-required" sisaluno:classforerror="sigla">
+					<label for="sigla" class="control-label">Sigla</label>
+					<input type="text" class="form-control" id="sigla" th:field="*{sigla}"/>
+				</div>
+				
+			</div>			
+			
+			<div class="form-group">			
+				<button class="btn  btn-primary" type="submit">Salvar</button>
+			</div>	
+		</form>
+	</div>
+	
+	
+</section>
+
+<th:block layout:fragment="javascript-extra">
+	
+</th:block>
+
+</body>
+</html>

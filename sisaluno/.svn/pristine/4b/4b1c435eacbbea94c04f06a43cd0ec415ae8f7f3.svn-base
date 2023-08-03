@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="~{layout/layoutSimples}">
+
+<th:block layout:fragment="conteudo">
+	<div class="decex-error-panel">
+		<h1 class="decex-error-panel__code">
+			<i class="fa  fa-location-arrow"></i> 500
+		</h1>
+		
+		<h2 class="decex-error-panel__title">Erro no servidor</h2>
+		
+		<div class="decex-error-panel__description">
+			Desculpe, ocorreu um erro em nosso servidor.
+			Em caso de dúvidas entre em contato com a gente.
+			<br/><br/>
+			<a href="javascript:history.back()" class="btn  btn-primary">Voltar para onde estava</a>
+		</div>
+	</div>
+</th:block>
+
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+	  
+<th:block th:fragment="order (paginaOmUsuLogado, propriedade, texto)" >
+	  
+	<a th:href="${paginaOmUsuLogado.urlOrdenada2(propriedade)}" th:remove="${paginaOmUsuLogado.vazia} ? tag">
+	   <span th:text="${texto}">Posto</span>
+	   <span class="dropup" th:remove="${paginaOmUsuLogado.descendente(propriedade)} ? tag"
+	   		th:if="${paginaOmUsuLogado.ordenada(propriedade)}">							   		
+	   		<span class="caret"></span>							   
+	   </span>
+	</a>
+	
+</th:block>
+
+
+</html> 

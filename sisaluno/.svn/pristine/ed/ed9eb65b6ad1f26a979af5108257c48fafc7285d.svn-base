@@ -1,0 +1,313 @@
+/*
+######################
+# UTILIDADES
+######################
+*/
+.sc-glyphicon-large {
+	font-size: 18px;
+	color:#1ed28e;
+}
+
+.sc-required > .control-label:after {
+	content: "*";
+}
+
+.sc-navbar-default {
+  background-color: #008080;
+  border-color: #004040;
+}
+
+
+
+/*
+######################
+# COMPONENTES
+######################
+*/
+
+/* Field Action */
+.sc-field-action {
+	display: flex;
+}
+
+.sc-field-action__icon {
+	margin: 6px 0 0 5px;
+	color:#1ed28e;
+}
+
+/* Upload */
+.sc-upload {
+	padding: 15px;
+	
+	border: 1px dashed #ddd;
+	border-radius: 4px;
+	background: #fafafa;
+	
+	text-align: center;
+}
+
+.sc-upload-form-file {
+	display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 1px;
+}
+
+.sc-upload-form-file > input[type=file] {
+	position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    opacity: 0;
+    cursor: pointer;
+    
+    font-size: 500px;
+}
+
+/* Tabela Simples */
+.sc-tabela-simples {
+	margin-top: 15px;
+}
+
+.sc-tabela-simples table tr th {
+	border-bottom-width: 1px;
+}
+
+.sc-tabela-simples table tr td {
+    border-top: none;
+    border-bottom: 1px solid #e7eaec;
+    padding: 10px;
+    vertical-align: middle;
+}
+
+.btn-primary {
+  color: #ffffff;
+  background-color: #2ea99c;
+  border-color: #0c8e77;
+}
+
+/*
+###################
+# PÁGINAS DO SISTEMA
+###################
+*/
+
+/* Colunas comuns */
+.table-col-acoes {
+	width: 80px;
+}
+
+
+/* Colunas - Pesquisa de Usuários */
+
+.sc-title-page h1 {
+	text-align: center;
+}
+
+.table-usuarios-col-status {	
+	width: 30px
+}
+
+.table-usuarios-col-foto {
+	min-width: 70px;
+	width: 70px
+}
+
+.table-usuarios-col-idt {
+	width: 200px;
+	
+}
+
+.table-usuarios-col-posto {
+	width: 200px;
+}
+
+.table-usuarios-col-nomeGuerra {
+	width: 200px;
+}
+
+.table-usuarios-col-om {
+	width: 200px;
+}
+
+.table-usuarios-col-email {
+	width: 200px;
+}
+
+.table-usuarios-col-grupo {
+	width: 200px;
+}
+
+
+.table-usuarios-col-acoes {
+	width: 80px;
+}
+
+.sc-table-vazia {
+	text-align: center;
+	color: red;
+}
+
+
+/* Tabela Cursos página de Matriculas */
+.sc-tabela-matriculas {
+	margin-bottom: 15px;
+}
+
+.sc-tabela-matriculas__vazia {
+	padding: 15px 15px;
+	
+	border: 1px dashed #ddd;
+	
+	text-align: center;
+	font-size: 1.2em;
+	font-weight: 300;
+	color: #555;
+}
+
+/*Tabela de vacinados*/
+
+.table-vacinados-col-porcentagem {
+	width: 40px
+}
+
+/*
+##############################
+# CUSTOMIZAÇÃO DE COMPONENTES
+##############################
+*/
+.checkbox input[type="checkbox"]:checked + input + label::after {
+	font-family: 'FontAwesome';
+	content: "\f00c";
+}
+
+/* Easy Autocomplete */
+.easy-autocomplete input {
+	border-radius: 2px !important;
+}
+
+.easy-autocomplete-container ul li {
+	font-size: 1em !important;
+	padding: 0px 5px !important;
+}
+
+
+
+/* Tabela curso */
+.sc-tabela-curso {
+	position: relative; /* Para que o painel de exclusão apareça dentro da linha */
+	
+	padding: 15px 0;
+	
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+.sc-tabela-curso:after {
+	clear: both;
+	display: block;
+    content: "";
+}
+
+.sc-tabela-curso ~ .sc-tabela-curso {
+	border-top: 1px solid #ddd;
+}
+
+.sc-tabela-curso__coluna {
+	padding: 0 10px;
+}
+
+.sc-tabela-curso__coluna--foto {
+	float: left;
+	width: 60px;
+	margin-top: 10px;
+	
+	
+	text-align: center;
+}
+
+.sc-tabela-curso__coluna--valores {
+	padding-right: 0px;
+	margin-right: 0px;	
+}
+
+.sc-tabela-curso__coluna--detalhes, .sc-tabela-curso__coluna--valores {
+	margin-left: 60px;	
+}
+
+.sc-tabela-curso-descr {
+	font-weight: 500;
+	font-size: 1.1em;
+	display: block;
+}
+
+.sc-tabela-curso-modalidade {
+	color: #aaa;
+	display: block;
+	font-weight: 200;
+}
+
+.sc-tabela-curso-universo {
+	color: #aaa;
+	display: block;
+	font-weight: 200;
+}
+
+.sc-tabela-curso-linha {
+	color: #aaa;
+	display: block;
+	font-weight: 200;
+}
+
+.sc-tabela-curso-vinculo {
+	color: #aaa;
+	display: block;
+	font-weight: 200;
+}
+
+.sc-tabela-curso-campo-quantidade {
+	width: 30px;
+	text-align: right;
+}
+
+.sc-tabela-curso-valor-pequeno {
+	font-weight: 300;
+	font-size: 1em;
+	font-weight: bold;
+}
+
+.sc-tabela-curso-valor-medio {
+	font-weight: 300;
+	font-size: 1.3em;
+}
+
+.sc-tabela-curso-valor-grande {
+	font-weight: 300;
+	font-size: 1.6em;
+	font-weight: bold;
+}
+
+@media (min-width: 768px) { /* screen-sm-min */
+	.sc-tabela-curso__coluna {
+		float: left;
+		margin-left: 0px;
+	}
+	
+	.sc-tabela-curso__coluna--detalhes {
+		width: calc(70% - 30px);
+	}
+	
+	.sc-tabela-curso__coluna--valores {
+		width: calc(30% - 30px);
+		text-align: right;
+		font-weight: bold;
+	}
+	
+#pai div{
+	display: none;
+}
+}

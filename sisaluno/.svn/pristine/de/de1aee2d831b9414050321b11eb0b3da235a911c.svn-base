@@ -1,0 +1,47 @@
+<!DOCTYPE html >
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	  			xmlns:th="http://www.thymeleaf.org">
+<body>
+	<!-- Aqui inicia a configuração da barra de menu do nosso formulário -->
+	<nav class="navbar  navbar-fixed-top  navbar-default  js-sticky-reference" id="main-navbar" th:fragment="navbar">
+	  <div class="container-fluid">
+	
+	    <div class="navbar-header">
+	      <a class="navbar-brand  hidden-xs" href="#">
+	        <img alt="Decex" th:src="@{/images/SISALUNO_LOGO.png}"/>
+	      </a>
+	
+	      <ul class="nav  navbar-nav">
+	        <li>
+	          <a href="#" class="js-sidebar-toggle"><i class="fa  fa-bars"></i></a>
+	        </li>
+	      </ul>
+	    </div>
+	
+	    <ul class="nav navbar-nav  navbar-right">
+	    	
+	    	<li>
+					<p class="navbar-text" th:text="${#authentication.principal.usuario.posto.descricao}" style="color: #F8F8FF; margin-right: 4px">General Exército</p>
+										
+				</li>
+				
+				<li>
+					<p class="navbar-text" style="color: #F8F8FF; margin-left: 0px; margin-right: 0px">-</p>
+										
+				</li>
+				
+				<li>
+					<p class="navbar-text" th:text="${#authentication.principal.usuario.nomeGuerra}" style="color: #F8F8FF; margin-left: 4px">Usuário</p>
+										
+				</li>
+	    		      
+	        <li>
+	          <a th:href="@{/logout}"><em class="fa  fa-sign-out"></em></a>
+	        </li> 
+	    </ul>
+	
+	  </div>
+	</nav>
+	<!-- E aqui finaliza a configuração da barra de menu do nosso formulário -->
+</body>
+</html>

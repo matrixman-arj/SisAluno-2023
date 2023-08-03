@@ -1,0 +1,317 @@
+<!DOCTYPE html >
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"	  			
+	  			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  			xmlns:th="http://www.thymeleaf.org"
+	  			layout:decorate="~{layout/layoutPadrao}"
+	  			xmlns:sisaluno="http://sisaluno.decex.eb.mil.br">
+<head>
+	<title>Cadastro de alunos</title>
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/stylesheets/vendors/bootstrap-switch.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/stylesheets/vendors/select2.min.css}"/>		
+	<link rel="stylesheet" th:href="@{/stylesheets/vendors/upload.min.css}"/>
+	
+<!-- 	<link rel="stylesheet" th:href="@{/stylesheets/sisaluno.css}"/>	 -->
+</head>
+
+<body>	 
+ <!-- Aqui inicia a configuração do conteúdo do nosso formulário -->
+ <section layout:fragment="conteudo">
+
+
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-10">
+					<h1 th:if="${aluno.novo}">Cadastrar aluno</h1>
+					<h1 th:unless="${aluno.novo}">Edição de Aluno -  [[${aluno.nome}]]</h1>
+				</div>			
+				<div class="col-xs-2">
+					<div class="decex-page-header-controls">
+					
+						<a class="btn  btn-default" th:href="@{/alunos}">
+							<i class="glyphicon  glyphicon-search"></i> <span class="hidden-xs  hidden-sm">Pesquisa</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">		
+		
+		<form method="POST" th:object="${aluno}" class="form-vertical  js-form-loading" autocomplete="off" 
+				th:action="${aluno.novo} ? @{/alunos/novo} : @{/alunos/{codigo}(codigo=${aluno.codigo})}">
+		
+			<sisaluno:message/>
+			
+			
+			<input  type="hidden" th:field="*{codigo}">
+			
+			<!--############################## Inicio da primeira linha  maxlength="11" ###################################### -->
+			<div class="row">
+				<div class="col-sm-3 form-group sc-required" sisaluno:classforerror="cpf">					
+					<label for="cpf" class="control-label">CPF (Somente números)</label>
+					<input id="cpf" type="text" class="form-control js-cpf" th:field="*{cpf}"/>					
+				</div>
+				
+				<div class="col-sm-3 form-group sc-required" sisaluno:classforerror="nome">					
+					<label for="nome" class="control-label">Nome completo</label>
+					<input id="nome" type="text" class="form-control" th:field="*{nome}"/>					
+				</div>
+				
+				<div class="col-sm-3 form-group sc-required" sisaluno:classforerror="naturalidade">
+					<label for="naturalidade" class="control-label">Naturalidade</label>					
+					<select id="naturalidade" class="form-control" th:field="*{naturalidade}">
+	                    <option value="">Selecione o Estado onde nasceu</option>
+	                    <option th:each="naturalidade : ${naturalidades}" th:value="${naturalidade.codigo}" th:text="${naturalidade.nome}">Rio de janeiro</option>
+	                </select>
+                </div>	
+				
+				<div class="form-group  col-sm-3 sc-required" sisaluno:classforerror="dataNascimento">
+					<label for="dataNascimento" class="control-label">Data de nascimento</label>
+					<input type="text" class="form-control  js-date" id="dataNascimento" th:field="*{dataNascimento}" autocomplete="off"/>
+				</div>									
+			</div>
+			<!--############################## Fim da primeira linha  maxlength="11" ###################################### -->
+			
+			<!--############################## Inicio da segunda linha  maxlength="11" ###################################### -->
+			<div class="row">				
+				
+				<div class="col-sm-3 form-group sc-required" sisaluno:classforerror="religiao">
+					<label for="religiao" class="control-label">Religião</label>
+					<select id="religiao" class="form-control" th:field="*{religiao}">
+	                    <option value="">Selecione a religião</option>
+	                    <option th:each="religiao : ${religioes}" th:value="${religiao}" th:text="${religiao.descricao}">Publica</option>
+	                </select>
+				</div>
+				
+				
+				
+				<div class="col-sm-3 form-group sc-required" sisaluno:classforerror="origemEscolar">
+					<label for="origemEscolar" class="control-label">Origem escolar</label>
+					<select id="origemEscolar" class="form-control" th:field="*{origemEscolar}" onchange="verificaEscolar(this.value)">
+	                    <option value="">Selecione a origem</option>
+	                    <option th:each="origemEscolar : ${origens}" th:value="${origemEscolar}" th:text="${origemEscolar.descricao}">Publica</option>
+	                </select>
+				</div>
+				
+				<div class="col-sm-3 form-group sc-required" id="divOrigem" sisaluno:classforerror="escolaridade">
+					<label for="escolaridade" class="control-label">Escolaridade</label>
+					<select id="escolaridade" class="form-control" th:field="*{escolaridade}">
+	                    <option value="">Selecione a escolaridade</option>
+	                    <option th:each="escolaridade : ${escolaridades}" th:value="${escolaridade}" th:text="${escolaridade.descricao}">Branco</option>
+	                </select>
+				</div>
+				
+				
+				<!-- #OCULTA# -->
+				<div class="col-sm-3 form-group sc-required" hidden="true" id="divColegio" sisaluno:classforerror="colegioMiltar">
+					<label for="colegioMiltar" class="control-label">Colégio Militar</label>
+					<select id="colegioMiltar" class="form-control" th:field="*{colegioMiltar}">
+	                    <option value="">Selecione o Colégio Militar</option>
+	                    <option th:each="colegioMiltar : ${colegiosMilitares}" th:value="${colegioMiltar}" th:text="${colegioMiltar.descricao}">CMRJ</option>
+	                </select>
+				</div>			
+																
+			</div>
+			<!--############################## Final da segunda linha ###################################### -->
+			
+			
+			<!--############################## Inicio da tereceira linha ###################################### -->	
+			<div class="row">								
+				<div class="col-sm-3 form-group sc-required" sisaluno:classforerror="etnia">
+					<label for="etnia" class="control-label">Raça / Etnia</label>
+					<select id="etinia" class="form-control" th:field="*{etnia}">
+	                    <option value="">Selecione a etnia</option>
+	                    <option th:each="etnia : ${etnias}" th:value="${etnia}" th:text="${etnia.descricao}">Branco</option>
+	                </select>
+				</div>
+						                
+				<div class="col-sm-3 form-group sc-required" id="divOrigem" sisaluno:classforerror="origemCivilOuMilitar">
+					<label for="origemCivOuMil" class="control-label">Origem Civil / Militar</label>
+					<select id="origemCivOuMil" class="form-control" th:field="*{origemCivilOuMilitar}" onchange="verifica(this.value)">
+	                    <option value="">Selecione a origem</option>
+	                    <option th:each="origemCivOuMilitar : ${origensCivOuMil}" th:value="${origemCivOuMilitar}" th:text="${origemCivOuMilitar.descricao}">Branco</option>
+	                </select>
+				</div>				
+				
+				<!-- #OCULTA# -->								
+				<div class="col-sm-3 form-group sc-required" hidden="true" id="divPais" sisaluno:classforerror="paises">
+					<label for="paises" class="control-label">País</label>
+					<select id="paises" class="form-control" th:field="*{paises}">
+	                    <option value="">Selecione o país</option>
+	                    <option th:each="paises : ${paisess}" th:value="${paises}" th:text="${paises.descricao}">BRASIL</option>
+	                </select>
+				</div>				
+					
+				<!-- #OCULTA# -->
+				<div class="col-sm-3 form-group sc-required" hidden="true" id="divEB" sisaluno:classforerror="origemMilitar">
+					<label for="origemEB" class="control-label">Força / Posto</label>
+					<select id="origemEB" class="form-control" th:field="*{origemEB}">
+	                    <option value="">Selecione o posto no EB</option>
+	                    <option th:each="origemEB : ${origensEB}" th:value="${origemEB}" th:text="${origemEB.descricao}">EB_OTT</option>
+	                </select>
+				</div>
+				
+					
+				<!-- #OCULTA# -->
+				<div class="col-sm-3 form-group sc-required" hidden="true" id="divMB" sisaluno:classforerror="origemMilitar">
+					<label for="origemMB" class="control-label">Força / Posto</label>
+					<select id="origemMB" class="form-control" th:field="*{origemMB}">
+	                    <option value="">Selecione o posto na Marinha</option>
+	                    <option th:each="origemMB : ${origensMB}" th:value="${origemMB}" th:text="${origemMB.descricao}">MB_OTT</option>
+	                </select>
+				</div>
+								
+				<!-- #OCULTA# -->
+				<div class="col-sm-3 form-group sc-required" hidden="true" id="divFAB" sisaluno:classforerror="origemMilitar">
+					<label for="origemFAB" class="control-label">Força / Posto</label>
+					<select id="origemFAB" class="form-control" th:field="*{origemFAB}">
+	                    <option value="">Selecione o posto na FAB</option>
+	                    <option th:each="origemFAB : ${origensFAB}" th:value="${origemFAB}" th:text="${origemFAB.descricao}">FAB_OTT</option>
+	                </select>
+				</div>
+				
+				<div class="col-sm-3 form-group sc-required">					
+					<label for="segGradPos">Segunda Graduação ou Pós (Se tiver)</label>
+					<input id="segGradPos" type="text" class="form-control" th:field="*{segGradPos}"/>					
+				</div>	
+							
+			</div>
+			<!--############################## Final da terceira linha ###################################### -->
+			
+			<!--############################## Inicio da quarta linha ###################################### -->
+			<div class="row">			
+								
+				<div class="col-sm-3  form-group sc-required" sisaluno:classforerror="rendaFamiliar">
+					<label class="control-label sc-required" for="rendaFamiliar" >Renda Familiar</label>
+					<div class="input-group">
+						<div class="input-group-addon">R$</div>
+						<select id="rendaFamiliar" class="form-control" th:field="*{rendaFamiliar}">
+	                    <option value="">Selecione</option>
+	                    <option th:each="rendaFamiliar : ${rendas}" th:value="${rendaFamiliar}" th:text="${rendaFamiliar.descricao}">ATE_DOIS_SALARIOS</option>
+	                </select>
+					</div>
+				</div>
+				
+				<div class="col-sm-2 form-group sc-required" sisaluno:classforerror="cotista" >						
+						<label for="cotista" class="control-label">Cotista?</label>						
+					<div>
+						<div class="radio radio-inline">
+							<input type="radio" id="cotista_sim" value="SIM" th:field="*{cotista}">
+							<label class="control-label" for="cotista_sim">Sim</label>
+						</div>
+						<div class="radio radio-inline">
+							<input type="radio" id="cotista_nao" value="NAO" th:field="*{cotista}">
+							<label class="control-label" for="cotista_nao">Não</label>
+						</div>
+					</div>
+				</div>
+				
+				
+				<div class="col-sm-2 form-group sc-required" sisaluno:classforerror="paiOuMaeMilitar">						
+						<label for="paiOuMaeMilitar" class="control-label">Pai ou Mãe Militar?</label>						
+					<div>
+						<div class="radio radio-inline">
+							<input type="radio" id="paiOuMaeMilitar_sim" value="SIM" th:field="*{paiOuMaeMilitar}">
+							<label class="control-label" for="paiOuMaeMilitar_sim">Sim</label>
+						</div>
+						<div class="radio radio-inline">
+							<input type="radio" id="paiOuMaeMilitar_nao" value="NAO" th:field="*{paiOuMaeMilitar}">
+							<label class="control-label" for="paiOuMaeMilitar_nao">Não</label>
+						</div>
+					</div>
+				</div>	
+				
+				<div class="col-lg-2 col-sm-3 form-group sc-required" sisaluno:classforerror="sexo">
+					<label for="sexo" class="control-label">Sexo</label>						
+					<div>	
+						<div class="radio radio-inline">
+							<input type="radio" id="sexo_masculino" value="Masculino" th:field="*{sexo}">
+							<label class="control-label" for="sexo_masculino">M</label>
+						</div>
+						<div class="radio radio-inline">
+							<input type="radio" id="sexo_feminino" value="Feminino" th:field="*{sexo}">
+							<label class="control-label" for="sexo_feminino">F</label>
+						</div>
+					</div>						
+				</div>
+				
+				<div class="col-sm-2 form-group" sec:authorize="hasRole('ROLE_ADMINISTRACAO')">
+					<label class="control-label">Status</label>
+					<div>
+						<input type="checkbox" class="js-status" data-size="small" data-off-color="danger" 
+							data-on-text="Liberado" data-off-text="Bloqueado" th:field="*{ativo}"/>
+					</div>
+				</div>
+					
+					<div hidden="true">
+						<select id="inseridoPor" class="form-control" th:field="*{inseridoPor}">											
+							<option th:value="${#authentication.principal.usuario.om.codigo}">2º Sgt - Vanilton</option>
+						</select>
+					</div>
+										
+			</div>		
+			<!--############################## Final da quarta linha ###################################### -->				
+						
+			
+			<br>
+			
+			<div class="row">
+				<div class="form-group  col-sm-12">
+					<input type="hidden" th:field="*{foto}">
+					<input type="hidden" th:field="*{contentType}">
+					<input type="hidden" th:field="*{novaFoto}">
+				
+					<label class="control-label">Foto</label>
+					
+					<div class="js-container-foto-usuario" th:attr="data-url-fotos=@{/fotos}">
+						<div id="upload-drop" class="sc-upload">
+							<i class="glyphicon  glyphicon-cloud-upload"></i>
+							<span>Arraste a foto aqui ou </span>
+							<a class="sc-upload-form-file">selecione <input id="upload-select" type="file" accept=".jpg,.jpeg,.png"/></a>
+						</div>
+					</div>
+				</div>
+			</div>				
+																
+		<div class="row">	
+						
+			<div class="col-sm-3 form-group">
+				<button class="btn  btn-primary" type="submit">Salvar</button>					
+			</div>
+		</div>
+
+		</form>
+	</div>
+	
+	<th:block th:replace="hbs/FotoUsuario"></th:block>
+	
+</section>
+	<!-- E aqui finaliza a configuração do conteúdo do nosso formulário -->
+	
+<th:block layout:fragment="javascript-extra">
+	<script th:src="@{/javascripts/vendors/bootstrap-switch.min.js}"></script>
+	<script th:src="@{/javascripts/vendors/select2.min.js}"></script>
+	<script th:src="@{/javascripts/cpf.js}"></script>
+	<script th:src="@{/layout/javascripts/aluno-mascara-nota.js}"></script>
+	<script th:src="@{/layout/javascripts/pais.js}"></script>
+	<script th:src="@{/layout/javascripts/colegio.js}"></script>
+	<script th:src="@{/layout/javascripts/formacao.js}"></script>
+	<script th:src="@{/layout/javascripts/EspecialidadeSgt.js}"></script>
+	<script th:src="@{/layout/javascripts/EspecialidadeOF.js}"></script>
+	<script th:src="@{/javascripts/vendors/uikit.min.js}"></script>
+	<script th:src="@{/javascripts/vendors/upload.min.js}"></script>
+	<script th:src="@{/javascripts/vendors/handlebars.min.js}"></script>	
+	<script th:src="@{/javascripts/usuario.upload-foto.js}"></script>
+	
+	<script>
+		$('.js-status').bootstrapSwitch();
+	</script>
+	
+	
+</th:block>
+	
+</body>
+</html>

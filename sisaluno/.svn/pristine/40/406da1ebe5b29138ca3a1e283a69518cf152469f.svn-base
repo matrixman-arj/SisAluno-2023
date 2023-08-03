@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt" 
+	  xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:data="http://www.thymeleaf.org/extras/data"
+	  xmlns:sisaluno="http://sisaluno.decex.eb.mil.br"
+	  layout:decorate="~{layout/layoutPadrao}">
+
+<head>
+	<title>Cadastrar UETES</title>	
+</head>
+
+<body>
+
+<section layout:fragment="conteudo">
+
+<div class="page-header">
+		<div class="container-fluid">
+			<div class="row">						
+				<div class="col-sm-10">
+					<h1 th:if="${uete.nova}">Cadastrar UETE</h1>
+					<h1 th:unless="${uete.nova}">Editar a UETE -  [[${uete.sigla}]] </h1>		
+				</div>
+				<div class="col-xs-2">					
+					<div class="decex-page-header-controls">
+						<a class="btn btn-default" th:href="@{/uetes}">
+							<i class="glyphicon glyphicon-search"></i> <span class="hidden-xs hidden-sm">Pesquisar</span>
+						</a>
+					</div>						
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		<form method="POST" th:object="${uete}" class="form-vertical  js-form-loading" 
+					th:action="${uete.nova} ? @{/uetes/nova} : @{/uetes/{codigo}(codigo=${uete.codigo})}">
+			<sisaluno:message/>
+			
+			<input  type="hidden" th:field="*{codigo}">
+		
+			<div class="row">							
+				<div class="col-sm-3 form-group" sisaluno:classforerror="sigla">					
+					<label for="sigla">Sigla</label>
+					<input id="sigla" type="text" class="form-control" th:field="*{sigla}"/>					
+				</div>
+				
+				<div class="col-sm-6 form-group" sisaluno:classforerror="descricao">					
+					<label for="descricao">Descrição</label>
+					<input id="descricao" type="text" class="form-control" th:field="*{descricao}"/>					
+				</div>
+				
+				<div class="col-sm-3 form-group" sisaluno:classforerror="ordem">					
+					<label for="ordem">Hierarquia</label>
+					<input id="ordem" type="text" class="form-control" th:field="*{ordem}"/>					
+				</div>												
+			</div>
+			
+			<div class="row">											
+				<div class="form-group  col-sm-4" sisaluno:classforerror="regiao">
+					<label for="regiao">Região</label>
+					<select id="regiao" class="form-control" th:field="*{regiao}">
+	                    <div th:if="${uete.nova}">
+		                    <option value="">Selecione a região</option>
+	                    	<option th:each="regiao : ${regioes}" th:value="${regiao.codigo}" th:text="${regiao.nome}">Norte</option>
+	                    </div>
+	                    
+	                    <div th:unless="${uete.nova}">
+	                    	
+	                    	<option  th:value="${regiao}" th:text="${nomeRegiao}" selected="selected"></option>
+	                    	<option th:each="regiao : ${regioes}" th:value="${regiao.codigo}" th:text="${regiao.nome}">Norte</option>
+	                    </div>
+	                    
+	                </select>
+				</div>
+				
+				<div class="form-group  col-sm-4" sisaluno:classforerror="estado">
+					<label  for="estado">Estado</label>
+					<div class="sc-field-action">
+						<input type="hidden" id="inputHiddenEstadoSelecionado" th:value="*{estado}"/>
+						<select id="estado" class="form-control" data:url="@{/estados}" th:field="*{estado}">
+<!-- 							<option value="">Selecione o estado</option> -->
+
+							<div th:unless="${uete.nova}">	                    	
+		                    	<option  th:value="${codigo}" th:text="${sigla}" selected="selected"></option>
+		                    	<option th:each="estado : ${estados}" th:value="${estado.codigo}" th:text="${estado.nome}">São Paulo</option>
+		                    </div>
+		                     
+						</select>
+						
+						<div class="sc-field-action__icon  js-img-loading" style="display: none">
+							<img th:src="@{/images/mini-loading.gif}"/>
+						</div>
+					</div>
+				</div>
+								
+			</div>
+												
+			<div class="form-group">	
+				<button class="btn  btn-primary" type="submit">Salvar</button>
+			</div>
+		</form>
+	</div>
+</section>
+
+<th:block layout:fragment="javascript-extra">	
+	<script th:src="@{/javascripts/om.combo-regiao-estado.js}"></script>
+		
+</th:block>
+</body>
+</html>

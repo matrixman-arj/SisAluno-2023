@@ -1,0 +1,27 @@
+<script id="tabela-pesquisa-rapida-aluno" type="text/x-handlebars-template">
+<div class="table-responsive  sc-tabela-simples" style="margin-top: 15px">
+	<table class="table  table-hover">
+		<thead>
+			<tr>
+				<th class="col-sm-2">CPF</th>
+				<th class="col-sm-2">Nome</th>
+			</tr>
+		</thead>
+				
+		<tbody>
+			{{#if .}}
+				{{#each .}}
+					<tr data-codigo="{{codigo}}"  data-nome="{{nome}} " data-cpf="{{cpf}}" class="js-aluno-pesquisa-rapida">
+						<td>{{cpf}}</td>
+						<td>{{nome}}</td>
+ 					</tr>
+				{{/each}}
+			{{else}}
+				<tr>
+					<td colspan="2">Nenhum aluno encontrado</td>
+				</tr>
+			{{/if}}
+		</tbody>
+	</table>
+</div>
+</script>

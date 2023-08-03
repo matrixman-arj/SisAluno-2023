@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+
+	<div class="sc-tabela-curso" th:each="item : ${itens}">
+		<div class="sc-tabela-curso__coluna sc-tabela-curso__coluna--foto ">							
+			<img th:src="@{/fotos/thumbnail.{foto}(foto=${item.curso.fotoOuMock})}" class="img-responsive">
+		</div>					
+	
+	
+		<div class="sc-tabela-curso__coluna sc-tabela-curso__coluna--detalhes ">
+			<span class="sc-tabela-curso-descr" th:text="${item.curso.descr}">ARTILHARIA</span>
+			<span class="label label-default" th:text="${item.curso.modalidade.descricao}">Formação de oficiais</span>
+			<span class="sc-tabela-curso-vinculo" th:text="${item.curso.vinculo.descricao}">Carreira</span>
+		</div>
+		
+		<div class="sc-tabela-curso__coluna  sc-tabela-curso__coluna--valores">
+			<div class="sc-tabela-curso-valor-medio">Linha:</div>
+			<span class="sc-tabela-curso-valor-grande" th:text="${item.curso.linha.descricao}">Bélica</span>
+		</div>
+	</div>
+</html>		

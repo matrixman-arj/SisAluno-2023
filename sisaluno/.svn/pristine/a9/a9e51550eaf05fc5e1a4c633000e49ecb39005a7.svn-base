@@ -1,0 +1,2 @@
+INSERT into comum.usuario (nome, nome_guerra, email, identidade, om_codigo, posto_graduacao, ativo, senha ) 
+VALUES ('Administrador do Sistema', 'admin', 'vanilton.gomes@eb.mil.br', '0195623040', 1, 'SEG_SARGENTO', TRUE, '$2a$10$6BYy1bfMIi9jtmSMihZFVuu6YDALuPLWwbgJNEND6IFfu977dWqHu')

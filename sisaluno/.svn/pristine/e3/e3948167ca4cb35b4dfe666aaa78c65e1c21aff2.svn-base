@@ -1,0 +1,38 @@
+package br.mil.eb.decex.sisaluno.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import br.mil.eb.decex.sisaluno.model.Curso;
+import br.mil.eb.decex.sisaluno.repository.Cursos;
+import br.mil.eb.decex.sisaluno.session.TabelaItensMatricula;
+
+@Controller
+@RequestMapping("/matriculas")
+public class MatriculasController {
+	
+	@Autowired
+	private Cursos cursos;
+	
+	@Autowired
+	private TabelaItensMatricula tabelaItensMatricula;
+	
+	@GetMapping("/nova")
+	public String nova() {
+		return "matricula/MatriculaAluno";
+	}
+	
+	@PostMapping("/item")
+	public ModelAndView adicionarItem(Long codigoCurso) {
+		Curso curso = cursos.findOne(codigoCurso);
+		tabelaItensMatricula.adicionarItem(curso, null);
+		ModelAndView mv = new ModelAndView("matricula/TabelaItensMatricula");
+		mv.addObject("itens", tabelaItensMatricula.getItens());
+		return mv;
+	}
+
+}

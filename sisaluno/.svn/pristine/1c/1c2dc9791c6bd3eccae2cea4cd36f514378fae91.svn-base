@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt" 
+	  xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/layoutPadrao}"
+	  xmlns:data="http://www.thymeleaf.org/extras/data"
+	  xmlns:sisaluno="http://sisaluno.decex.eb.mil.br">
+
+<head>
+	<title>Cadastrar Organizações Militares</title>	
+	<link rel="stylesheet" th:href="@{/stylesheets/siscomplemento.css}"/>
+</head>
+
+<body>
+
+<section layout:fragment="conteudo">
+
+<div class="page-header">
+		<div class="container-fluid">
+			<div class="row">						
+				<div class="col-sm-10">
+					<h1 th:if="${organizacaoMilitar.nova}">Cadastrar Organização Militar</h1>
+					<h1 th:unless="${organizacaoMilitar.nova}">Editar a OM -  [[${organizacaoMilitar.sigla}]] </h1>		
+				</div>
+				<div class="col-xs-2">					
+					<div class="decex-page-header-controls">
+						<a class="btn btn-default" th:href="@{/oms}">
+							<i class="glyphicon glyphicon-search"></i> <span class="hidden-xs hidden-sm">Pesquisar</span>
+						</a>
+					</div>						
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		<form method="POST" th:object="${organizacaoMilitar}" class="form-vertical js-form-loading" 
+					th:action="${organizacaoMilitar.nova} ? @{/oms/nova} : @{/oms/{codigo}(codigo=${organizacaoMilitar.codigo})}">
+			<sisaluno:message/>
+			
+			<input  type="hidden" th:field="*{codigo}">
+		
+			<div class="row">							
+				<div class="col-sm-3 form-group" sisaluno:classforerror="sigla">					
+					<label for="sigla">Sigla</label>
+					<input id="sigla" type="text" class="form-control" th:field="*{sigla}"/>					
+				</div>
+				
+				<div class="col-sm-6 form-group" sisaluno:classforerror="descricao">					
+					<label for="descricao">Descrição</label>
+					<input id="descricao" type="text" class="form-control" th:field="*{descricao}"/>					
+				</div>
+				
+				<div class="col-sm-3 form-group" sisaluno:classforerror="ordem">					
+					<label for="ordem">Hierarquia</label>
+					<input id="ordem" type="text" class="form-control" th:field="*{ordem}"/>					
+				</div>												
+			</div>
+			
+			<div class="row">											
+				<div class="form-group  col-sm-4" >
+					<label for="regiao">Região</label>
+					<select id="regiao" class="form-control" th:field="*{regiao}">	                    
+		                <option value="">Selecione a região</option>
+	                    <option th:each="regiao : ${regioes}" th:value="${regiao.codigo}" th:text="${regiao.nome}">Norte</option>	                                      	                    
+	                </select>
+				</div>
+				
+				
+				<div class="form-group  col-sm-4" sisaluno:classforerror="estado">
+					<label  for="estado">Estado</label>
+					<div class="sc-field-action">
+						<input type="hidden" id="inputHiddenEstadoSelecionado" th:value="*{estado} != null ? *{estado.codigo}"/>
+						<select id="estado" class="form-control" data:url="@{/estados}" th:field="*{estado}">
+<!-- 							<option value="">Selecione o estado</option> -->
+						</select>
+						
+						<div class="sc-field-action__icon  js-img-loading" style="display: none">
+							<img th:src="@{/images/mini-loading.gif}"/>
+						</div>
+					</div>
+				</div>
+												
+				<div class="form-group  col-sm-4" >
+					<label for="regiaoMilitar">Região Militar</label>
+					<select id="regiaoMilitar" class="form-control" th:field="*{regiaoMilitar}">	                    
+		                <option value="">Selecione a região</option>
+	                    <option th:each="regiaoMilitar : ${regioesMilitares}" th:value="${regiaoMilitar.codigo}" th:text="${regiaoMilitar.nome}">1ª RM</option>	                                      	                    
+	                </select>
+				</div>
+			</div>
+												
+			<div class="form-group">	
+				<button class="btn  btn-primary" type="submit">Salvar</button>
+			</div>
+		</form>
+	</div>
+</section>
+
+<th:block layout:fragment="javascript-extra">
+
+	
+	<script th:src="@{/javascripts/om.combo-regiao-estado.js}"></script>
+		
+</th:block>
+</body>
+</html>

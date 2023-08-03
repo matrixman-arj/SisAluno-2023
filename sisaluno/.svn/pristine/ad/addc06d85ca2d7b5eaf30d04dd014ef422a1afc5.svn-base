@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  xmlns:th="http://www.thymeleaf.org"
+	  layout:decorate="~{layout/layoutPadrao}"
+	  xmlns:sisaluno="http://sisaluno.decex.eb.mil.br">
+
+<head>
+	<title>Cadastrar usuários</title>
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/stylesheets/vendors/bootstrap-switch.min.css}"/>
+	<link rel="stylesheet" th:href="@{/stylesheets/vendors/upload.min.css}"/>
+<!-- 	<link rel="stylesheet" th:href="@{/stylesheets/siscomplemento.css}"/>	 -->
+</head>
+
+<body>	
+<section layout:fragment="conteudo">
+	
+	<!-- ################################################################################################################################################################ -->
+	<!-- ######### Começa aqui a área com o botão que leva para a tabela de pesquisa de usuários a serem utilizados por usuários pertencentes a qualquer grupo ########## -->
+	<!-- ################################################################################################################################################################ -->
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="row">						
+				<div class="col-xs-10">
+					<h1 th:if="${usuario.novo}">Cadastrar usuários</h1>
+					<h1 th:unless="${usuario.novo}">Edição de usuário - [[${usuario.nome}]]</h1>
+				</div>
+				<div class="col-xs-2">					
+					<div class="decex-page-header-controls">
+						
+						<a class="btn btn-default" th:href="@{/usuarios}">
+							<i class="glyphicon glyphicon-search"></i> <span class="hidden-xs hidden-sm">Pesquisar</span>
+						</a>						
+					</div>						
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ################################################################################################################################################################ -->
+	
+	<!-- ################################################################################################################################################################ -->
+	<!-- ################   Começa aqui o formulário de cadastro, de usuários,  maxlength="10" a ser acessado apenas por usuários do grupo de Super-Admin   ############################# -->
+	<!-- ################################################################################################################################################################ -->		
+	<div class="container-fluid">	
+		<form method="POST" th:object="${usuario}" class="form-vertical  js-form-loading" autocomplete="off" 
+				th:action="${usuario.novo} ? @{/usuarios/novo} : @{/usuarios/{codigo}(codigo=${usuario.codigo})}">
+													
+			<sisaluno:message/>
+			
+			<input  type="hidden" th:field="*{codigo}">
+					
+			<div class="row">							
+				<div class="col-sm-3 form-group sc-required" sisaluno:classforerror="identidade" autocomplete="off">					
+					<label for="identidade" class="control-label">Identidade (Somente números)</label>
+					<input id="identidade" type="text" class="form-control js-idt" th:field="*{identidade}"/>					
+				</div>
+				
+				<div class="col-sm-6 form-group sc-required" sisaluno:classforerror="nome" autocomplete="off">					
+					<label for="nome" class="control-label">Nome Completo</label>
+					<input id="nome" type="text" class="form-control" th:field="*{nome}"/>					
+				</div>
+				
+				<div class="col-sm-3 form-group sc-required" sisaluno:classforerror="nomeGuerra">					
+					<label for="nomeGuerra" class="control-label">Nome de guerra</label>
+					<input id="nomeGuerra" type="text" class="form-control" th:field="*{nomeGuerra}"/>					
+				</div>				
+			</div>
+	
+			<div class="row">				
+				<div class="col-sm-3 form-group sc-required" sisaluno:classforerror="posto">
+					<label for="posto" class="control-label">Posto/Graduação</label>
+					<select id="posto" class="form-control" th:field="*{posto}" >
+	                    <option value="">Selecione o posto</option>
+	                    <option th:each="posto : ${postos}" th:value="${posto}" th:text="${posto.descricao}">Cel</option>
+	                </select>
+				</div>
+				
+				<div class="col-sm-3 form-group sc-required" sisaluno:classforerror="om">
+					<label for="om" class="control-label">OM</label>
+					
+					<select id="om" class="form-control" th:field="*{om}">
+	                    <option value="">Selecione a OM</option>
+	                    <option th:each="om : ${organizacoesMilitares}" th:value="${om.codigo}" th:text="${om.sigla}">DECEx</option>
+	                </select>	                
+				</div>
+				
+				<div class="col-lg-6 col-sm-4 form-group sc-required" sisaluno:classforerror="grupos">
+					<label class="control-label">Grupos</label>
+					<div>
+						<th:block th:each="grupo : ${grupos}">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" th:value="${grupo.codigo}" th:field="*{grupos}"/>
+								<label th:for="${#ids.prev('grupos')}" th:text="${grupo.nome}">Super-Admin</label>
+							</div>
+						</th:block>																		
+					</div>
+				</div>
+			</div>
+				
+			<div class="row">				
+				<div class="col-sm-3 form-group" sisaluno:classforerror="email">					
+					<label for="email" class="control-label">E-mail</label>
+					<input id="email" type="text" class="form-control" th:field="*{email}" readonly onfocus="this.removeAttribute('readonly');" />					
+				</div>
+			
+				<div class="form-group  col-sm-3" sisaluno:classforerror="senha" th:classappend="${usuario.novo} ? sc-required">
+					<label for="senha" class="control-label">Senha</label> 
+					<input type="password" class="form-control" id="senha" th:field="*{senha}"/>
+				</div>
+				
+<!-- 				<div th:unless="${usuario.novo}" class="form-group  col-sm-3" siscomplemento:classforerror="senha" th:classappend="${usuario.novo} ? sc-required"> -->
+<!-- 					<label for="senha" class="control-label">Senha</label>  -->
+<!-- 					<input type="password" class="form-control" id="senha" th:field="*{senha}"/> -->
+<!-- 				</div> -->
+				
+				<div class="form-group  col-sm-3" sisaluno:classforerror="confirmacaoSenha">
+					<label for="confirmacaoSenha" class="control-label">Confirmação de senha</label> 
+					<input type="password" class="form-control" id="confirmacaoSenha" th:field="*{confirmacaoSenha}"/>
+				</div>
+				
+<!-- 				<div th:unless="${usuario.novo}" class="form-group  col-sm-3" sisaluno:classforerror="confirmacaoSenha"> -->
+<!-- 					<label for="confirmacaoSenha" class="control-label">Confirmação de senha</label>  -->
+<!-- 					<input type="password" class="form-control" id="confirmacaoSenha" th:field="*{confirmacaoSenha}"/> -->
+<!-- 				</div> -->
+																				
+				<div class="form-group  col-sm-3" th:if="${#authentication.principal.usuario.codigo != usuario.codigo}">
+					<label class="control-label">Status</label>
+					<div>
+						<input type="checkbox" class="js-status" data-size="small" data-off-color="danger" 
+							data-on-text="Ativo" data-off-text="Bloqueado" th:field="*{ativo}"/>
+					</div>
+				</div>						
+			</div>
+			
+			<div class="row">
+				<div class="form-group  col-sm-12">
+					<input type="hidden" th:field="*{foto}">
+					<input type="hidden" th:field="*{contentType}">
+					<input type="hidden" th:field="*{novaFoto}">
+				
+					<label class="control-label">Foto</label>
+					
+					<div class="js-container-foto-usuario" th:attr="data-url-fotos=@{/fotos}">
+						<div id="upload-drop" class="sc-upload">
+							<i class="glyphicon  glyphicon-cloud-upload"></i>
+							<span>Arraste a foto aqui ou </span>
+							<a class="sc-upload-form-file">selecione <input id="upload-select" type="file" accept=".jpg,.jpeg,.png"/></a>
+						</div>
+					</div>
+				</div>
+			</div>				
+			
+			<div class="form-group">			
+				<button class="btn  btn-primary" type="submit">Salvar</button>
+			</div>	
+		</form>
+	</div>
+	
+	
+	<!-- ################################################################################################################################################################ -->
+		
+	<th:block th:replace="hbs/FotoUsuario"></th:block>
+</section>
+
+<th:block layout:fragment="javascript-extra">
+	<script th:src="@{/javascripts/vendors/bootstrap-switch.min.js}"></script>
+	
+	<script th:src="@{/javascripts/vendors/uikit.min.js}"></script>
+	<script th:src="@{/javascripts/vendors/upload.min.js}"></script>
+	<script th:src="@{/javascripts/vendors/handlebars.min.js}"></script>	
+	<script th:src="@{/javascripts/usuario.upload-foto.js}"></script>
+	
+	<script>
+		$('.js-status').bootstrapSwitch();
+	</script>
+	
+	
+	
+</th:block>
+
+</body>
+</html>

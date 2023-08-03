@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/layoutPadrao}"
+	  xmlns:siscovid="http://siscovid.decex.eb.mil.br">
+
+<head>
+	<title>Cadastrar permissões</title>	
+</head>
+
+<body>
+
+<section layout:fragment="conteudo">
+
+<div class="page-header">
+		<div class="container-fluid">
+			<div class="row">						
+				<div class="col-sm-10">
+					<h1 th:if="${permissao.nova}">Cadastrar permissões</h1>
+					<h1 th:unless="${permissao.nova}">Editar a permissão -  [[${permissao.nome}]] </h1>		
+				</div>
+				<div class="col-xs-2">					
+					<div class="decex-page-header-controls">
+						<a class="btn btn-default" th:href="@{/permissoes}">
+							<i class="glyphicon glyphicon-search"></i> <span class="hidden-xs hidden-sm">Pesquisar</span>
+						</a>
+					</div>						
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		<form method="POST" th:object="${permissao}" class="form-vertical  js-form-loading" 
+					th:action="${permissao.nova} ? @{/permissoes/nova} : @{/permissoes/{codigo}(codigo=${permissao.codigo})}">
+			<siscovid:message/>
+			
+			<input  type="hidden" th:field="*{codigo}">
+		
+			<div class="row">							
+				<div class="col-sm-3 form-group" siscovid:classforerror="nome">					
+					<label for="nome">Nome</label>
+					<input id="nome" type="text" class="form-control" th:field="*{nome}"/>					
+				</div>														
+			</div>			
+												
+			<div class="form-group">	
+				<button class="btn  btn-primary" type="submit">Salvar</button>
+			</div>
+		</form>
+	</div>
+</section>
+</body>
+</html>

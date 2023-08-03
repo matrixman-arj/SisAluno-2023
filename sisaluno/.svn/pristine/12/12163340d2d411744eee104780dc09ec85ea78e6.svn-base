@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"	
+	  layout:decorate="~{layout/layoutPadrao}"
+	  xmlns:sisaluno="http://sisaluno.decex.eb.mil.br"
+	  xmlns:data="http://www.thymeleaf.org/extras/data"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+	<title>Pesquisar alunos</title>	
+</head>
+
+<body>	
+<section layout:fragment="conteudo">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-10">
+					<h1>Pesquisar alunos</h1>
+				</div>
+				
+				<div class="col-xs-2">
+					<div class="decex-page-header-controls">
+						<a class="btn btn-default" th:href="@{/alunos/novo}">
+							<i class="glyphicon  glyphicon-plus-sign"></i> <span class="hidden-xs  hidden-sm">Novo aluno</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>	
+	 </div>
+	 
+	 <div class="container-fluid">
+		<form method="GET" th:object="${alunoFilter}">
+			<div class="row">
+				<div class="form-group col-sm-4">
+					<label class="control-label" for="cpf">CPF</label>					
+					<input type="text" class="form-control js-cpf" id="cpf" autofocus="autofocus" th:field="*{cpf}"/>				
+				</div>
+			</div>			
+				
+			<button type="submit" class="btn btn-primary">Pesquisar</button><br>		
+		</form>
+		
+		<div class="table-responsive sc-tabela-simples">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th class="table-alunos-col-foto">Foto</th>					
+						<th class="table-alunos-col-idt">CPF</th>
+						<th class="table-alunos-col-nome">							
+							<sisaluno:order page="${pagina}" field="nome" text="Nome"/>
+						</th>
+						<th class="table-alunos-col-origemEscolar">Origem Escolar</th>
+						<th class="table-alunos-col-colegioMiltar">Colégio Militar</th>
+						<th class="table-alunos-col-origemCivilOuMilitar">Origem Civil ou Militar</th>
+<!-- 						<th class="table-sisalunos-col-situacaoNoCurso">Situação</th> -->
+						<th class="text-right table-alunos-col-inseridoPor" sec:authorize="hasRole('ROLE_ADMINISTRACAO')">Dados</th>
+						<th class="text-left table-alunos-col-inseridoPor" sec:authorize="hasRole('ROLE_ADMINISTRACAO')">inseridos por</th>
+						
+						<th class="table-alunos-col-acoes">Ações</th>
+					</tr>
+				</thead>
+				
+				<tbody>
+					<tr th:each="aluno : ${pagina.conteudo}" sec:authorize="hasRole('ROLE_ADMINISTRACAO')">
+						<td class="text-center">
+							<img th:src="@{/fotos/thumbnail.{foto}(foto=${aluno.fotoOuMock})}" class="img-responsive">
+						</td>
+						<td th:text="${aluno.cpf}">CPF</td>
+						<td th:text="${aluno.nome}">Nome</td>
+						<td th:text="${aluno.origemEscolar.descricao}">Origem Escolar</td>
+						<td th:text="${aluno.colegioMiltar}">Colégio Militar</td>
+						<td th:text="${aluno.origemCivilOuMilitar.descricao}">Origem Civil ou Militar</td>
+						
+<!-- 						<td> -->
+<!-- 							<span th:each="situacao : ${sisaluno.situacoes}" th:text="|${situacao.nome}${situacaoStat.last ? '' : ', '}|"></span> -->
+<!-- 						</td> -->
+						<td class="text-right" th:text="${aluno.inseridoPor.posto.descricao}" sec:authorize="hasRole('ROLE_ADMINISTRACAO')">Dados inseridos por</td>
+						<td class="text-left" th:text="${aluno.inseridoPor.nomeGuerra}" sec:authorize="hasRole('ROLE_ADMINISTRACAO')">Dados inseridos por</td>
+						
+						<td class="text-center">
+							<a class="btn btn-link btn-xs js-tooltip" title="Editar" th:href="@{/alunos/{codigo}(codigo=${aluno.codigo})}"  >
+								<i class="glyphicon glyphicon-pencil"></i>
+							</a>
+							
+							<a class="btn btn-link btn-xs js-tooltip js-exclusao-btn" title="Excluir" href="#" 
+									data:url="@{/alunos/{codigo}(codigo=${aluno.codigo})}"
+									data:codigo="${aluno.codigo}" data:objeto="${aluno.nome}" sec:authorize="hasRole('ROLE_ADMINISTRACAO')">
+								<i class="glyphicon glyphicon-remove"></i>
+							</a>
+						</td>
+					</tr>
+					
+					<tr th:if="${pagina.vazia}" sec:authorize="hasRole('ROLE_ADMINISTRACAO')">
+						<td colspan="9" style="text-align: center; color: red;">Nenhum aluno encontrado</td>
+					</tr>	
+						
+					<tr th:each="sisaluno : ${paginaOmUsuLogado.conteudo}" sec:authorize="hasRole('ROLE_USUARIO')">	
+						<td class="text-center">
+							<img th:src="@{/fotos/thumbnail.{foto}(foto=${curso.fotoOuMock})}" class="img-responsive">
+						</td>
+						<td th:text="${sisaluno.cpf}">CPF</td>
+						<td th:text="${sisaluno.nome}">Nome</td>
+						<td th:text="${sisaluno.origemEscolar.descricao}">Origem Escolar</td>
+						<td th:text="${sisaluno.colegioMiltar}">Colégio Militar</td>
+						<td th:text="${sisaluno.origemCivilOuMilitar.descricao}">Origem Civil ou Militar</td>						
+						
+<!-- 						<td> -->
+<!-- 							<span th:each="situacao : ${sisaluno.situacoes}" th:text="|${situacao.nome}${situacaoStat.last ? '' : ', '}|"></span> -->
+<!-- 						</td> -->
+						<td class="text-center">
+							<a class="btn btn-link btn-xs js-tooltip" title="Editar" th:href="@{/sisalunos/{codigo}(codigo=${sisaluno.codigo})}"  >
+								<i class="glyphicon glyphicon-pencil"></i>
+							</a>
+							
+							<a class="btn btn-link btn-xs js-tooltip js-exclusao-btn" title="Excluir" href="#" 
+									data:url="@{/sisalunos/{codigo}(codigo=${sisaluno.codigo})}"
+									data:codigo="${sisaluno.codigo}" data:objeto="${sisaluno.nome}" sec:authorize="hasRole('ROLE_ADMINISTRACAO')">
+								<i class="glyphicon glyphicon-remove"></i>
+							</a>
+						</td>
+					</tr>
+					
+					<tr th:if="${paginaOmUsuLogado.vazia}" sec:authorize="hasRole('ROLE_USUARIO')">
+						<td colspan="9" style="text-align: center; color: red;">Nenhum aluno encontrado</td>
+					</tr>						
+				</tbody>				
+			</table>
+		</div>
+						
+			<sisaluno:pagination page="${pagina}" sec:authorize="hasRole('ROLE_ADMINISTRACAO')"/>
+		
+			<sisaluno:pagination page="${paginaOmUsuLogado}" sec:authorize="hasRole('ROLE_USUARIO')"/>
+		
+	</div>
+	 			
+</section>
+<th:block layout:fragment="javascript-extra">
+	
+	<script th:src="@{/javascripts/multiselecao.js}"></script>
+	<script th:src="@{/javascripts/sisaluno.dialogo-excluir.js}"></script>
+</th:block>
+</body>
+</html>

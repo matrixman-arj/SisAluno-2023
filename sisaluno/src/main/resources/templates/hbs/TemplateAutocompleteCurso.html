@@ -1,0 +1,15 @@
+<script id="template-autocomplete-curso" type="text/x-handlebars-template">
+	<div class="sc-tabela-curso">
+		<div class="sc-tabela-curso__coluna  sc-tabela-curso__coluna--foto">
+			<img th:src="@{/fotos/thumbnail.{{foto}}}" class="img-responsive" />
+		</div>
+		<div class="sc-tabela-curso__coluna  sc-tabela-curso__coluna--detalhes">
+			<span class="sc-tabela-curso-descr">{{descr}}</span>
+			<span class="label  label-default">{{universo}}</span>
+			<span class="sc-tabela-curso-vinculo">{{vinculo}}</span>			
+		</div>
+		<div class="sc-tabela-curso__coluna  sc-tabela-curso__coluna--valores">
+			<div class="sc-tabela-curso-valor-medio"><h4>Linha: </h4><strong>{{linha}}</strong></div>
+		</div>
+	</div>
+</script>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/layoutPadrao}"
+	  xmlns:sisaluno="http://sisaluno.decex.eb.mil.br"
+	  xmlns:data="http://www.thymeleaf.org/extras/data">
+
+<head>
+	<title>Matricula de aluno</title>
+	<link rel="stylesheet" th:href="@{/stylesheets/vendors/easy-autocomplete.min.css}"/>
+	<link rel="stylesheet" th:href="@{/stylesheets/vendors/easy-autocomplete.themes.min.css}"/>
+	<link rel="stylesheet" th:href="@{/layout/stylesheets/sisaluno.css}"/>
+</head>
+
+<section layout:fragment="conteudo">
+
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-10">					
+<!-- 					<h1 th:if="${matricula.nova}">Matricular aluno</h1> -->
+<!-- 					<h1 th:unless="${matricula.nova}">Edição da matricula - nº: [[${matricula.numeroMatricula}]]</h1>					 -->
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container-fluid">				
+		<form method="POST" th:object="${matricula}" class="form-vertical  js-form-loading" autocomplete="off" 
+				th:action="${matricula.nova} ? @{/matriculas/nova} : @{/matriculas/{codigo}(codigo=${matricula.codigo})}">
+													
+			<sisaluno:message/>
+			<input type="hidden" id="uuid" th:value="${uuid}"/>
+			
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="decex-box">
+						<div class="decex-box__icon">
+							<i class="fa  fa-university  fa-3x" aria-hidden="true"></i>
+						</div>
+						<div class="decex-box__value" th:text="${#authentication.principal.usuario.om.sigla}">EsA</div>
+						<div class="decex-box__title">Unidade de Ensino</div>
+					</div>
+				</div>
+				
+				<div class="col-sm-3">
+					<div class="decex-box">
+						<div class="decex-box__icon">
+							<i class="fa  fa-tag  fa-3x"></i>
+						</div>
+						
+						<div th:if="${matricula.nova}" class="decex-box__value">Matriculado</div>
+						<div th:unless="${matricula.nova}" class="decex-box__value" th:text="${{matricula.situacao}}">Matriculado</div>
+						<div class="decex-box__title">Situação no curso</div>
+					</div>
+				</div>
+				
+				<div class="col-sm-3">
+					<div class="decex-box">
+					
+						<div class="decex-box__icon">
+							<i class="fa  fa-calendar  fa-3x"></i>
+						</div>						
+						
+						<div class="decex-box__value">
+							<span class="js-tooltip">14/03/2023</span>
+							
+						</div>
+						<div class="decex-box__title">Data de início</div>
+																		
+					</div>
+				</div>
+				
+				<div class="col-sm-3">
+					<div class="decex-box">
+					
+						<div class="decex-box__icon">
+							<i class="fa  fa-calendar  fa-3x"></i>
+						</div>						
+						
+						<div class="decex-box__value">
+							<span class="js-tooltip">27/11/2026</span>
+							
+						</div>
+						<div class="decex-box__title">Previsão de término</div>												
+					</div>
+				</div>				
+			</div>
+						
+			<div class="row">
+				<div class="form-group  col-sm-12" style="text-align: center;">
+					<label class="control-label" for="Aluno">Dados do aluno:</label>
+				</div>
+			</div>
+			
+			  <div class="row">
+			  	
+			  	<div class="form-group  col-sm-4  bw-required">
+					<label class="control-label" for="nomeAluno">Aluno</label>
+					<div class="input-group">
+				      <input id="cpfAluno" type="text" readonly="readonly" class="form-control" placeholder="Clique na lupa para pesquisar o aluno"/>
+				      <input id="nomeAluno" type="text" readonly="readonly" class="form-control"/>
+				      <input id="codigoAluno" type="hidden"/>
+				      <span class="input-group-btn">
+				        <button class="btn  btn-default  js-tooltip" type="button" title="Pesquisa avançada"
+				        		data-toggle="modal" data-target="#pesquisaRapidaAlunos" >
+				        	<i class="glyphicon  glyphicon-search"></i>
+				        </button>
+				      </span>
+				    </div>
+				</div>
+			  	
+				<!--<div class="form-group  col-sm-4">
+					<label class="control-label" for="cpfAluno">CPF</label>
+					<div class="input-group">
+				      <input id="cpfAluno" type="text" readonly="readonly" class="form-control" placeholder="Clique na lupa para pesquisar o aluno">
+				      	<span>
+				      		<label class="control-label" for="nomeAluno">Nome</label>
+				      		<input id="nomeAluno" type="text" readonly="readonly" class="form-control" placeholder="Clique na lupa para pesquisar o aluno"/>
+				      	</span>
+				      </input>				      
+				      
+				      <input id="codigoAluno" type="hidden"/>
+				      <span class="input-group-btn">
+				        <button class="btn  btn-default  js-tooltip" type="button" title="Pesquisa avançada"
+				        		data-toggle="modal" data-target="#pesquisaRapidaAlunos">
+				        	<i class="glyphicon  glyphicon-search"></i>
+				        </button>
+				      </span>
+				    </div>				    
+				</div>
+				-->								
+			</div>
+			
+			<div class="row">
+				<div class="form-group  col-sm-12" style="text-align: center;">
+					<label class="control-label" for="Aluno"></label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group  col-sm-12" style="text-align: center;">
+					<label class="control-label" for="Aluno">Notas:</label>
+				</div>
+			</div>
+				
+			<div class="row">
+				<div class="form-group  col-sm-4 sc-required">
+					<label class="control-label" for="tfm">TFM</label>
+					<div class="input-group">
+	      				<div class="input-group-addon">I</div> 
+						<input type="text" maxlength="14" class="form-control  js-nota" id="tfm"/>
+					</div>
+				</div>
+				
+				<div class="form-group  col-sm-4 sc-required">
+					<label class="control-label" for="tfm2">TFM II</label>
+					<div class="input-group">
+	      				<div class="input-group-addon">II</div> 
+						<input type="text" maxlength="14" class="form-control  js-nota" id="tfm"/>
+					</div>
+				</div>
+				
+				<div class="form-group  col-sm-4 sc-required">
+					<label class="control-label" for="tfm3">TFM III</label>
+					<div class="input-group">
+	      				<div class="input-group-addon">III</div> 
+						<input type="text" maxlength="14" class="form-control  js-nota" id="tfm3"/>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				
+				<div class="form-group  col-sm-4">
+					<label class="control-label" for="atitudinal">Atitudinal</label>
+					<div class="input-group">
+	      				<div class="input-group-addon">A</div> 
+						<input type="text" maxlength="14" class="form-control  js-nota" id="atitudinal"/>
+					</div>
+				</div>
+			
+				<div class="form-group  col-sm-4">
+					<label class="control-label" for="atitudinalLateral">Atitudinal Lateral</label>
+					<div class="input-group">
+	      				<div class="input-group-addon">AL</div> 
+						<input type="text" maxlength="14" class="form-control  js-nota" id="atitudinalLateral"/>
+					</div>
+				</div>
+				
+				<div class="form-group  col-sm-4">
+					<label class="control-label" for="atitudinalVertical">Atitudinal Vertical</label>
+					<div class="input-group">
+	      				<div class="input-group-addon">AV</div> 
+						<input type="text" maxlength="14" class="form-control  js-nota" id="atitudinalVertical"/>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group  col-lg-12">
+					<ul class="nav nav-tabs  js-abas-matricula">
+					  <li role="presentation" class="active"><a href="#cursos">Curso</a></li>
+					  <li role="presentation"><a href="#previsao">Previsão</a></li>
+					</ul>
+				</div>
+			</div>
+			
+			<div class="tab-content">
+				<div class="tab-pane active" id="cursos">
+
+					<div class="row">
+						<div class="form-group  col-lg-12">
+							<input type="text" class="form-control js-sku-descr-curso-input" id="curso" 
+								placeholder="Pesquise e adicione o curso pelo SKU ou Descrição" autofocus="autofocus" 
+								data:url="@{/cursos}"/>
+						</div>
+					</div>
+					
+					<div class="sc-tabela-matriculas js-tabela-cursos-container">						
+					
+						<div class="sc-tabela-matriculas__vazia">
+							<i class="glyphicon  glyphicon-shopping-cart"></i> 
+							<span>Você ainda não adicionou nenhum curso.</span>
+						</div>
+					</div>
+				</div>				
+				
+					<div class="tab-pane" id="previsao">
+						<div class="row">
+							<div class="form-group  col-sm-3">
+								<label class="control-label" for="dataInicio">Data de inicio do curso</label>
+								<input type="text" class="form-control" id="dataInicio"/>
+							</div>
+							
+							<div class="form-group  col-sm-3">
+								<label class="control-label" for="dataConclusao">Previsão de conclusão</label>
+								<input type="text" class="form-control" id="dataConclusao"/>
+							</div>
+						</div>
+					
+					
+						<div class="row">
+							<div class="form-group  col-sm-12">
+								<textarea class="form-control" id="dataConclusao" rows="5" 
+									placeholder="Alguma observação para o entregador desse pedido?"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			
+				<div class="row" style="clear: both">
+					<div class="col-lg-12">
+						<div class="btn-group">
+						  <button type="submit" class="btn  btn-primary">Salvar</button>
+						  <button type="button" class="btn  btn-primary  dropdown-toggle" data-toggle="dropdown">
+						    <span class="caret"></span>
+						  </button>
+						  
+						  <ul class="dropdown-menu">
+						    <li><a href="#">Salvar e emitir</a></li>
+						    <li><a href="#">Salvar e enviar por e-mail</a></li>
+						  </ul>
+						</div>
+					
+						<button class="btn  btn-danger">Cancelar</button>
+					</div>
+				</div>
+		</form>
+	</div>
+	
+	<th:block th:replace="aluno/PesquisaRapidaAlunos :: pesquisaRapidaAlunos"></th:block>
+	<th:block th:replace="hbs/TemplateAutocompleteCurso"></th:block>
+</section>
+
+<th:block layout:fragment="javascript-extra">
+	<script th:src="@{/javascripts/vendors/jquery.easy-autocomplete.min.js}"></script>
+	<script th:src="@{/javascripts/vendors/handlebars.min.js}"></script>
+	<script th:src="@{/javascripts/aluno.pesquisa-rapida.js}"></script>
+	<script th:src="@{/javascripts/matricula.autocomplete-cursos.js}"></script>
+	<script th:src="@{/javascripts/matricula.tabela-itens.js}"></script>
+	<script th:src="@{/javascripts/matricula.js}"></script>
+	<script th:src="@{/layout/javascripts/aluno-mascara-nota.js}"></script>
+	
+	<script>
+	$(function() {
+		$('.js-abas-matricula a').click(function (e) {
+			e.preventDefault();
+			$(this).tab('show');
+		});
+	});
+	</script>	
+</th:block>
+
+</html>

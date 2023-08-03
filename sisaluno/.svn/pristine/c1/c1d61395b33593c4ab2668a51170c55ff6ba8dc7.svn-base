@@ -1,0 +1,15 @@
+ <!DOCTYPE html >
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	  			xmlns:th="http://www.thymeleaf.org">
+
+<body> 
+ <!-- Aqui inicia a configuração do rodapé do nosso formulário -->
+<footer class="decex-layout-footer  js-content" th:fragment="layout-footer">
+	<div class="container-fluid">
+		<span class="decex-footer-disclaimer">Desenvolvido por: 2º Sgt QE Vanilton / &copy; 2022 DECEx. Todos os direitos reservados.</span>
+	</div>
+</footer>
+<!-- E aqui finaliza a configuração do rodapé do nosso formulário -->
+
+</body>
+</html>	 

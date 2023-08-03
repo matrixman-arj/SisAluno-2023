@@ -1,0 +1,55 @@
+<!DOCTYPE html >
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	  			xmlns:th="http://www.thymeleaf.org"
+	  			xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<body>	  			
+<!-- Aqui inicia a configuração do menu lateral do nosso formulário -->
+<aside class="decex-layout-sidebar  js-sidebar" th:fragment="layout-sidebar">
+	<div class="decex-layout-sidebar__content">
+
+	    <nav class="decex-menu  js-menu">
+	      <ul class="decex-menu__list">
+			        		
+	        <li class="decex-menu__item  is-active">
+	          <a href="#">
+	            <i class="fa  fa-fw  fa-file-text"></i><span>Cadastro</span>
+	            <i class="decex-menu__navigation-icon  fa"></i>
+	          </a>
+	      
+	          <ul class="decex-menu__list  decex-menu__list--sublist">
+	            <li class="decex-menu__item  decex-menu__item--link"><a th:href="@{/alunos/novo}">Aluno</a></li>
+	            <li class="decex-menu__item  decex-menu__item--link" sec:authorize="hasRole('ROLE_ADMINISTRACAO')"><a th:href="@{/usuarios/novo}">Usuário</a></li>
+	            <li class="decex-menu__item  decex-menu__item--link" sec:authorize="hasRole('ROLE_ADMINISTRACAO')"><a th:href="@{/oms/nova}">Organizações Militares</a></li>
+	            <li class="decex-menu__item  decex-menu__item--link" sec:authorize="hasRole('ROLE_ADMINISTRACAO')"><a th:href="@{/uetes/nova}">UETES</a></li>
+	            <li class="decex-menu__item  decex-menu__item--link" sec:authorize="hasRole('ROLE_ADMINISTRACAO')"><a th:href="@{/npors/novo}">NPORS</a></li>
+	            <li class="decex-menu__item  decex-menu__item--link" sec:authorize="hasRole('ROLE_ADMINISTRACAO')"><a th:href="@{/grupos/novo}">Grupos</a></li>
+	            <li class="decex-menu__item  decex-menu__item--link" sec:authorize="hasRole('ROLE_ADMINISTRACAO')"><a th:href="@{/permissoes/nova}">Permissões</a></li>
+	            <li class="decex-menu__item  decex-menu__item--link"><a th:href="@{/matriculas/nova}">Matricula</a></li>
+	            <li class="decex-menu__item  decex-menu__item--link"><a th:href="@{/cursos/novo}">Curso</a></li>	                        
+	          </ul>
+	        </li>
+	        
+	        <li class="decex-menu__item  is-active">
+	          <a href="#">
+	            <i class="fa  fa-fw  fa-search"></i><span>Pesquisa</span>
+	            <i class="decex-menu__navigation-icon  fa"></i>
+	          </a>
+	      
+	          <ul class="decex-menu__list  decex-menu__list--sublist">
+	            <li class="decex-menu__item  decex-menu__item--link"><a th:href="@{/alunos}">Aluno</a></li>
+	            <li class="decex-menu__item  decex-menu__item--link" sec:authorize="hasRole('ROLE_ADMINISTRACAO')"><a th:href="@{/usuarios}">Usuário</a></li>	          
+	            <li class="decex-menu__item  decex-menu__item--link" sec:authorize="hasRole('ROLE_ADMINISTRACAO')"><a th:href="@{/oms}">Organizações Militares</a></li>
+	            <li class="decex-menu__item  decex-menu__item--link" sec:authorize="hasRole('ROLE_ADMINISTRACAO')"><a th:href="@{/uetes}">UETES</a></li>
+	            <li class="decex-menu__item  decex-menu__item--link" sec:authorize="hasRole('ROLE_ADMINISTRACAO')"><a th:href="@{/npors}">NPORS</a></li>
+	            <li class="decex-menu__item  decex-menu__item--link" sec:authorize="hasRole('ROLE_ADMINISTRACAO')"><a th:href="@{/grupos}">Grupos</a></li>
+	            <li class="decex-menu__item  decex-menu__item--link" sec:authorize="hasRole('ROLE_ADMINISTRACAO')"><a th:href="@{/permissoes}">Permissões</a></li>	                        	            
+	          </ul>
+	        </li>
+	        	
+	      </ul>
+	    </nav>
+	</div>
+</aside>
+<!-- E aqui finaliza a configuração do menu lateral do nosso formulário -->
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="~{layout/layoutSimples}">
+	
+<head>
+	
+  <meta charset="UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  <title>Sisaluno</title>		
+	<link rel="shortcut icon" th:href="@{/images/icon-aluno.png}"/>
+</head>
+
+<th:block layout:fragment="conteudo">
+	
+	
+ 	<div class="decex-error-panel">
+	<img alt="Sisaluno" th:src="@{/images/SISALUNO_LOGIN.png}"/>
+		<h1 class="decex-panel__code">
+			<i class="fa  fa-location-arrow fa-4x"></i> Bem-vindo(a)
+		</h1>
+		
+		<h3 class="decex-error-panel__title">
+			
+			<p th:text="${#authentication.principal.usuario.posto.descricao}"/>
+			<p th:text="${#authentication.principal.usuario.nomeGuerra}"/>				
+		</h3>
+		
+		<div class="decex-error-panel__description">			
+			Você está acessando o SISALUNO,
+			um sistema para cadastro de dados dos alunos matriculados
+			nos cursos da rede DECEx de ensino.
+			<br/><br/>
+			<a th:href="@{/alunos/novo}" class="btn  btn-primary">Vamos lá?</a>			
+		</div>
+	</div>
+</th:block>
+
+</html>

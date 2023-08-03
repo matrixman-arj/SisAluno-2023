@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"	
+	  layout:decorate="~{layout/layoutPadrao}"
+	  xmlns:sisaluno="http://sisaluno.decex.eb.mil.br"
+	  xmlns:data="http://www.thymeleaf.org/extras/data"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+	<title>Pesquisar Organizações Militares</title>	
+</head>
+
+<body>	
+<section layout:fragment="conteudo">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-10">
+					<h1>Pesquisar Organizações Militares</h1>
+				</div>
+				
+				<div class="col-sm-2" sec:authorize-url="/oms/nova">>
+					<div class="decex-page-header-controls">
+						<a class="btn btn-default" th:href="@{/oms/nova}">
+							<i class="glyphicon glyphicon-plus-sign"></i> <span class="hidden-xs hidden-sm">Nova OM</span>
+						</a>
+					</div>
+				</div>				
+			</div>
+		</div>
+	</div>
+	
+	<div class="container-fluid">	
+		<form method="GET" th:object="${OMFilter}">			
+			<div class="row">		
+<!-- 				<div class="form-group col-sm-4"> -->
+<!-- 					<label for="om" class="control-label">Sigla</label> -->
+<!-- 					<select id="om" class="form-control" th:field="*{codigo}"> -->
+<!-- 	                    <option value="">Selecione a OM</option> -->
+<!-- 	                    <option th:each="om : ${organizacoesMilitares}" th:value="${om.codigo}" th:text="${om.sigla}" >DECEx</option> -->
+<!-- 	                </select> -->
+<!-- 				</div>				 -->
+
+				<div class="form-group col-sm-4">
+					<label class="control-label" for="sigla">Sigla</label>
+					<input type="text" class="form-control" id="sigla" th:field="*{sigla}"/>				
+				</div>
+								
+				<div class="form-group col-sm-8">
+					<label class="control-label" for="descricao">Descrição</label>
+					<input type="text" class="form-control" id="descricao" th:field="*{descricao}"/>				
+				</div>
+							
+			<button type="submit" class="btn btn-primary">Pesquisar</button>		
+		</form>
+		
+		<div class="table-responsive sc-tabela-simples">
+			<table class="table table-hover">
+				<thead>
+					<tr>            		
+	            		<th class="talble-oms-col-sigla">Sigla</th>
+	            		<th class="talble-oms-col-descricao">Descrição</th>
+	            		<th class="talble-oms-col-estado-regiao">Estado/Região</th>
+	            		<th class="talble-oms-col-estado-regiao">Região Militar</th>       		      	              	
+	                 	<th class="table-col-acoes">Ações</th>
+					</tr>	
+				</thead>
+				
+				<tbody>
+					<tr th:each="om : ${pagina.conteudo}">
+											
+						<td th:text="${om.sigla}">DECEx</td>
+						<td th:text="${om.descricao}">Departamento de Educação e Cultura do Exército</td>
+						<td th:text="${om.nomeEstadoRegiao}">Rio de janeiro/Sudeste</td>
+						<td th:text="${om.regiaoMilitar.nome}">1ª RM</td>
+						
+						<td>
+							<a class="btn btn-link btn-xs js-tooltip" title="Editar" th:href="@{/oms/{codigo}(codigo=${om.codigo})}">
+								<i class="glyphicon glyphicon-pencil"></i>
+							</a>
+							
+							<a class="btn btn-link btn-xs js-tooltip js-exclusao-btn" title="Excluir" href="#" 
+									data:url="@{/oms/{codigo}(codigo=${om.codigo})}"
+									data:codigo="${om.codigo}" data:objeto="${om.sigla}">
+								<i class="glyphicon glyphicon-remove"></i>
+							</a>
+						
+						</td>
+					</tr>
+					
+					<tr th:if="${pagina.vazia}">
+						<td colspan="7" class="sc-table-vazia">Nenhum OM encontrada!</td>
+					</tr>
+				
+				</tbody>				
+			</table>
+		</div>		
+		<sisaluno:pagination page="${pagina}"/>		
+	</div>	
+</section>
+<th:block layout:fragment="javascript-extra">
+	<script th:src="@{/javascripts/multiselecao.js}"></script>
+	<script th:src="@{/javascripts/sisaluno.dialogo-excluir.js}"></script>
+</th:block>
+</body>
+</html>
