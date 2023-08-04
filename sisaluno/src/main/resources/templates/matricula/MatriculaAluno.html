@@ -19,18 +19,30 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-xs-10">					
-<!-- 					<h1 th:if="${matricula.nova}">Matricular aluno</h1> -->
-<!-- 					<h1 th:unless="${matricula.nova}">Edição da matricula - nº: [[${matricula.numeroMatricula}]]</h1>					 -->
+					<h1 th:if="${matricula.nova}">Matricular aluno</h1>
+					<h1 th:unless="${matricula.nova}">Edição da matricula - número [[${matricula.numeroMatricula}]]</h1>					
+				</div>
+			<div class="col-xs-2">					
+					<div class="decex-page-header-controls">
+						
+						<a class="btn btn-default" th:href="@{/matriculas}">
+							<i class="glyphicon glyphicon-search"></i> <span class="hidden-xs hidden-sm">Pesquisar</span>
+						</a>						
+					</div>						
 				</div>
 			</div>
 		</div>
 	</div>
+	
 	
 	<div class="container-fluid">				
 		<form method="POST" th:object="${matricula}" class="form-vertical  js-form-loading" autocomplete="off" 
 				th:action="${matricula.nova} ? @{/matriculas/nova} : @{/matriculas/{codigo}(codigo=${matricula.codigo})}">
 													
 			<sisaluno:message/>
+						
+			<input  type="hidden" th:field="*{codigo}">
+			
 			<input type="hidden" id="uuid" th:value="${uuid}"/>
 			
 			<div class="row">

@@ -1,10 +1,10 @@
 CREATE TABLE ensino.matricula(
 	codigo serial NOT NULL,
 	numero_matricula character varying(100),
-	codigo_aluno bigint(20) NOT NULL,
-	codigo_usuario bigint(20) NOT NULL,
+	codigo_aluno bigint NOT NULL,
+	codigo_usuario bigint NOT NULL,
 	periodo character varying(100),
-	om_codigo bigint NOT NULL,
+	codigo_om bigint NOT NULL,
 	uete character varying(100), 
 	data_inicio_curso DATE,
 	data_final_curso DATE,
@@ -24,10 +24,10 @@ CREATE TABLE ensino.matricula(
 
 CREATE TABLE ensino.item_matricula(
 	codigo serial NOT NULL,
-	codigo_curso BIGINT(20) NOT NULL,
-	codigo_matricula BIGINT(20) NOT NULL,	
-	CONSTRAINT matricula_pkey PRIMARY KEY (codigo),
-	FOREIGN KEY (codigo_curso)REFERENCES curso(codigo),
-	FOREIGN KEY (codigo_matricula)REFERENCES matricula(codigo)
+	codigo_curso bigint NOT NULL,
+	codigo_matricula bigint NOT NULL,	
+	CONSTRAINT item_matricula_pkey PRIMARY KEY (codigo),
+	FOREIGN KEY (codigo_curso)REFERENCES ensino.curso(codigo),
+	FOREIGN KEY (codigo_matricula)REFERENCES ensino.matricula(codigo)
 	
 );
