@@ -2,6 +2,7 @@ package br.mil.eb.decex.sisaluno.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -35,10 +37,10 @@ public class Matricula {
 	private String numeroMatricula;
 	
 	@Column(name = "codigo_aluno")
-	private Aluno codigoAluno;
+	private Aluno aluno;
 	
 	@Column(name = "codigo_usuario")
-	private Usuario codigoUsuario;
+	private Usuario usuario;
 	
 	@Column(name = "codigo_om")
 	private OrganizacaoMilitar om;
@@ -92,6 +94,11 @@ public class Matricula {
     @Enumerated(EnumType.STRING)
     @NotNull(message = "O Campo período é obrigatório")    
     private Periodo periodo;
+    
+    @OneToMany(mappedBy = "matricula")
+    private List<ItemMatricula> itens;
+    
+    private String uuid;
 
 	public Long getCodigo() {
 		return codigo;
@@ -105,20 +112,19 @@ public class Matricula {
 	}
 	public void setNumeroMatricula(String numeroMatricula) {
 		this.numeroMatricula = numeroMatricula;
-	}
+	}	
 	
-	public Aluno getCodigoAluno() {
-		return codigoAluno;
+	public Aluno getAluno() {
+		return aluno;
 	}
-	public void setCodigoAluno(Aluno codigoAluno) {
-		this.codigoAluno = codigoAluno;
+	public void setAluno(Aluno aluno) {
+		this.aluno = aluno;
 	}
-	
-	public Usuario getCodigoUsuario() {
-		return codigoUsuario;
+	public Usuario getUsuario() {
+		return usuario;
 	}
-	public void setCodigoUsuario(Usuario codigoUsuario) {
-		this.codigoUsuario = codigoUsuario;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 	
 	public OrganizacaoMilitar getOm() {
@@ -224,7 +230,19 @@ public class Matricula {
 		this.periodo = periodo;
 	}
 	
+	public List<ItemMatricula> getItens() {
+		return itens;
+	}
+	public void setItens(List<ItemMatricula> itens) {
+		this.itens = itens;
+	}
 	
+	public String getUuid() {
+		return uuid;
+	}
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
 	public BigDecimal getNotaTfm() {
 		BigDecimal nota = getTfm().add(tfm2).add(tfm3);
 		BigDecimal d = new BigDecimal("3");
@@ -247,6 +265,7 @@ public class Matricula {
 	public boolean isEdicao() {
 		return codigo != null;
 	}
+	
 
 	@Override
 	public int hashCode() {
@@ -264,9 +283,6 @@ public class Matricula {
 			return false;
 		Matricula other = (Matricula) obj;
 		return Objects.equals(codigo, other.codigo);
-	}
-
-	
-	
+	}	
 	
 }

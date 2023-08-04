@@ -2,10 +2,21 @@ package br.mil.eb.decex.sisaluno.model;
 
 import java.util.Objects;
 
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "item_matricula", schema = "ensino")
 public class ItemMatricula {
 	
 	private Long codigo;
 	private Curso curso;
+	
+	@ManyToOne
+	@JoinColumn(name = "codigo_matricula")
+	private Matricula matricula;
 	
 	public Long getCodigo() {
 		return codigo;
@@ -20,6 +31,12 @@ public class ItemMatricula {
 		this.curso = curso;
 	}
 	
+	public Matricula getMatricula() {
+		return matricula;
+	}
+	public void setMatricua(Matricula matricula) {
+		this.matricula = matricula;
+	}
 	
 	@Override
 	public int hashCode() {

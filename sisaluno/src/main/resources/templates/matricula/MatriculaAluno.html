@@ -43,7 +43,7 @@
 						
 			<input  type="hidden" th:field="*{codigo}">
 			
-			<input type="hidden" id="uuid" th:value="${uuid}"/>
+			<input type="hidden" id="uuid" th:field="*{uuid}"/>
 			
 			<div class="row">
 				<div class="col-sm-3">
@@ -113,7 +113,7 @@
 					<div class="input-group">
 				      <input id="cpfAluno" type="text" readonly="readonly" class="form-control" placeholder="Clique na lupa para pesquisar o aluno"/>
 				      <input id="nomeAluno" type="text" readonly="readonly" class="form-control"/>
-				      <input id="codigoAluno" type="hidden"/>
+				      <input id="codigoAluno" type="hidden" th:field="*{aluno}"/>
 				      <span class="input-group-btn">
 				        <button class="btn  btn-default  js-tooltip" type="button" title="Pesquisa avançada"
 				        		data-toggle="modal" data-target="#pesquisaRapidaAlunos" >
@@ -161,7 +161,7 @@
 					<label class="control-label" for="tfm">TFM</label>
 					<div class="input-group">
 	      				<div class="input-group-addon">I</div> 
-						<input type="text" maxlength="14" class="form-control  js-nota" id="tfm"/>
+						<input type="text" maxlength="14" class="form-control  js-nota" id="tfm" th:field="*{tfm}"/>
 					</div>
 				</div>
 				
@@ -169,7 +169,7 @@
 					<label class="control-label" for="tfm2">TFM II</label>
 					<div class="input-group">
 	      				<div class="input-group-addon">II</div> 
-						<input type="text" maxlength="14" class="form-control  js-nota" id="tfm"/>
+						<input type="text" maxlength="14" class="form-control  js-nota" th:field="*{tfm2}" />
 					</div>
 				</div>
 				
@@ -177,7 +177,7 @@
 					<label class="control-label" for="tfm3">TFM III</label>
 					<div class="input-group">
 	      				<div class="input-group-addon">III</div> 
-						<input type="text" maxlength="14" class="form-control  js-nota" id="tfm3"/>
+						<input type="text" maxlength="14" class="form-control  js-nota" th:field="*{tfm3}" />
 					</div>
 				</div>
 			</div>
@@ -188,7 +188,7 @@
 					<label class="control-label" for="atitudinal">Atitudinal</label>
 					<div class="input-group">
 	      				<div class="input-group-addon">A</div> 
-						<input type="text" maxlength="14" class="form-control  js-nota" id="atitudinal"/>
+						<input type="text" maxlength="14" class="form-control  js-nota" id="atitudinal" th:field="*{atitudinal}"/>
 					</div>
 				</div>
 			
@@ -196,7 +196,7 @@
 					<label class="control-label" for="atitudinalLateral">Atitudinal Lateral</label>
 					<div class="input-group">
 	      				<div class="input-group-addon">AL</div> 
-						<input type="text" maxlength="14" class="form-control  js-nota" id="atitudinalLateral"/>
+						<input type="text" maxlength="14" class="form-control  js-nota" id="atitudinalLateral" th:field="*{atitudinalLateral}"/>
 					</div>
 				</div>
 				
@@ -204,7 +204,7 @@
 					<label class="control-label" for="atitudinalVertical">Atitudinal Vertical</label>
 					<div class="input-group">
 	      				<div class="input-group-addon">AV</div> 
-						<input type="text" maxlength="14" class="form-control  js-nota" id="atitudinalVertical"/>
+						<input type="text" maxlength="14" class="form-control  js-nota" id="atitudinalVertical" th:field="*{atitudinalVertical}"/>
 					</div>
 				</div>
 			</div>
@@ -242,12 +242,12 @@
 						<div class="row">
 							<div class="form-group  col-sm-3">
 								<label class="control-label" for="dataInicio">Data de inicio do curso</label>
-								<input type="text" class="form-control" id="dataInicio"/>
+								<input type="text" class="form-control" id="dataInicio" th:field="*{dataInicio}"/>
 							</div>
 							
 							<div class="form-group  col-sm-3">
 								<label class="control-label" for="dataConclusao">Previsão de conclusão</label>
-								<input type="text" class="form-control" id="dataConclusao"/>
+								<input type="text" class="form-control" id="dataConclusao" th:field="*{dataConclusao}"/>
 							</div>
 						</div>
 					

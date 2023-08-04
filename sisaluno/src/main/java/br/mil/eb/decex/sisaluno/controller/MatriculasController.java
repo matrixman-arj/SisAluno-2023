@@ -45,7 +45,7 @@ public class MatriculasController {
 	@GetMapping("/nova")
 	public ModelAndView nova(Matricula matricula) {
 		ModelAndView mv = new ModelAndView("matricula/MatriculaAluno");
-		mv.addObject("uuid", UUID.randomUUID().toString());
+		matricula.setUuid(UUID.randomUUID().toString());
 		mv.addObject("matriculas", matriculas.findAll());
 		return mv;
 	}
