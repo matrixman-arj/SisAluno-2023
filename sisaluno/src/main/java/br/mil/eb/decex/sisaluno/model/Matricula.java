@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,6 +13,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
@@ -36,10 +39,12 @@ public class Matricula {
 	@Column(name = "numero_matricula")
 	private String numeroMatricula;
 	
-	@Column(name = "codigo_aluno")
+	@ManyToOne
+	@JoinColumn(name = "codigo_aluno")	
 	private Aluno aluno;
 	
-	@Column(name = "codigo_usuario")
+	@ManyToOne
+	@JoinColumn(name = "codigo_usuario")
 	private Usuario usuario;
 	
 	@Column(name = "codigo_om")
@@ -95,7 +100,7 @@ public class Matricula {
     @NotNull(message = "O Campo período é obrigatório")    
     private Periodo periodo;
     
-    @OneToMany(mappedBy = "matricula")
+    @OneToMany(mappedBy = "matricula", cascade = CascadeType.ALL)
     private List<ItemMatricula> itens;
     
     private String uuid;

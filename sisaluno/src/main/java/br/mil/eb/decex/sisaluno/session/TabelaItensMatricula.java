@@ -55,6 +55,7 @@ class TabelaItensMatricula {
 		return itens;
 	}
 	
+	@SuppressWarnings("unused")
 	private Optional<ItemMatricula> buscarItemPorCurso(Curso curso) {
 		return itens.stream()
 				.filter(i -> i.getCurso().equals(curso))

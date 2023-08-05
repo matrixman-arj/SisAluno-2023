@@ -211,24 +211,34 @@
 			
 			<div class="row">
 				<div class="form-group  col-lg-12">
-					<ul class="nav nav-tabs  js-abas-matricula">
-					  <li role="presentation" class="active"><a href="#cursos">Curso</a></li>
-					  <li role="presentation"><a href="#previsao">Previsão</a></li>
+					<ul class="nav nav-tabs" role="tablist">
+					  <li class="nav-item active" role="presentation">
+					  	<a href="#tabCursos"  id="linkCursos" data-toggle="tab" role="tab" aria-controls="tabCursos">
+					  		Curso
+					  	</a>					  
+					  </li>
+					  
+					  <li class="nav-item" role="presentation">
+					  	<a href="#tabPrevisao" class="nav-link" id="linkPrevisao" data-toggle="tab" role="tab" aria-controls="tabPrevisao">
+					  		Previsão					  	
+					  	</a>
+					  </li>
 					</ul>
 				</div>
 			</div>
 			
-			<div class="tab-content">
-				<div class="tab-pane active" id="cursos">
-
+			<!-- Início do Espaço para toda a tabela de conteúdo do id meusCursos  -->
+			<div class="tab-content" id="meusCursos">
+				
+				<!-- Início do Espaço para a área do formulário onde serão inseridos os cursos do id tabCursos  -->
+				<div class="tab-pane active" id="tabCursos" role="tabpanel" aria-labelledby="linkCursos">
 					<div class="row">
 						<div class="form-group  col-lg-12">
 							<input type="text" class="form-control js-sku-descr-curso-input" id="curso" 
 								placeholder="Pesquise e adicione o curso pelo SKU ou Descrição" autofocus="autofocus" 
 								data:url="@{/cursos}"/>
 						</div>
-					</div>
-					
+					</div>					
 					<div class="sc-tabela-matriculas js-tabela-cursos-container">						
 					
 						<div class="sc-tabela-matriculas__vazia">
@@ -236,48 +246,58 @@
 							<span>Você ainda não adicionou nenhum curso.</span>
 						</div>
 					</div>
-				</div>				
+				</div>
+				<!-- Fim do Espaço para a área do formulário onde serão inseridos os cursos do id tabCursos  -->		
 				
-					<div class="tab-pane" id="previsao">
-						<div class="row">
-							<div class="form-group  col-sm-3">
-								<label class="control-label" for="dataInicio">Data de inicio do curso</label>
-								<input type="text" class="form-control" id="dataInicio" th:field="*{dataInicio}"/>
-							</div>
+				<!-- Início do Espaço para a área do formulário onde serão inseridos os dados de previsão do id tabPrevisao  -->
+				<div class="tab-pane fade" id="tabPrevisao" role="tabpanel" aria-labelledby="linkPrevisao">
+					
+						
+						<div class="form-group  col-sm-3">
 							
-							<div class="form-group  col-sm-3">
-								<label class="control-label" for="dataConclusao">Previsão de conclusão</label>
-								<input type="text" class="form-control" id="dataConclusao" th:field="*{dataConclusao}"/>
-							</div>
+						</div>
+						
+						<div class="form-group  col-sm-3">
+							<label class="control-label" for="dataInicio">Data de inicio do curso</label>
+							<input type="text" class="form-control" id="dataInicio" th:field="*{dataInicioCurso}"/>
+						</div>
+						
+						<div class="form-group  col-sm-3">
+							<label class="control-label" for="dataConclusao">Previsão de conclusão</label>
+							<input type="text" class="form-control" id="dataConclusao" th:field="*{dataFinalCurso}"/>
 						</div>
 					
-					
-						<div class="row">
-							<div class="form-group  col-sm-12">
-								<textarea class="form-control" id="dataConclusao" rows="5" 
-									placeholder="Alguma observação para o entregador desse pedido?"></textarea>
-							</div>
+				
+				
+					<div class="row">
+						<div class="form-group  col-sm-12">
+							<textarea class="form-control" id="dataConclusao" rows="5" 
+								placeholder="Alguma alteração no status dessa matricula?"></textarea>
 						</div>
 					</div>
 				</div>
+				<!-- Fim do Espaço para a área do formulário onde serão inseridos os dados de previsão do id tabPrevisao  -->
+							
+			</div>
+			<!-- Fim do Espaço para toda a tabela de conteúdo do id meusCursos -->			
 			
-				<div class="row" style="clear: both">
-					<div class="col-lg-12">
-						<div class="btn-group">
-						  <button type="submit" class="btn  btn-primary">Salvar</button>
-						  <button type="button" class="btn  btn-primary  dropdown-toggle" data-toggle="dropdown">
-						    <span class="caret"></span>
-						  </button>
-						  
-						  <ul class="dropdown-menu">
-						    <li><a href="#">Salvar e emitir</a></li>
-						    <li><a href="#">Salvar e enviar por e-mail</a></li>
-						  </ul>
-						</div>
-					
-						<button class="btn  btn-danger">Cancelar</button>
+			<div class="row" style="clear: both">
+				<div class="col-lg-12">
+					<div class="btn-group">
+					  <button type="submit" class="btn  btn-primary">Salvar</button>
+					  <button type="button" class="btn  btn-primary  dropdown-toggle" data-toggle="dropdown">
+					    <span class="caret"></span>
+					  </button>
+					  
+					  <ul class="dropdown-menu">
+					    <li><a href="#">Salvar e emitir</a></li>
+					    <li><a href="#">Salvar e enviar por e-mail</a></li>
+					  </ul>
 					</div>
+				
+					<button class="btn  btn-danger">Cancelar</button>
 				</div>
+			</div>
 		</form>
 	</div>
 	

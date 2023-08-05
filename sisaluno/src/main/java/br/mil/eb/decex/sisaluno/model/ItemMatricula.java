@@ -3,15 +3,25 @@ package br.mil.eb.decex.sisaluno.model;
 import java.util.Objects;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "item_matricula", schema = "ensino")
 public class ItemMatricula {
 	
+	@Id
+    @SequenceGenerator(name = "ENSINO.ITEM_MATRICULA_CODIGO_GENERATOR", sequenceName = "ENSINO.ITEM_MATRICULA_CODIGO_SEQ",  allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ENSINO.ITEM_MATRICULA_CODIGO_GENERATOR")
 	private Long codigo;
+	
+	@ManyToOne
+	@JoinColumn(name = "codigo_curso")
 	private Curso curso;
 	
 	@ManyToOne

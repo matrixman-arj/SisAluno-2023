@@ -17,6 +17,7 @@ CREATE TABLE ensino.matricula(
 	tfm3 numeric(10,2),		
 	situacao_no_curso character varying(100),	
 	situacao_no_curso_descr character varying(100),
+	uuid character varying(50),
 	
 	CONSTRAINT matricula_pkey PRIMARY KEY (codigo)	
 	
