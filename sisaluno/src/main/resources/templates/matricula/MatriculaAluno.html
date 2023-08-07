@@ -161,15 +161,15 @@
 					<label class="control-label" for="tfm">TFM</label>
 					<div class="input-group">
 	      				<div class="input-group-addon">I</div> 
-						<input type="text" maxlength="14" class="form-control  js-nota" id="tfm" th:field="*{tfm}"/>
+						<input id="tfm" placeholder="Informe a nota do primeiro TFM" type="text" maxlength="6" class="form-control  js-nota"  th:field="*{tfm}"/>
 					</div>
 				</div>
-				
+								
 				<div class="form-group  col-sm-4 sc-required">
 					<label class="control-label" for="tfm2">TFM II</label>
 					<div class="input-group">
 	      				<div class="input-group-addon">II</div> 
-						<input type="text" maxlength="14" class="form-control  js-nota" th:field="*{tfm2}" />
+						<input id="tfm2" placeholder="Informe a nota do segundo TFM" type="text" maxlength="6" class="form-control  js-nota"  th:field="*{tfm2}" />
 					</div>
 				</div>
 				
@@ -177,7 +177,7 @@
 					<label class="control-label" for="tfm3">TFM III</label>
 					<div class="input-group">
 	      				<div class="input-group-addon">III</div> 
-						<input type="text" maxlength="14" class="form-control  js-nota" th:field="*{tfm3}" />
+						<input id="tfm3" placeholder="Informe a nota do terceiro TFM" type="text" maxlength="6" class="form-control  js-nota" th:field="*{tfm3}" />
 					</div>
 				</div>
 			</div>
@@ -187,24 +187,24 @@
 				<div class="form-group  col-sm-4">
 					<label class="control-label" for="atitudinal">Atitudinal</label>
 					<div class="input-group">
-	      				<div class="input-group-addon">A</div> 
-						<input type="text" maxlength="14" class="form-control  js-nota" id="atitudinal" th:field="*{atitudinal}"/>
+	      				<div class="input-group-addon">A</div>						
+						<input id="atitudinal" placeholder="Informe a nota atitudinal" type="text" maxlength="6" class="form-control  js-nota" th:field="*{atitudinal}"/>
 					</div>
 				</div>
 			
 				<div class="form-group  col-sm-4">
 					<label class="control-label" for="atitudinalLateral">Atitudinal Lateral</label>
 					<div class="input-group">
-	      				<div class="input-group-addon">AL</div> 
-						<input type="text" maxlength="14" class="form-control  js-nota" id="atitudinalLateral" th:field="*{atitudinalLateral}"/>
+	      				<div class="input-group-addon">AL</div>						
+						<input id="atitudinalLateral" placeholder="Informe a nota atitudinal lateral" type="text" maxlength="6" class="form-control  js-nota" th:field="*{atitudinalLateral}"/>
 					</div>
 				</div>
 				
 				<div class="form-group  col-sm-4">
 					<label class="control-label" for="atitudinalVertical">Atitudinal Vertical</label>
 					<div class="input-group">
-	      				<div class="input-group-addon">AV</div> 
-						<input type="text" maxlength="14" class="form-control  js-nota" id="atitudinalVertical" th:field="*{atitudinalVertical}"/>
+	      				<div class="input-group-addon">AV</div>						
+						<input id="atitudinalVertical" placeholder="Informe a nota atitudinal vertical" type="text" maxlength="6" class="form-control  js-nota" th:field="*{atitudinalVertical}"/>
 					</div>
 				</div>
 			</div>
@@ -252,28 +252,46 @@
 				<!-- Início do Espaço para a área do formulário onde serão inseridos os dados de previsão do id tabPrevisao  -->
 				<div class="tab-pane fade" id="tabPrevisao" role="tabpanel" aria-labelledby="linkPrevisao">
 					
-						
+					<div class="row">	
 						<div class="form-group  col-sm-3">
 							
 						</div>
 						
 						<div class="form-group  col-sm-3">
 							<label class="control-label" for="dataInicio">Data de inicio do curso</label>
-							<input type="text" class="form-control" id="dataInicio" th:field="*{dataInicioCurso}"/>
+							<input type="text" class="form-control js-date" id="dataInicio" th:field="*{dataInicioCurso}"/>
 						</div>
 						
 						<div class="form-group  col-sm-3">
 							<label class="control-label" for="dataConclusao">Previsão de conclusão</label>
-							<input type="text" class="form-control" id="dataConclusao" th:field="*{dataFinalCurso}"/>
+							<input type="text" class="form-control js-date" id="dataConclusao" th:field="*{dataFinalCurso}"/>
 						</div>
-					
+					</div>
 				
 				
 					<div class="row">
-						<div class="form-group  col-sm-12">
-							<textarea class="form-control" id="dataConclusao" rows="5" 
-								placeholder="Alguma alteração no status dessa matricula?"></textarea>
+						
+						<div class="form-group  col-sm-3">
+							
 						</div>
+						
+						<div class="col-sm-3 form-group sc-required" sisaluno:classforerror="situacao">
+							<label for="situacao" class="control-label">Situação no Curso</label>
+							<select id="situacao" class="form-control" th:field="*{situacao}" >
+			                    <option value="">Selecione a situação na qual o aluno se encontra</option>
+			                    <option th:each="situacao : ${situacoes}" th:value="${situacao}" th:text="${situacao.descricao}">Matriculado</option>
+			                </select>
+						</div>
+						
+						<div class="col-sm-3 form-group sc-required" sisaluno:classforerror="anoLetivo">
+							<label for="anoLetivo" class="control-label">Ano letivo</label>
+							<select id="anoLetivo" class="form-control" th:field="*{anoLetivo}" >
+			                    <option value="">Selecione o ano atual no qual o aluno se encontra</option>
+			                    <option th:each="anoLetivo : ${anosLetivo}" th:value="${anoLetivo}" th:text="${anoLetivo.descricao}">Matriculado</option>
+			                </select>
+						</div>
+						
+						
 					</div>
 				</div>
 				<!-- Fim do Espaço para a área do formulário onde serão inseridos os dados de previsão do id tabPrevisao  -->
@@ -309,10 +327,10 @@
 	<script th:src="@{/javascripts/vendors/jquery.easy-autocomplete.min.js}"></script>
 	<script th:src="@{/javascripts/vendors/handlebars.min.js}"></script>
 	<script th:src="@{/javascripts/aluno.pesquisa-rapida.js}"></script>
+	<script th:src="@{/layout/javascripts/aluno-mascara-nota.js}"></script>
 	<script th:src="@{/javascripts/matricula.autocomplete-cursos.js}"></script>
 	<script th:src="@{/javascripts/matricula.tabela-itens.js}"></script>
 	<script th:src="@{/javascripts/matricula.js}"></script>
-	<script th:src="@{/layout/javascripts/aluno-mascara-nota.js}"></script>
 	
 	<script>
 	$(function() {

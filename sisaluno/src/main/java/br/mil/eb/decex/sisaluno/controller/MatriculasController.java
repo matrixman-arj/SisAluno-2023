@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.mil.eb.decex.sisaluno.enumerated.Ano;
+import br.mil.eb.decex.sisaluno.enumerated.SituacaoNoCurso;
 import br.mil.eb.decex.sisaluno.model.Curso;
 import br.mil.eb.decex.sisaluno.model.Matricula;
 import br.mil.eb.decex.sisaluno.repository.Cursos;
@@ -47,6 +49,8 @@ public class MatriculasController {
 		ModelAndView mv = new ModelAndView("matricula/MatriculaAluno");
 		matricula.setUuid(UUID.randomUUID().toString());
 		mv.addObject("matriculas", matriculas.findAll());
+		mv.addObject("situacoes", SituacaoNoCurso.values());
+		mv.addObject("anosLetivo", Ano.values());
 		return mv;
 	}
 	

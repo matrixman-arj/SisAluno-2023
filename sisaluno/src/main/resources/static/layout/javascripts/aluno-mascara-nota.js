@@ -1,7 +1,7 @@
-var SISCOMPLEMENTO = SISCOMPLEMENTO || {};
+var Sisaluno = Sisaluno || {};
 
 
-SISCOMPLEMENTO.MaskNOTA = (function () {
+Sisaluno.MaskNOTA = (function () {
 
     function MaskNOTA() {
         this.inputNOTA = $('.js-nota');
@@ -27,6 +27,6 @@ SISCOMPLEMENTO.MaskNOTA = (function () {
 
 
 $(function () {
-    var maskNOTA = new SISCOMPLEMENTO.MaskNOTA();
+    var maskNOTA = new Sisaluno.MaskNOTA();
     maskNOTA.enable();
 })
