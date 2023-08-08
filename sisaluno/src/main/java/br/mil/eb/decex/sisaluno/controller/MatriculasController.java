@@ -5,6 +5,7 @@ import java.util.UUID;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,12 +18,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.mil.eb.decex.sisaluno.converter.UsuarioSistemaConverter;
 import br.mil.eb.decex.sisaluno.enumerated.Ano;
+import br.mil.eb.decex.sisaluno.enumerated.Periodo;
 import br.mil.eb.decex.sisaluno.enumerated.SituacaoNoCurso;
 import br.mil.eb.decex.sisaluno.model.Curso;
 import br.mil.eb.decex.sisaluno.model.Matricula;
 import br.mil.eb.decex.sisaluno.repository.Cursos;
 import br.mil.eb.decex.sisaluno.repository.Matriculas;
+import br.mil.eb.decex.sisaluno.security.UsuarioSistema;
 import br.mil.eb.decex.sisaluno.service.CadastroMatriculaService;
 import br.mil.eb.decex.sisaluno.service.exception.IdentidadeJaCadastradaException;
 import br.mil.eb.decex.sisaluno.session.TabelasItensSession;
@@ -51,11 +55,16 @@ public class MatriculasController {
 		mv.addObject("matriculas", matriculas.findAll());
 		mv.addObject("situacoes", SituacaoNoCurso.values());
 		mv.addObject("anosLetivo", Ano.values());
+		mv.addObject("periodos", Periodo.values());
 		return mv;
 	}
 	
 	@RequestMapping(value = { "/nova", "{\\d+}" }, method = RequestMethod.POST )
-	public ModelAndView salvar (@Valid Matricula matricula, BindingResult result, Model model, RedirectAttributes attributes) {
+	public ModelAndView salvar (@Valid Matricula matricula, BindingResult result, Model model, RedirectAttributes attributes, @AuthenticationPrincipal UsuarioSistema usuarioSistema) {
+		
+		matricula.setOm(usuarioSistema.getUsuario().getOm());
+		matricula.setItens(tabelaItens.getItens(matricula.getUuid()));
+		
 		if (result.hasErrors()) {
 			model.addAttribute(matricula);
 			return nova(matricula);			

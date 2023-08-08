@@ -18,9 +18,15 @@
 	<div class="page-header">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-xs-10">					
+				<div class="col-xs-4">					
 					<h1 th:if="${matricula.nova}">Matricular aluno</h1>
 					<h1 th:unless="${matricula.nova}">Edição da matricula - número [[${matricula.numeroMatricula}]]</h1>					
+				</div>
+				<div class="col-xs-3">					
+					<h1 th:unless="${matricula.nova}">Atitudinal: [[${matricula.totalAtitudinal}]]</h1>									
+				</div>
+				<div class="col-xs-3">					
+					<h1 th:unless="${matricula.nova}">TFM: [[${matricula.totalTFM}]]</h1>					
 				</div>
 			<div class="col-xs-2">					
 					<div class="decex-page-header-controls">
@@ -42,6 +48,8 @@
 			<sisaluno:message/>
 						
 			<input  type="hidden" th:field="*{codigo}">
+			
+			<input  type="hidden" th:field="*{dataCriacao}">
 			
 			<input type="hidden" id="uuid" th:field="*{uuid}"/>
 			
@@ -76,7 +84,7 @@
 						</div>						
 						
 						<div class="decex-box__value">
-							<span class="js-tooltip">14/03/2023</span>
+							<span class="js-tooltip"  th:text="${{matricula.dataInicioCurso}}">14/03/2023</span>
 							
 						</div>
 						<div class="decex-box__title">Data de início</div>
@@ -92,7 +100,7 @@
 						</div>						
 						
 						<div class="decex-box__value">
-							<span class="js-tooltip">27/11/2026</span>
+							<span class="js-tooltip" th:text="${{matricula.dataFinalCurso}}">27/11/2026</span>
 							
 						</div>
 						<div class="decex-box__title">Previsão de término</div>												
@@ -288,6 +296,14 @@
 							<select id="anoLetivo" class="form-control" th:field="*{anoLetivo}" >
 			                    <option value="">Selecione o ano atual no qual o aluno se encontra</option>
 			                    <option th:each="anoLetivo : ${anosLetivo}" th:value="${anoLetivo}" th:text="${anoLetivo.descricao}">Matriculado</option>
+			                </select>
+						</div>
+						
+						<div class="col-sm-3 form-group sc-required" sisaluno:classforerror="periodo">
+							<label for="periodo" class="control-label">Período</label>
+							<select id="periodo" class="form-control" th:field="*{periodo}" >
+			                    <option value="">Selecione no qual período o aluno se encontra</option>
+			                    <option th:each="periodo : ${periodos}" th:value="${periodo}" th:text="${periodo.descricao}">1º Ano</option>
 			                </select>
 						</div>
 						

@@ -49,6 +49,10 @@ public class Matricula {
 	
 	@Column(name = "codigo_om")
 	private OrganizacaoMilitar om;
+	
+	@Column(name = "data_criacao")
+    @NotNull(message = "A data da criação da matricula é obrigatória")
+    private LocalDate dataCriacao = LocalDate.now();
 		
 	@DateTimeFormat(pattern = "yyyy")
 	@Column(name = "ano_letivo")
@@ -104,6 +108,12 @@ public class Matricula {
     private List<ItemMatricula> itens;
     
     private String uuid;
+    
+    @Column(name = "total_tfm")
+    private BigDecimal totalTFM;
+    
+    @Column(name = "total_atitudinal")
+    private BigDecimal totalAtitudinal;
 
 	public Long getCodigo() {
 		return codigo;
@@ -137,7 +147,15 @@ public class Matricula {
 	}
 	public void setOm(OrganizacaoMilitar om) {
 		this.om = om;
+	}	
+	
+	public LocalDate getDataCriacao() {
+		return dataCriacao;
 	}
+	public void setDataCriacao(LocalDate dataCriacao) {
+		this.dataCriacao = dataCriacao;
+	}
+	
 	public SituacaoNoCurso getSituacao() {
 		return situacao;
 	}
@@ -247,7 +265,21 @@ public class Matricula {
 	}
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
+	}	
+	
+	public BigDecimal getTotalTFM() {
+		return totalTFM;
 	}
+	public void setTotalTFM(BigDecimal totalTFM) {
+		this.totalTFM = totalTFM;
+	}
+	public BigDecimal getTotalAtitudinal() {
+		return totalAtitudinal;
+	}
+	public void setTotalAtitudinal(BigDecimal totalAtitudinal) {
+		this.totalAtitudinal = totalAtitudinal;
+	}
+	
 	public BigDecimal getNotaTfm() {
 		BigDecimal nota = getTfm().add(tfm2).add(tfm3);
 		BigDecimal d = new BigDecimal("3");
