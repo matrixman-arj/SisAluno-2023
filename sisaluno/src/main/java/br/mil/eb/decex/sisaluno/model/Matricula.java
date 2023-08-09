@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
@@ -21,8 +22,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 import br.mil.eb.decex.sisaluno.enumerated.Periodo;
 import br.mil.eb.decex.sisaluno.enumerated.SituacaoNoCurso;
@@ -47,6 +46,7 @@ public class Matricula {
 	@JoinColumn(name = "codigo_usuario")
 	private Usuario usuario;
 	
+	@Lob
 	@Column(name = "codigo_om")
 	private OrganizacaoMilitar om;
 	
@@ -54,7 +54,7 @@ public class Matricula {
     @NotNull(message = "A data da criação da matricula é obrigatória")
     private LocalDate dataCriacao = LocalDate.now();
 		
-	@DateTimeFormat(pattern = "yyyy")
+	
 	@Column(name = "ano_letivo")
 	private String anoLetivo;	
     
@@ -227,20 +227,13 @@ public class Matricula {
 	public BigDecimal getTfm3() {
 		return tfm3;
 	}
-
 	public void setTfm3(BigDecimal tfm3) {
 		this.tfm3 = tfm3;
 	}
-	
-
-//	public void setNotaTfm(BigDecimal notaTfm) {
-//		this.notaTfm = notaTfm;
-//	}
 
 	public String getSituacaoNoCursoDescr() {
 		return situacaoNoCursoDescr;
 	}
-
 	public void setSituacaoNoCursoDescr(String situacaoNoCursoDescr) {
 		this.situacaoNoCursoDescr = situacaoNoCursoDescr;
 	}
@@ -248,7 +241,6 @@ public class Matricula {
 	public Periodo getPeriodo() {
 		return periodo;
 	}
-
 	public void setPeriodo(Periodo periodo) {
 		this.periodo = periodo;
 	}
@@ -292,7 +284,12 @@ public class Matricula {
 		
 		if (this.situacao != null) {
             this.situacaoNoCursoDescr = this.situacao.getDescricao();
-        }        
+        }
+		
+		if(isNova()) {
+			this.dataCriacao = LocalDate.now();
+		}
+			
 	}
 	
 	public boolean isNova() {
@@ -301,6 +298,12 @@ public class Matricula {
 	
 	public boolean isEdicao() {
 		return codigo != null;
+	}
+	
+	public void adicionarItens(List<ItemMatricula> itens) {
+		this.itens = itens;
+		this.itens.forEach(i -> i.setMatricua(this));
+		
 	}
 	
 
@@ -320,6 +323,6 @@ public class Matricula {
 			return false;
 		Matricula other = (Matricula) obj;
 		return Objects.equals(codigo, other.codigo);
-	}	
-	
+	}
+		
 }

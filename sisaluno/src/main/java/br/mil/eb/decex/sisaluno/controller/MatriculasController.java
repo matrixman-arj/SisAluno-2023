@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.mil.eb.decex.sisaluno.converter.UsuarioSistemaConverter;
 import br.mil.eb.decex.sisaluno.enumerated.Ano;
 import br.mil.eb.decex.sisaluno.enumerated.Periodo;
 import br.mil.eb.decex.sisaluno.enumerated.SituacaoNoCurso;
@@ -52,7 +51,7 @@ public class MatriculasController {
 	public ModelAndView nova(Matricula matricula) {
 		ModelAndView mv = new ModelAndView("matricula/MatriculaAluno");
 		matricula.setUuid(UUID.randomUUID().toString());
-		mv.addObject("matriculas", matriculas.findAll());
+//		mv.addObject("matriculas", matriculas.findAll());
 		mv.addObject("situacoes", SituacaoNoCurso.values());
 		mv.addObject("anosLetivo", Ano.values());
 		mv.addObject("periodos", Periodo.values());
@@ -63,7 +62,8 @@ public class MatriculasController {
 	public ModelAndView salvar (@Valid Matricula matricula, BindingResult result, Model model, RedirectAttributes attributes, @AuthenticationPrincipal UsuarioSistema usuarioSistema) {
 		
 		matricula.setOm(usuarioSistema.getUsuario().getOm());
-		matricula.setItens(tabelaItens.getItens(matricula.getUuid()));
+		matricula.setUsuario(usuarioSistema.getUsuario());
+		matricula.adicionarItens(tabelaItens.getItens(matricula.getUuid()));
 		
 		if (result.hasErrors()) {
 			model.addAttribute(matricula);

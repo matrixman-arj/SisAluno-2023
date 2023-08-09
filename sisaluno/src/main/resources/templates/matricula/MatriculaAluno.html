@@ -26,7 +26,7 @@
 					<h1 th:unless="${matricula.nova}">Atitudinal: [[${matricula.totalAtitudinal}]]</h1>									
 				</div>
 				<div class="col-xs-3">					
-					<h1 th:unless="${matricula.nova}">TFM: [[${matricula.totalTFM}]]</h1>					
+					<h1 th:unless="${matricula.nova}">TFM: [[${matricula.notaTfm}]]</h1>					
 				</div>
 			<div class="col-xs-2">					
 					<div class="decex-page-header-controls">
@@ -52,7 +52,7 @@
 			<input  type="hidden" th:field="*{dataCriacao}">
 			
 			<input type="hidden" id="uuid" th:field="*{uuid}"/>
-			
+						
 			<div class="row">
 				<div class="col-sm-3">
 					<div class="decex-box">
@@ -109,6 +109,8 @@
 			</div>
 						
 			<div class="row">
+				
+				
 				<div class="form-group  col-sm-12" style="text-align: center;">
 					<label class="control-label" for="Aluno">Dados do aluno:</label>
 				</div>
@@ -157,6 +159,13 @@
 				<div class="form-group  col-sm-12" style="text-align: center;">
 					<label class="control-label" for="Aluno"></label>
 				</div>
+				
+<!-- 				<div hidden="true"> -->
+<!-- 					<select id="usuario" class="form-control" th:field="*{usuario}">											 -->
+<!-- 						<option th:value="${#authentication.principal.usuario.codigo}">15</option> -->
+<!-- 					</select> -->
+<!-- 				</div> -->
+				
 			</div>
 			<div class="row">
 				<div class="form-group  col-sm-12" style="text-align: center;">
@@ -267,12 +276,12 @@
 						
 						<div class="form-group  col-sm-3">
 							<label class="control-label" for="dataInicio">Data de inicio do curso</label>
-							<input type="text" class="form-control js-date" id="dataInicio" th:field="*{dataInicioCurso}"/>
+							<input type="text" class="form-control js-date" id="dataInicioCurso" th:field="*{dataInicioCurso}"/>
 						</div>
 						
 						<div class="form-group  col-sm-3">
 							<label class="control-label" for="dataConclusao">Previsão de conclusão</label>
-							<input type="text" class="form-control js-date" id="dataConclusao" th:field="*{dataFinalCurso}"/>
+							<input type="text" class="form-control js-date" id="dataFinalCurso" th:field="*{dataFinalCurso}"/>
 						</div>
 					</div>
 				
