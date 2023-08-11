@@ -1,6 +1,7 @@
 package br.mil.eb.decex.sisaluno.service;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import javax.persistence.PersistenceException;
 
@@ -29,6 +30,7 @@ public class CadastroMatriculaService {
 		if(matricula.isNova()) {
 			matricula.setDataCriacao(LocalDate.now());
 		}		
+		
 		matriculas.save(matricula);	
 	}
 		

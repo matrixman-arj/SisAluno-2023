@@ -47,9 +47,7 @@
 													
 			<sisaluno:message/>
 						
-			<input  type="hidden" th:field="*{codigo}">
-			
-			<input  type="hidden" th:field="*{dataCriacao}">
+			<input  type="hidden" th:field="*{codigo}">			
 			
 			<input type="hidden" id="uuid" th:field="*{uuid}"/>
 						
@@ -132,39 +130,19 @@
 				      </span>
 				    </div>
 				</div>
-			  	
-				<!--<div class="form-group  col-sm-4">
-					<label class="control-label" for="cpfAluno">CPF</label>
-					<div class="input-group">
-				      <input id="cpfAluno" type="text" readonly="readonly" class="form-control" placeholder="Clique na lupa para pesquisar o aluno">
-				      	<span>
-				      		<label class="control-label" for="nomeAluno">Nome</label>
-				      		<input id="nomeAluno" type="text" readonly="readonly" class="form-control" placeholder="Clique na lupa para pesquisar o aluno"/>
-				      	</span>
-				      </input>				      
-				      
-				      <input id="codigoAluno" type="hidden"/>
-				      <span class="input-group-btn">
-				        <button class="btn  btn-default  js-tooltip" type="button" title="Pesquisa avançada"
-				        		data-toggle="modal" data-target="#pesquisaRapidaAlunos">
-				        	<i class="glyphicon  glyphicon-search"></i>
-				        </button>
-				      </span>
-				    </div>				    
-				</div>
-				-->								
+				
+<!-- 				<div hidden="true"> -->
+<!-- 					<select id="om" class="form-control" th:field="*{om}">											 -->
+<!-- 						<option th:value="${#authentication.principal.usuario.om.codigo}">12</option> -->
+<!-- 					</select> -->
+<!-- 				</div> -->
+														
 			</div>
 			
 			<div class="row">
 				<div class="form-group  col-sm-12" style="text-align: center;">
 					<label class="control-label" for="Aluno"></label>
 				</div>
-				
-<!-- 				<div hidden="true"> -->
-<!-- 					<select id="usuario" class="form-control" th:field="*{usuario}">											 -->
-<!-- 						<option th:value="${#authentication.principal.usuario.codigo}">15</option> -->
-<!-- 					</select> -->
-<!-- 				</div> -->
 				
 			</div>
 			<div class="row">

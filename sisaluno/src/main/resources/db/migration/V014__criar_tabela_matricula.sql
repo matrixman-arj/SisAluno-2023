@@ -11,6 +11,7 @@ CREATE TABLE ensino.matricula(
 	data_inicio_curso DATE,
 	data_final_curso DATE,
 	ano_letivo character varying(10),
+	ano_letivo_descr character varying(10),
 	atitudinal numeric(10,2),
 	atitudinal_lateral numeric(10,2),
 	atitudinal_vertical numeric(10,2),
