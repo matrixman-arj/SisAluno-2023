@@ -33,8 +33,7 @@ public class CadastroMatriculaService {
 			
 			
 			matricula.setDataCriacao(LocalDate.now());
-			
-			
+						
 		}
 		
 		BigDecimal notaTFM = (Optional.ofNullable(matricula.getTfm()).orElse(BigDecimal.ZERO))

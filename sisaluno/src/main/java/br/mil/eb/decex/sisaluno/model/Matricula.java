@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -69,8 +71,7 @@ public class Matricula {
     @Column(name = "data_final_curso")
     private LocalDate dataFinalCurso;
     
-    @Max( value = 10L, message = "A nota de conteúdo atitudinal deve ser maior que 0,01 e menor ou igual a 10,00")
-    @NotNull(message = "O Campo atitudinal obrigatório")
+    @Max( value = 10L, message = "A nota de conteúdo atitudinal deve ser maior que 0,01 e menor ou igual a 10,00")    
     @Column
     private BigDecimal atitudinal;
     
@@ -82,8 +83,7 @@ public class Matricula {
     @Column(name = "atitudinal_vertical")
     private BigDecimal atitudinalVertical;
     
-    @Max(value = 10L, message = "A nota do TFM deve ser maior que 0,01 e menor ou igual a 10,00")
-    @NotNull(message = "O Campo último TFM é obrigatório")
+    @Max(value = 10L, message = "A nota do TFM deve ser maior que 0,01 e menor ou igual a 10,00")   
     @Column
     private BigDecimal tfm;
     
@@ -282,7 +282,9 @@ public class Matricula {
 	}
 	public void setTotalAtitudinal(BigDecimal totalAtitudinal) {
 		this.totalAtitudinal = totalAtitudinal;
-	}	
+	}
+	
+	
 	@PrePersist
     private void prePersist() {
 		
@@ -290,12 +292,14 @@ public class Matricula {
             this.situacaoNoCursoDescr = this.situacao.getDescricao();
         }
 		
+		
+		
 		if(isNova()) {
-			int i = 01;
+			
 			this.dataCriacao = LocalDate.now();
 			this.anoLetivoDescr = this.anoLetivo.getDescricao();
-			
-			setNumeroMatricula(this.anoLetivoDescr + "-" +  i+ 01);
+			Random gerador = new Random();
+			setNumeroMatricula(gerador.nextInt() + "-" + this.anoLetivoDescr);
 			System.out.println("Matricula: " + getNumeroMatricula());
 		}
 	}
