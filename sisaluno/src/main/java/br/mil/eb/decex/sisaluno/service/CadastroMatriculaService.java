@@ -1,7 +1,9 @@
 package br.mil.eb.decex.sisaluno.service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.util.UUID;
+import java.util.Optional;
 
 import javax.persistence.PersistenceException;
 
@@ -28,13 +30,32 @@ public class CadastroMatriculaService {
 	public void salvar(Matricula matricula) {
 		
 		if(matricula.isNova()) {
+			
+			
 			matricula.setDataCriacao(LocalDate.now());
-		}		
+			
+			
+		}
+		
+		BigDecimal notaTFM = (Optional.ofNullable(matricula.getTfm()).orElse(BigDecimal.ZERO))
+				.add(Optional.ofNullable(matricula.getTfm2()).orElse(BigDecimal.ZERO))
+				.add(Optional.ofNullable(matricula.getTfm3()).orElse(BigDecimal.ZERO));
+		
+		BigDecimal divisaoTFM = new BigDecimal("3");
+		BigDecimal notaFinalTFM = notaTFM.divide(divisaoTFM, 2, RoundingMode.HALF_UP);
+		matricula.setTotalTFM(notaFinalTFM);
+		
+		BigDecimal notaAtitudinal = (Optional.ofNullable(matricula.getAtitudinal()).orElse(BigDecimal.ZERO))
+				 .add(Optional.ofNullable(matricula.getAtitudinalLateral()).orElse(BigDecimal.ZERO))
+				 .add(Optional.ofNullable(matricula.getAtitudinalVertical()).orElse(BigDecimal.ZERO));
+		
+		BigDecimal divisaoAtitudinal = new BigDecimal("3");
+		BigDecimal notaFinalAtitudinal = notaAtitudinal.divide(divisaoAtitudinal, 2, RoundingMode.HALF_UP);
+		matricula.setTotalAtitudinal(notaFinalAtitudinal);
 		
 		matriculas.save(matricula);	
 	}
-		
-	
+
 	@Transactional
 	public void excluir(Matricula matricula ) {
 		try {	

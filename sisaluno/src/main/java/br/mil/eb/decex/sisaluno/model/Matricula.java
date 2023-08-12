@@ -14,7 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -24,9 +23,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
+import br.mil.eb.decex.sisaluno.enumerated.Ano;
 import br.mil.eb.decex.sisaluno.enumerated.Periodo;
 import br.mil.eb.decex.sisaluno.enumerated.SituacaoNoCurso;
-import br.mil.eb.decex.sisaluno.enumerated.Ano;
 
 @Entity
 @Table(name = "matricula", schema = "ensino")
@@ -283,22 +282,7 @@ public class Matricula {
 	}
 	public void setTotalAtitudinal(BigDecimal totalAtitudinal) {
 		this.totalAtitudinal = totalAtitudinal;
-	}
-	
-	public BigDecimal getNotaTfm() {
-		BigDecimal nota = getTfm().add(tfm2).add(tfm3);
-		BigDecimal d = new BigDecimal(3);
-		nota = nota.divide(d);
-		return getNotaTfm();
-	}
-	
-	public BigDecimal getNotaAtitudinal() {
-		BigDecimal nota = getAtitudinal().add(atitudinalLateral).add(atitudinalVertical);
-		BigDecimal d = new BigDecimal(3);
-		nota = nota.divide(d);
-		return getNotaAtitudinal();
-	}
-	
+	}	
 	@PrePersist
     private void prePersist() {
 		
@@ -310,8 +294,7 @@ public class Matricula {
 			int i = 01;
 			this.dataCriacao = LocalDate.now();
 			this.anoLetivoDescr = this.anoLetivo.getDescricao();
-			this.totalTFM = getNotaTfm();
-			this.totalAtitudinal = getNotaAtitudinal();
+			
 			setNumeroMatricula(this.anoLetivoDescr + "-" +  i+ 01);
 			System.out.println("Matricula: " + getNumeroMatricula());
 		}

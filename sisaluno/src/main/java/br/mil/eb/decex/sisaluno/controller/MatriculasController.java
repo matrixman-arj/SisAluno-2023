@@ -23,7 +23,6 @@ import br.mil.eb.decex.sisaluno.enumerated.Periodo;
 import br.mil.eb.decex.sisaluno.enumerated.SituacaoNoCurso;
 import br.mil.eb.decex.sisaluno.model.Curso;
 import br.mil.eb.decex.sisaluno.model.Matricula;
-import br.mil.eb.decex.sisaluno.model.OrganizacaoMilitar;
 import br.mil.eb.decex.sisaluno.repository.Cursos;
 import br.mil.eb.decex.sisaluno.repository.Matriculas;
 import br.mil.eb.decex.sisaluno.security.UsuarioSistema;
@@ -42,6 +41,7 @@ public class MatriculasController {
 	@Autowired
 	private TabelasItensSession tabelaItens;
 	
+	@SuppressWarnings("unused")
 	@Autowired
 	private Matriculas matriculas;
 	
