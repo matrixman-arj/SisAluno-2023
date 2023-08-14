@@ -299,7 +299,7 @@ public class Matricula {
 			this.dataCriacao = LocalDate.now();
 			this.anoLetivoDescr = this.anoLetivo.getDescricao();
 			Random gerador = new Random();
-			setNumeroMatricula(gerador.nextInt() + "-" + this.anoLetivoDescr);
+			setNumeroMatricula(this.anoLetivoDescr + "-" +  gerador.nextInt(900)*10);
 			System.out.println("Matricula: " + getNumeroMatricula());
 		}
 	}
