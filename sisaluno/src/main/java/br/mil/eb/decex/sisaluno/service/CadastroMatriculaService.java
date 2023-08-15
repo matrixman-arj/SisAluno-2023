@@ -40,11 +40,11 @@ public class CadastroMatriculaService {
 				.add(Optional.ofNullable(matricula.getTfm2()).orElse(BigDecimal.ZERO))
 				.add(Optional.ofNullable(matricula.getTfm3()).orElse(BigDecimal.ZERO));
 		
-		
+			
 		BigDecimal divisaoTFM = new BigDecimal("3")
-				.add(Optional.ofNullable(matricula.getTfm()).orElse(BigDecimal.ZERO))
-				.add(Optional.ofNullable(matricula.getTfm2()).orElse(BigDecimal.ZERO))
-				.add(Optional.ofNullable(matricula.getTfm3()).orElse(BigDecimal.ZERO));
+				.add(Optional.ofNullable(matricula.getTfm()).get())
+				.add(Optional.ofNullable(matricula.getTfm2()).get())
+				.add(Optional.ofNullable(matricula.getTfm3()).get());
 		
 //		BigDecimal divisaoTFM = new BigDecimal("1")
 //				.add(matricula.getTfm())

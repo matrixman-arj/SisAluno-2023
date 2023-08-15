@@ -2,9 +2,12 @@ package br.mil.eb.decex.sisaluno.controller;
 
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,13 +21,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.mil.eb.decex.sisaluno.controller.page.PageWrapper;
 import br.mil.eb.decex.sisaluno.enumerated.Ano;
 import br.mil.eb.decex.sisaluno.enumerated.Periodo;
 import br.mil.eb.decex.sisaluno.enumerated.SituacaoNoCurso;
 import br.mil.eb.decex.sisaluno.model.Curso;
 import br.mil.eb.decex.sisaluno.model.Matricula;
+import br.mil.eb.decex.sisaluno.repository.Alunos;
 import br.mil.eb.decex.sisaluno.repository.Cursos;
 import br.mil.eb.decex.sisaluno.repository.Matriculas;
+import br.mil.eb.decex.sisaluno.repository.filter.MatriculaFilter;
 import br.mil.eb.decex.sisaluno.security.UsuarioSistema;
 import br.mil.eb.decex.sisaluno.service.CadastroMatriculaService;
 import br.mil.eb.decex.sisaluno.service.exception.IdentidadeJaCadastradaException;
@@ -41,12 +47,15 @@ public class MatriculasController {
 	@Autowired
 	private TabelasItensSession tabelaItens;
 	
-	@SuppressWarnings("unused")
+	
 	@Autowired
 	private Matriculas matriculas;
 	
 	@Autowired
 	private CadastroMatriculaService cadastroMatriculaService;
+	
+	@Autowired
+	private Alunos alunos;
 	
 	@GetMapping("/nova")
 	public ModelAndView nova(Matricula matricula) {
@@ -86,6 +95,8 @@ public class MatriculasController {
 		return new ModelAndView ("redirect:/matriculas/nova");
 	}
 	
+	
+	
 	@PostMapping("/item")
 	public ModelAndView adicionarItem(Long codigoCurso, String uuid) {
 		Curso curso = cursos.findOne(codigoCurso);
@@ -106,6 +117,17 @@ public class MatriculasController {
 		return mv;
 	}
 	
-	
+	@GetMapping
+	public ModelAndView pesquisar(MatriculaFilter matriculaFilter, BindingResult result, @PageableDefault(size = 5) Pageable pageable, HttpServletRequest httpServletRequest) {
+		ModelAndView mv = new ModelAndView("matricula/PesquisaMatriculas");
+		mv.addObject("alunos", alunos.findAll());
+		mv.addObject("anosLetivo", Ano.values());
+		
+		PageWrapper<Matricula> paginaWrapper = new PageWrapper<>(matriculas.filtrar(matriculaFilter, pageable), httpServletRequest);
+		mv.addObject("pagina", paginaWrapper);
+		
+		
+		return mv;
+	}	
 
 }

@@ -42,25 +42,41 @@
 				
 				<div class="form-group col-sm-4">
 					<label class="control-label" for="matricula">Matricula</label>
-					<input type="text" class="form-control" id="cpf" autofocus="autofocus" th:field="*{matricula}"/>				
+					<input type="text" class="form-control" id="matricula" autofocus="autofocus" th:field="*{matricula}"/>				
 				</div>				
 				
 				
 				<div class="form-group col-sm-4">
-					<label class="control-label" for="nome">Nome</label>
-					<input type="text" class="form-control" id="nome" th:field="*{nome}"/>				
+					<label class="control-label" for="">Nome</label>
+					<input type="text" class="form-control" id="" th:field="*{aluno}"/>				
 				</div>
 			</div>
 			
-			<div class="row">				
-				<div class="form-group col-sm-4" >
-					<label for="om" class="control-label">OM</label>					
-					<select id="om" class="form-control" th:field="*{om}">
-	                    <option value="">Selecione a OM</option>
-	                    <option th:each="om : ${organizacoesMilitares}" th:value="${om.codigo}" th:text="${om.sigla}" >DECEx</option>
+			<div class="row">
+				
+				<div class="col-sm-3 form-group">
+					<label for="anoLetivo" class="control-label">Ano letivo</label>
+					<select id="anoLetivo" class="form-control" th:field="*{anoLetivo}" >
+	                    <option value="">Selecione o ano para pesquisa</option>
+	                    <option th:each="anoLetivo : ${anosLetivo}" th:value="${anoLetivo}" th:text="${anoLetivo.descricao}">Matriculado</option>
 	                </select>
-	            </div>				
-	                					              
+				</div>
+				
+				<div class="form-group col-sm-4">
+					<label class="control-label" for="anoLetivo">Ano letivo</label>
+					<input type="text" class="form-control" id="anoLetivo" th:field="*{anoLetivo}"/>				
+				</div>
+												
+				<div class="form-group  col-sm-3">
+					<label class="control-label" for="dataInicio">Data de inicio do curso</label>
+					<input type="text" class="form-control js-date" id="dataInicioCurso" th:field="*{dataInicioCurso}"/>
+				</div>
+						
+				<div class="form-group  col-sm-3">
+					<label class="control-label" for="dataConclusao">Previsão de conclusão</label>
+					<input type="text" class="form-control js-date" id="dataFinalCurso" th:field="*{dataFinalCurso}"/>
+				</div>							
+						              
 			</div>
 			
 			<button type="submit" class="btn btn-primary">Pesquisar</button>
@@ -72,8 +88,10 @@
 					<tr>
 						<th class="table-usuarios-col-cpf">CPF</th>
 						<th class="table-usuarios-col-matricula">Matricula</th>
-						<th class="table-usuarios-col-nome">Nome</th>
-						<th class="table-usuarios-col-om">Estabelecimento de ensino</th>
+						<th class="table-usuarios-col-">Nome do aluno</th>
+						<th class="table-usuarios-col-ano">Ano letivo</th>
+						<th class="table-usuarios-col-inicio">Início</th>
+						<th class="table-usuarios-col-fim">Término</th>
 						
 					</tr>
 				</thead>
@@ -81,9 +99,11 @@
 				<tbody>
 					<tr th:each="matricula : ${pagina.conteudo}">						
 						<td th:text="${matricula.aluno.cpf}">CPF</td>
-						<td th:text="${matricula.numeroMatricula}">Posto</td>
-						<td th:text="${matricula.nome}">Nome de Guerra</td>
-						<td th:text="${matricula.om.sigla}">Organização Militar</td>												
+						<td th:text="${matricula.numeroMatricula}">Matricula</td>
+						<td th:text="${matricula.aluno.nome}">Nome do aluno</td>
+						<td th:text="${matricula.anoLetivo}">Ano letivo</td>
+						<td th:text="${matricula.dataInicioCurso}">Início</td>
+						<td th:text="${matricula.dataFinalCurso}">Término</td>													
 						<td class="text-center">														
 							<a class="btn btn-link btn-xs js-tooltip" title="Editar" 
 									th:href="@{/matriculas/{codigo}(codigo=${matricula.codigo})}">
@@ -92,7 +112,7 @@
 							
 							<a class="btn btn-link btn-xs js-tooltip js-exclusao-btn" title="Excluir" href="#" 
 									data:url="@{/matriculas/{codigo}(codigo=${matricula.codigo})}"
-									data:codigo="${matricula.codigo}" data:objeto="${matricula.nome}">
+									data:codigo="${matricula.codigo}" data:objeto="${matricula.aluno.nome}">
 								<i class="glyphicon glyphicon-remove"></i>
 							</a>
 							
