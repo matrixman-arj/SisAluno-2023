@@ -15,6 +15,10 @@ public interface MatriculasQueries {
 	
 	
 	public Page<Matricula> filtrar(MatriculaFilter filtro, Pageable pageable);
+
+
+
+	Matricula buscarComCurso(Long codigo);
 	
 	
 	

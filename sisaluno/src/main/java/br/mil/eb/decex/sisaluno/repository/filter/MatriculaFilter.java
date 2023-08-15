@@ -1,9 +1,12 @@
 package br.mil.eb.decex.sisaluno.repository.filter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import br.mil.eb.decex.sisaluno.enumerated.Ano;
 import br.mil.eb.decex.sisaluno.model.Aluno;
+import br.mil.eb.decex.sisaluno.model.Curso;
+import br.mil.eb.decex.sisaluno.model.ItemMatricula;
 import br.mil.eb.decex.sisaluno.model.Matricula;
 
 public class MatriculaFilter {
@@ -15,6 +18,8 @@ public class MatriculaFilter {
 	private Ano anoLetivo;
 	private LocalDate dataInicioCurso;
 	private LocalDate dataFinalCurso;
+	
+	private List<ItemMatricula> itens;
 	
 	public String getCpf() {
 		return cpf;
@@ -63,6 +68,13 @@ public class MatriculaFilter {
 	}
 	public void setDataFinalCurso(LocalDate dataFinalCurso) {
 		this.dataFinalCurso = dataFinalCurso;
+	}
+		
+	public List<ItemMatricula> getItens() {
+		return itens;
+	}
+	public void setItens(List<ItemMatricula> itens) {
+		this.itens = itens;
 	}	
-					
+	
 }
