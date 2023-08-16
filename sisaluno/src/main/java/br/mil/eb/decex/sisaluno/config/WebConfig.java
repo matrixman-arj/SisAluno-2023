@@ -41,6 +41,7 @@ import com.google.common.cache.CacheBuilder;
 import br.mil.eb.decex.sisaluno.controller.UsuariosController;
 import br.mil.eb.decex.sisaluno.converter.AnoConverter;
 import br.mil.eb.decex.sisaluno.converter.CidadeConverter;
+import br.mil.eb.decex.sisaluno.converter.CursoConverter;
 import br.mil.eb.decex.sisaluno.converter.EstadoConverter;
 import br.mil.eb.decex.sisaluno.converter.GrupoConverter;
 import br.mil.eb.decex.sisaluno.converter.NporConverter;
@@ -126,6 +127,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		conversionService.addConverter(new UsuarioFilterConverter());
 		conversionService.addConverter(new AnoConverter());
 		conversionService.addConverter(new SituacaoConverter());
+		conversionService.addConverter(new CursoConverter());
 		
 		
 

@@ -5,15 +5,24 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.mil.eb.decex.sisaluno.model.Aluno;
 import br.mil.eb.decex.sisaluno.model.Matricula;
+import br.mil.eb.decex.sisaluno.model.Usuario;
 import br.mil.eb.decex.sisaluno.repository.Matriculas;
 import br.mil.eb.decex.sisaluno.security.UsuarioSistema;
+import br.mil.eb.decex.sisaluno.service.exception.CpfParaAnoLetivoJaCadastradoException;
 import br.mil.eb.decex.sisaluno.service.exception.ImpossivelExcluirEntidadeException;
 
 
@@ -26,8 +35,27 @@ public class CadastroMatriculaService {
 	
 	UsuarioSistema usuarioSistema;
 	
+	
+	Aluno aluno;
+	
+	@PersistenceContext
+	private EntityManager manager;
+	
+	
+	
+	
+	
 	@Transactional
-	public void salvar(Matricula matricula) {
+	public void salvar(Matricula matricula) {		
+		Optional<Matricula> matriculaExistente = matriculas.findByAlunoAndAnoLetivo((matricula.getAluno()), (matricula.getAnoLetivo()));		
+		
+		
+		
+		
+		//Se existir uma matrícula onde cpf e o ano letivo forem iguais aos da matricula que estamos tentamos salvar, mostra a mensagem ...
+		if(matriculaExistente.isPresent() && !matriculaExistente.get().equals(matricula)) {
+			throw new CpfParaAnoLetivoJaCadastradoException("CPF já cadastrado para o ano letivo");
+		}
 		
 		if(matricula.isNova()) {
 			
@@ -41,10 +69,10 @@ public class CadastroMatriculaService {
 				.add(Optional.ofNullable(matricula.getTfm3()).orElse(BigDecimal.ZERO));
 		
 			
-		BigDecimal divisaoTFM = new BigDecimal("3")
-				.add(Optional.ofNullable(matricula.getTfm()).get())
-				.add(Optional.ofNullable(matricula.getTfm2()).get())
-				.add(Optional.ofNullable(matricula.getTfm3()).get());
+		BigDecimal divisaoTFM = new BigDecimal("3");
+//				.add(Optional.ofNullable(matricula.getTfm()).get())
+//				.add(Optional.ofNullable(matricula.getTfm2()).get())
+//				.add(Optional.ofNullable(matricula.getTfm3()).get());
 		
 //		BigDecimal divisaoTFM = new BigDecimal("1")
 //				.add(matricula.getTfm())

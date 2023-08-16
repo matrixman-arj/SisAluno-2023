@@ -44,7 +44,7 @@ public class ItemMatricula {
 	public Matricula getMatricula() {
 		return matricula;
 	}
-	public void setMatricua(Matricula matricula) {
+	public void setMatricula(Matricula matricula) {
 		this.matricula = matricula;
 	}
 	

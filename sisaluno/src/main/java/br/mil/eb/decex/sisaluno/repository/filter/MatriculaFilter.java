@@ -19,7 +19,9 @@ public class MatriculaFilter {
 	private LocalDate dataInicioCurso;
 	private LocalDate dataFinalCurso;
 	
-	private List<ItemMatricula> itens;
+	private List<Curso> cursos;
+	
+//	private List<ItemMatricula> itens;
 	
 	public String getCpf() {
 		return cpf;
@@ -68,13 +70,20 @@ public class MatriculaFilter {
 	}
 	public void setDataFinalCurso(LocalDate dataFinalCurso) {
 		this.dataFinalCurso = dataFinalCurso;
-	}
-		
-	public List<ItemMatricula> getItens() {
-		return itens;
-	}
-	public void setItens(List<ItemMatricula> itens) {
-		this.itens = itens;
 	}	
+		
+	public List<Curso> getCursos() {
+		return cursos;
+	}
+	public void setCursos(List<Curso> cursos) {
+		this.cursos = cursos;
+	}
+//	
+//	public List<ItemMatricula> getItens() {
+//		return itens;
+//	}
+//	public void setItens(List<ItemMatricula> itens) {
+//		this.itens = itens;
+//	}	
 	
 }

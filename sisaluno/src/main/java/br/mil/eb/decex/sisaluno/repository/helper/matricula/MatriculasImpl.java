@@ -109,9 +109,9 @@ public class MatriculasImpl implements MatriculasQueries {
 				criteria.add(Restrictions.eq("dataFinalCurso", filtro.getMatricula().getDataFinalCurso()));
 			}
 			
-			if (filtro.getItens() != null && !filtro.getItens().isEmpty()) {
+			if (filtro.getCursos() != null && !filtro.getCursos().isEmpty()) {
 				List<Criterion> subqueries = new ArrayList<>();
-				for (Long codigoCurso : filtro.getItens() .stream().mapToLong(ItemMatricula::getCodigo).toArray()) {
+				for (Long codigoCurso : filtro.getCursos().stream().mapToLong(Curso::getCodigo).toArray()) {
 					DetachedCriteria dc = DetachedCriteria.forClass(ItemMatricula.class);
 					dc.add(Restrictions.eq("id.curso.codigo", codigoCurso));
 					dc.setProjection(Projections.property("id.matricula"));

@@ -33,7 +33,7 @@ import br.mil.eb.decex.sisaluno.repository.Matriculas;
 import br.mil.eb.decex.sisaluno.repository.filter.MatriculaFilter;
 import br.mil.eb.decex.sisaluno.security.UsuarioSistema;
 import br.mil.eb.decex.sisaluno.service.CadastroMatriculaService;
-import br.mil.eb.decex.sisaluno.service.exception.IdentidadeJaCadastradaException;
+import br.mil.eb.decex.sisaluno.service.exception.CpfParaAnoLetivoJaCadastradoException;
 import br.mil.eb.decex.sisaluno.session.TabelasItensSession;
 
 
@@ -84,8 +84,8 @@ public class MatriculasController {
 		
 		try {			
 			cadastroMatriculaService.salvar(matricula);			
-		} catch (IdentidadeJaCadastradaException e) {
-			result.rejectValue("identidade", e.getMessage(), e.getMessage());
+		} catch (CpfParaAnoLetivoJaCadastradoException e) {
+			result.rejectValue("cpf", e.getMessage(), e.getMessage());
 			return nova(matricula);
 			
 		} 
