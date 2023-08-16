@@ -44,6 +44,9 @@ public class Matricula {
 	@JoinColumn(name = "codigo_aluno")	
 	private Aluno aluno;
 	
+	@Column(name = "cpf_aluno")
+	private String cpfAluno;
+	
 	@ManyToOne
 	@JoinColumn(name = "codigo_usuario")
 	private Usuario usuario;
@@ -143,7 +146,15 @@ public class Matricula {
 	}
 	public void setAluno(Aluno aluno) {
 		this.aluno = aluno;
+	}	
+	
+	public String getCpfAluno() {
+		return cpfAluno;
 	}
+	public void setCpfAluno(String cpfAluno) {
+		this.cpfAluno = cpfAluno;
+	}
+	
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -304,6 +315,7 @@ public class Matricula {
 			
 			this.dataCriacao = LocalDate.now();
 			this.anoLetivoDescr = this.anoLetivo.getDescricao();
+			this.cpfAluno = this.aluno.getCpf().replaceAll("\\.|-", "");
 			Random gerador = new Random();
 			setNumeroMatricula(this.anoLetivoDescr + "-" +  gerador.nextInt(900)*10);
 			System.out.println("Matricula: " + getNumeroMatricula());

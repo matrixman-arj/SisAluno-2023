@@ -85,7 +85,7 @@ public class MatriculasController {
 		try {			
 			cadastroMatriculaService.salvar(matricula);			
 		} catch (CpfParaAnoLetivoJaCadastradoException e) {
-			result.rejectValue("cpf", e.getMessage(), e.getMessage());
+			result.rejectValue("cpfAluno", e.getMessage(), e.getMessage());
 			return nova(matricula);
 			
 		} 

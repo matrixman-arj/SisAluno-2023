@@ -12,8 +12,9 @@ public interface MatriculasQueries {
 	
 	public Optional<Matricula> porCpf(String cpf);
 	
+	public Optional<Matricula> porCpfAlunoEAnoLetivo(String cpfAluno);
 	
-	
+		
 	public Page<Matricula> filtrar(MatriculaFilter filtro, Pageable pageable);
 
 
