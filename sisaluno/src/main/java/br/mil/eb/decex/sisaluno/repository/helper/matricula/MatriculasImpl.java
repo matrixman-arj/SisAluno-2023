@@ -46,15 +46,6 @@ public class MatriculasImpl implements MatriculasQueries {
 				.setParameter("cpf", cpf).getResultList().stream().findFirst();
 	}
 	
-	@Override
-	public Optional<Matricula> porCpfAlunoEAnoLetivo (String identidade) {
-		Matricula matricula = new Matricula();
-		return manager
-				.createQuery("from Matricula where(cpfAluno) = (:cpfAluno) and (anoLetivo) = (:anoLetivo)", Matricula.class)
-				.setParameter("cpfAluno", matricula.getAluno().getCpf())
-				.setParameter("anoLetivo", matricula.getAnoLetivo())
-				.getResultList().stream().findFirst();
-	}
 	
 	@SuppressWarnings("unchecked")
 	@Override

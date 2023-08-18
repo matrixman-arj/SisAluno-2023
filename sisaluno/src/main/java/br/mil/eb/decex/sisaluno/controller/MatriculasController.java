@@ -34,6 +34,7 @@ import br.mil.eb.decex.sisaluno.repository.filter.MatriculaFilter;
 import br.mil.eb.decex.sisaluno.security.UsuarioSistema;
 import br.mil.eb.decex.sisaluno.service.CadastroMatriculaService;
 import br.mil.eb.decex.sisaluno.service.exception.CpfParaAnoLetivoJaCadastradoException;
+import br.mil.eb.decex.sisaluno.service.exception.DataMatriculaInferiorException;
 import br.mil.eb.decex.sisaluno.session.TabelasItensSession;
 
 
@@ -75,6 +76,10 @@ public class MatriculasController {
 		matricula.setUsuario(usuarioSistema.getUsuario());
 		matricula.adicionarItens(tabelaItens.getItens(matricula.getUuid()));
 		
+		if(matricula.getDataFinalCurso().isBefore(matricula.getDataInicioCurso())){
+			throw new DataMatriculaInferiorException("A data de previsão de término, não pode ser menor que a data de inicio do curso.");
+		}
+		
 		
 		
 		if (result.hasErrors()) {
@@ -84,7 +89,8 @@ public class MatriculasController {
 		
 		try {			
 			cadastroMatriculaService.salvar(matricula);			
-		} catch (CpfParaAnoLetivoJaCadastradoException e) {
+		} 	
+		 catch (CpfParaAnoLetivoJaCadastradoException e) {
 			result.rejectValue("cpfAluno", e.getMessage(), e.getMessage());
 			return nova(matricula);
 			

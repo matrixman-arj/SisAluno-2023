@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.mil.eb.decex.sisaluno.model.Matricula;
-import br.mil.eb.decex.sisaluno.model.Usuario;
 import br.mil.eb.decex.sisaluno.repository.Matriculas;
 import br.mil.eb.decex.sisaluno.service.exception.CpfParaAnoLetivoJaCadastradoException;
+import br.mil.eb.decex.sisaluno.service.exception.DataMatriculaInferiorException;
 import br.mil.eb.decex.sisaluno.service.exception.ImpossivelExcluirEntidadeException;
 
 
@@ -30,14 +30,16 @@ public class CadastroMatriculaService {
 	private EntityManager manager;
 	
 	@Transactional
-	public void salvar(Matricula matricula) {		
-//		Optional<Matricula> matriculaExistente = matriculas.findByCpfAlunoAndAnoLetivoDescr((matricula.getCpfAluno()), (matricula.getAnoLetivoDescr()));		
+	public void salvar(Matricula matricula) {
+		
+		Optional<Matricula> matriculaExistente = matriculas.findByAlunoAndAnoLetivo((matricula.getAluno()), (matricula.getAnoLetivo()));		
 		
 				
 		//Se existir uma matrícula onde cpf e o ano letivo forem iguais aos da matricula que estamos tentamos salvar, mostra a mensagem ...
-		if(this.) {
+		if(matriculaExistente.isPresent() && !matriculaExistente.get().equals(matricula)) 
+		{
 			throw new CpfParaAnoLetivoJaCadastradoException("CPF já cadastrado para o ano letivo");
-		}
+		}		
 		
 		if(matricula.isNova()) {
 			
