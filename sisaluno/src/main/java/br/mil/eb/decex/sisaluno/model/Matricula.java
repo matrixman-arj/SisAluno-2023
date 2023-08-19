@@ -23,6 +23,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import br.mil.eb.decex.sisaluno.enumerated.Ano;
 import br.mil.eb.decex.sisaluno.enumerated.Periodo;
@@ -41,7 +42,8 @@ public class Matricula {
 	private String numeroMatricula;
 	
 	@ManyToOne
-	@JoinColumn(name = "codigo_aluno")	
+	@JoinColumn(name = "codigo_aluno")
+	@NotNull(message = "É obrigatório selecionar um aluno para a matricula")
 	private Aluno aluno;
 	
 	@Column(name = "cpf_aluno")
@@ -67,16 +69,18 @@ public class Matricula {
 		
 	@Enumerated(EnumType.STRING)
 	@Column(name = "ano_letivo")
+	@NotNull(message = "O campo ano letivo na aba previsão é obrigatório")
 	private Ano anoLetivo;
 	
 	@Column(name = "ano_letivo_descr")
 	private String anoLetivoDescr;	
     
     @Column(name = "data_inicio_curso")
-    @NotNull(message = "A data de inicio do curso é obrigatória")
+    @NotNull(message = "A data de inicio do curso na aba previsão é obrigatória")
     private LocalDate dataInicioCurso;
     
     @Column(name = "data_final_curso")
+    @NotNull(message = "A data previsão de conclusão na aba previsão é obrigatória")
     private LocalDate dataFinalCurso;
     
     @Max( value = 10L, message = "A nota de conteúdo atitudinal deve ser maior que 0,01 e menor ou igual a 10,00")    
@@ -117,6 +121,7 @@ public class Matricula {
     private Periodo periodo;
     
     @OneToMany(mappedBy = "matricula", cascade = CascadeType.ALL)
+    @Size(min = 1, message = "Selecione ao menos um curso")
     private List<ItemMatricula> itens;
     
     private String uuid;

@@ -76,12 +76,7 @@ public class MatriculasController {
 		matricula.setUsuario(usuarioSistema.getUsuario());
 		matricula.adicionarItens(tabelaItens.getItens(matricula.getUuid()));
 		
-		if(matricula.getDataFinalCurso().isBefore(matricula.getDataInicioCurso())){
-			throw new DataMatriculaInferiorException("A data de previsão de término, não pode ser menor que a data de inicio do curso.");
-		}
-		
-		
-		
+				
 		if (result.hasErrors()) {
 			model.addAttribute(matricula);
 			return nova(matricula);			
@@ -91,6 +86,12 @@ public class MatriculasController {
 			cadastroMatriculaService.salvar(matricula);			
 		} 	
 		 catch (CpfParaAnoLetivoJaCadastradoException e) {
+			result.rejectValue("cpfAluno", e.getMessage(), e.getMessage());
+			return nova(matricula);
+			
+		} 
+		
+		catch (DataMatriculaInferiorException e) {
 			result.rejectValue("cpfAluno", e.getMessage(), e.getMessage());
 			return nova(matricula);
 			

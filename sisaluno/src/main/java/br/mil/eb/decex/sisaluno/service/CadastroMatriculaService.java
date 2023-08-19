@@ -75,6 +75,10 @@ public class CadastroMatriculaService {
 		BigDecimal notaFinalAtitudinal = notaAtitudinal.divide(divisaoAtitudinal, 2, RoundingMode.HALF_UP);
 		matricula.setTotalAtitudinal(notaFinalAtitudinal);
 		
+		if(matricula.getDataFinalCurso().isBefore(matricula.getDataInicioCurso())){
+			throw new DataMatriculaInferiorException("A data de previsão de conclusão, não pode ser menor que a data de inicio do curso.");
+		}
+		
 		matriculas.save(matricula);	
 	}	
 
