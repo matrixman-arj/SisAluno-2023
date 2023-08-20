@@ -25,6 +25,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
+import br.mil.eb.decex.sisaluno.controller.validator.MatriculaValidator;
 import br.mil.eb.decex.sisaluno.enumerated.Ano;
 import br.mil.eb.decex.sisaluno.enumerated.Periodo;
 import br.mil.eb.decex.sisaluno.enumerated.SituacaoNoCurso;
@@ -67,7 +68,6 @@ public class Matricula {
     private LocalDate dataCriacao = LocalDate.now();
 		
 	@Enumerated(EnumType.STRING)
-	@NotNull()
 	@Column(name = "ano_letivo")	
 	private Ano anoLetivo;
 	

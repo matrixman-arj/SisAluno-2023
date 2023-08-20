@@ -34,7 +34,7 @@ public class MatriculaValidator implements Validator{
 	
 	private void validarSeInformouUmCurso(Errors errors, Matricula matricula) {
 		if(matricula.getItens().isEmpty()) {
-			errors.reject("", "Adicione um curso para continuar com a matricula!");
+			errors.rejectValue("","", "Adicione um curso para continuar com a matricula!");
 		}
 	}
 
@@ -46,25 +46,25 @@ public class MatriculaValidator implements Validator{
 	
 	private void verificaSeInformouPeriodo(Errors errors, Matricula matricula) {
 		if(matricula.getPeriodo() == null) {
-			errors.reject("periodo", "O Campo período é obrigatório");
+			errors.rejectValue("periodo","", "O Campo período é obrigatório");
 		}
 	}
 	
 	private void verificaSeInformouDataDeInicio(Errors errors, Matricula matricula) {
 		if(matricula.getDataInicioCurso() == null) {
-			errors.reject("dataInicioCurso", "A data de inicio do curso na aba previsão é obrigatória");
+			errors.rejectValue("dataInicioCurso","", "A data de inicio do curso na aba previsão é obrigatória");
 		}
 	}
 	
 	private void verificaSeInformouDataDeConclusão(Errors errors, Matricula matricula) {
 		if(matricula.getDataFinalCurso() == null) {
-			errors.reject("dataFinalCurso", "A data previsão de conclusão na aba previsão é obrigatória");
+			errors.rejectValue("dataFinalCurso","", "A data previsão de conclusão na aba previsão é obrigatória");
 		}
 	}
 	
 	private void verificaSeInformouAnoLetivo(Errors errors, Matricula matricula) {
 		if(matricula.getAnoLetivo() == null) {
-			errors.reject("anoLetivo", "O campo ano letivo na aba previsão é obrigatório");
+			errors.rejectValue("anoLetivo", "", "O campo ano letivo na aba previsão é obrigatório");
 		}
 	}
 
