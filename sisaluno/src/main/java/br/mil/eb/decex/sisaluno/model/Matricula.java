@@ -25,7 +25,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
-import br.mil.eb.decex.sisaluno.controller.validator.MatriculaValidator;
 import br.mil.eb.decex.sisaluno.enumerated.Ano;
 import br.mil.eb.decex.sisaluno.enumerated.Periodo;
 import br.mil.eb.decex.sisaluno.enumerated.SituacaoNoCurso;
