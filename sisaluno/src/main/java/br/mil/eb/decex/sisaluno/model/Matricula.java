@@ -2,6 +2,7 @@ package br.mil.eb.decex.sisaluno.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -23,7 +24,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import br.mil.eb.decex.sisaluno.enumerated.Ano;
 import br.mil.eb.decex.sisaluno.enumerated.Periodo;
@@ -63,24 +63,21 @@ public class Matricula {
 	@JoinColumn(name = "codigo_om")
 	private OrganizacaoMilitar om;
 	
-	@Column(name = "data_criacao")
-    @NotNull(message = "A data da criação da matricula é obrigatória")
+	@Column(name = "data_criacao")   
     private LocalDate dataCriacao = LocalDate.now();
 		
 	@Enumerated(EnumType.STRING)
-	@Column(name = "ano_letivo")
-	@NotNull(message = "O campo ano letivo na aba previsão é obrigatório")
+	@NotNull()
+	@Column(name = "ano_letivo")	
 	private Ano anoLetivo;
 	
 	@Column(name = "ano_letivo_descr")
 	private String anoLetivoDescr;	
     
-    @Column(name = "data_inicio_curso")
-    @NotNull(message = "A data de inicio do curso na aba previsão é obrigatória")
+    @Column(name = "data_inicio_curso")    
     private LocalDate dataInicioCurso;
     
-    @Column(name = "data_final_curso")
-    @NotNull(message = "A data previsão de conclusão na aba previsão é obrigatória")
+    @Column(name = "data_final_curso")    
     private LocalDate dataFinalCurso;
     
     @Max( value = 10L, message = "A nota de conteúdo atitudinal deve ser maior que 0,01 e menor ou igual a 10,00")    
@@ -117,20 +114,19 @@ public class Matricula {
     private String situacaoNoCursoDescr;
     
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "O Campo período é obrigatório")    
+   
     private Periodo periodo;
     
-    @OneToMany(mappedBy = "matricula", cascade = CascadeType.ALL)
-    @Size(min = 1, message = "Selecione ao menos um curso")
-    private List<ItemMatricula> itens;
+    @OneToMany(mappedBy = "matricula", cascade = CascadeType.ALL)    
+    private List<ItemMatricula> itens = new ArrayList<>();
     
     private String uuid;
     
     @Column(name = "total_tfm")
-    private BigDecimal totalTFM;
+    private BigDecimal totalTFM = BigDecimal.ZERO;
     
     @Column(name = "total_atitudinal")
-    private BigDecimal totalAtitudinal;
+    private BigDecimal totalAtitudinal = BigDecimal.ZERO;
 
 	public Long getCodigo() {
 		return codigo;
@@ -310,19 +306,27 @@ public class Matricula {
 	@PrePersist
     private void prePersist() {
 		
-		if (this.situacao != null) {
-            this.situacaoNoCursoDescr = this.situacao.getDescricao();
-        }
-		
-		
 		
 		if(isNova()) {
 			
+			if (this.situacao != null) {
+				this.situacaoNoCursoDescr = this.situacao.getDescricao();
+			}
+			
 			this.dataCriacao = LocalDate.now();
-			this.anoLetivoDescr = this.anoLetivo.getDescricao();
-			this.cpfAluno = this.aluno.getCpf().replaceAll("\\.|-", "");
-			Random gerador = new Random();
-			setNumeroMatricula(this.anoLetivoDescr + "-" +  gerador.nextInt(900)*10);
+			
+			if(this.anoLetivo != null) {
+				this.anoLetivoDescr = this.anoLetivo.getDescricao();
+			}
+			
+			if(this.aluno != null) {
+				this.cpfAluno = this.aluno.getCpf().replaceAll("\\.|-", "");
+			}
+			
+			if(this.anoLetivo != null) {
+				Random gerador = new Random();
+				setNumeroMatricula(this.anoLetivoDescr + "-" +  gerador.nextInt(900)*10);
+			}
 			System.out.println("Matricula: " + getNumeroMatricula());
 		}
 	}

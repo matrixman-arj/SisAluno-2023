@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import br.mil.eb.decex.sisaluno.model.Matricula;
 import br.mil.eb.decex.sisaluno.repository.Matriculas;
 import br.mil.eb.decex.sisaluno.service.exception.CpfParaAnoLetivoJaCadastradoException;
-import br.mil.eb.decex.sisaluno.service.exception.DataMatriculaInferiorException;
 import br.mil.eb.decex.sisaluno.service.exception.ImpossivelExcluirEntidadeException;
 
 
@@ -75,9 +74,9 @@ public class CadastroMatriculaService {
 		BigDecimal notaFinalAtitudinal = notaAtitudinal.divide(divisaoAtitudinal, 2, RoundingMode.HALF_UP);
 		matricula.setTotalAtitudinal(notaFinalAtitudinal);
 		
-		if(matricula.getDataFinalCurso().isBefore(matricula.getDataInicioCurso())){
-			throw new DataMatriculaInferiorException("A data de previsão de conclusão, não pode ser menor que a data de inicio do curso.");
-		}
+//		if(matricula.getDataFinalCurso().isBefore(matricula.getDataInicioCurso())){
+//			throw new DataMatriculaInferiorException("A data de previsão de conclusão, não pode ser menor que a data de inicio do curso.");
+//		}
 		
 		matriculas.save(matricula);	
 	}	

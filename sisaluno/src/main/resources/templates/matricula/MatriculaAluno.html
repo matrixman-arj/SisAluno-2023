@@ -116,11 +116,12 @@
 			
 			  <div class="row">
 			  	
-			  	<div class="form-group  col-sm-4  sc-required">
+			  	<div class="form-group  col-sm-4  sc-required" sisaluno:classforerror="aluno.codigo">
 					<label class="control-label" for="nomeAluno">Aluno</label>
 					<div class="input-group">
-				      <input id="cpfAluno" type="text" readonly="readonly" class="form-control" placeholder="Clique na lupa para pesquisar o aluno"/>
-				      <input id="nomeAluno" type="text" readonly="readonly" class="form-control"/>
+				      <input id="cpfAluno" type="text" readonly="readonly" class="form-control" th:field="*{aluno.cpf}"
+				      						placeholder="Clique na lupa para pesquisar o aluno"/>
+				      <input id="nomeAluno" type="text" readonly="readonly" class="form-control" th:field="*{aluno.nome}"/>
 				      <input id="codigoAluno" type="hidden" th:field="*{aluno}"/>
 				      <span class="input-group-btn">
 				        <button class="btn  btn-default  js-tooltip" type="button" title="Pesquisa avançada"
@@ -226,7 +227,7 @@
 			<div class="tab-content" id="meusCursos">
 				
 				<!-- Início do Espaço para a área do formulário onde serão inseridos os cursos do id tabCursos  -->
-				<div class="tab-pane active" id="tabCursos" role="tabpanel" aria-labelledby="linkCursos">
+				<div class="tab-pane active sc-required" id="tabCursos" role="tabpanel" aria-labelledby="linkCursos">
 					<div class="row">
 						<div class="form-group  col-lg-12 sc-required" sisaluno:classforerror="itens" >
 							<input type="text" class="form-control js-sku-descr-curso-input" id="curso" 
@@ -235,18 +236,13 @@
 						</div>
 					</div>					
 					<div class="sc-tabela-matriculas js-tabela-cursos-container">						
-					
-						<div class="sc-tabela-matriculas__vazia">
-							<i class="glyphicon  glyphicon-shopping-cart"></i> 
-							<span>Você ainda não adicionou nenhum curso.</span>
-						</div>
+						<th:block th:replace="matricula/TabelaItensMatricula"/>						
 					</div>
 				</div>
 				<!-- Fim do Espaço para a área do formulário onde serão inseridos os cursos do id tabCursos  -->		
 				
 				<!-- Início do Espaço para a área do formulário onde serão inseridos os dados de previsão do id tabPrevisao  -->
-				<div class="tab-pane fade" id="tabPrevisao" role="tabpanel" aria-labelledby="linkPrevisao">
-					
+				<div class="tab-pane fade sc-required" id="tabPrevisao" role="tabpanel" aria-labelledby="linkPrevisao">					
 					<div class="row">	
 						<div class="form-group  col-sm-3">
 							
