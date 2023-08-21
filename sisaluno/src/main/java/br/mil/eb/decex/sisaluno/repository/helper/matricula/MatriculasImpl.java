@@ -82,17 +82,19 @@ public class MatriculasImpl implements MatriculasQueries {
 	}
 
 	private void adicionarFiltro(MatriculaFilter filtro, Criteria criteria) {
+		criteria.createAlias("aluno", "a");
+		
 		if(filtro != null) {
 			if (!StringUtils.isEmpty(filtro.getCpf())) {
-				criteria.add(Restrictions.eq("cpf", filtro.getMatricula().getAluno().getCpf()));
+				criteria.add(Restrictions.eq("a.cpf", filtro.getAluno().getCpf()));
 			}
 									
 			if (!StringUtils.isEmpty(filtro.getMatricula())) {
-				criteria.add(Restrictions.eq("matricula", filtro.getMatricula().getNumeroMatricula()));
+				criteria.add(Restrictions.eq("numeroMatricula", filtro.getMatricula()));
 			}			
 		
 			if (!StringUtils.isEmpty(filtro.getAluno())) {
-				criteria.add(Restrictions.ilike("aluno", filtro.getAluno().getNome(), MatchMode.ANYWHERE));
+				criteria.add(Restrictions.ilike("a.nome", filtro.getAluno().getNome(), MatchMode.ANYWHERE));
 			}			
 					
 			if (!StringUtils.isEmpty(filtro.getAnoLetivo())) {

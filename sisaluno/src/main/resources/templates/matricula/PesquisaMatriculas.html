@@ -33,7 +33,7 @@
 	 </div>
 	 	 
 	 <div class="container-fluid">
-		<form method="GET" th:object="${matriculaFilter}">
+		<form method="GET" th:object="${matriculaFilter}" th:action="@{/matriculas}">
 			<div class="row">
 				<div class="form-group col-sm-4">
 					<label class="control-label" for="cpf">CPF</label>
@@ -88,11 +88,14 @@
 					<tr>
 						<th class="table-usuarios-col-cpf">CPF</th>
 						<th class="table-usuarios-col-matricula">Matricula</th>
-						<th class="table-usuarios-col-">Nome do aluno</th>
+						
+						<th class="table-usuarios-col-nomeGuerra">
+							<sisaluno:order page="${pagina}" field="a.nome" text="Aluno"/>
+						</th>
 						<th class="table-usuarios-col-ano">Ano letivo</th>
 						<th class="table-usuarios-col-inicio">Início</th>
 						<th class="table-usuarios-col-fim">Término</th>
-						
+						<th class="table-usuarios-col-acoes">Ações</th>
 					</tr>
 				</thead>
 				

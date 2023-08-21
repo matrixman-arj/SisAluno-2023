@@ -63,7 +63,7 @@ public class MatriculasController {
 	@Autowired
 	private MatriculaValidator matriculaValidator;
 	
-	@InitBinder
+	@InitBinder("matricula")
 	public void inicializarValidador(WebDataBinder binder) {
 		binder.setValidator(matriculaValidator);
 	}
@@ -143,7 +143,8 @@ public class MatriculasController {
 	}
 	
 	@GetMapping
-	public ModelAndView pesquisar(MatriculaFilter matriculaFilter, BindingResult result, @PageableDefault(size = 5) Pageable pageable, HttpServletRequest httpServletRequest) {
+	public ModelAndView pesquisar(MatriculaFilter matriculaFilter, 
+			BindingResult result, @PageableDefault(size = 5) Pageable pageable, HttpServletRequest httpServletRequest) {
 		ModelAndView mv = new ModelAndView("matricula/PesquisaMatriculas");
 		mv.addObject("alunos", alunos.findAll());
 		mv.addObject("anosLetivo", Ano.values());
