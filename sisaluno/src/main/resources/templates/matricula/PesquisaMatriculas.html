@@ -47,8 +47,8 @@
 				
 				
 				<div class="form-group col-sm-4">
-					<label class="control-label" for="">Nome</label>
-					<input type="text" class="form-control" id="" th:field="*{aluno}"/>				
+					<label class="control-label" for="nomeAluno">Nome do aluno</label>
+					<input type="text" class="form-control" id="nomeAluno" th:field="*{nomeAluno}"/>				
 				</div>
 			</div>
 			
@@ -61,12 +61,7 @@
 	                    <option th:each="anoLetivo : ${anosLetivo}" th:value="${anoLetivo}" th:text="${anoLetivo.descricao}">Matriculado</option>
 	                </select>
 				</div>
-				
-				<div class="form-group col-sm-4">
-					<label class="control-label" for="anoLetivo">Ano letivo</label>
-					<input type="text" class="form-control" id="anoLetivo" th:field="*{anoLetivo}"/>				
-				</div>
-												
+														
 				<div class="form-group  col-sm-3">
 					<label class="control-label" for="dataInicio">Data de inicio do curso</label>
 					<input type="text" class="form-control js-date" id="dataInicioCurso" th:field="*{dataInicioCurso}"/>

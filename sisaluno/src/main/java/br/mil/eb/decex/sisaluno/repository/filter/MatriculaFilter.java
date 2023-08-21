@@ -4,15 +4,14 @@ import java.time.LocalDate;
 import java.util.List;
 
 import br.mil.eb.decex.sisaluno.enumerated.Ano;
-import br.mil.eb.decex.sisaluno.model.Aluno;
 import br.mil.eb.decex.sisaluno.model.Curso;
 import br.mil.eb.decex.sisaluno.model.Matricula;
 
 public class MatriculaFilter {
 	
 	private String cpf;
-	private Matricula matricula;
-	private Aluno aluno;
+	private String matricula;
+	private String nomeAluno;
 	private LocalDate dataCriacao;	
 	private Ano anoLetivo;
 	private LocalDate dataInicioCurso;
@@ -27,20 +26,20 @@ public class MatriculaFilter {
 	}
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
-	}		
-	
-	public Matricula getMatricula() {
+	}	
+			
+	public String getMatricula() {
 		return matricula;
 	}
-	public void setMatricula(Matricula matricula) {
+	public void setMatricula(String matricula) {
 		this.matricula = matricula;
 	}
 	
-	public Aluno getAluno() {
-		return aluno;
+	public String getNomeAluno() {
+		return nomeAluno;
 	}
-	public void setAluno(Aluno aluno) {
-		this.aluno = aluno;
+	public void setNomeAluno(String nomeAluno) {
+		this.nomeAluno = nomeAluno;
 	}
 	
 	public LocalDate getDataCriacao() {

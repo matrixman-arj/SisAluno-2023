@@ -86,15 +86,15 @@ public class MatriculasImpl implements MatriculasQueries {
 		
 		if(filtro != null) {
 			if (!StringUtils.isEmpty(filtro.getCpf())) {
-				criteria.add(Restrictions.eq("a.cpf", filtro.getAluno().getCpf()));
+				criteria.add(Restrictions.eq("a.cpf", filtro.getCpf()));
 			}
 									
 			if (!StringUtils.isEmpty(filtro.getMatricula())) {
 				criteria.add(Restrictions.eq("numeroMatricula", filtro.getMatricula()));
 			}			
 		
-			if (!StringUtils.isEmpty(filtro.getAluno())) {
-				criteria.add(Restrictions.ilike("a.nome", filtro.getAluno().getNome(), MatchMode.ANYWHERE));
+			if (!StringUtils.isEmpty(filtro.getNomeAluno())) {
+				criteria.add(Restrictions.ilike("a.nome", filtro.getNomeAluno(), MatchMode.ANYWHERE));
 			}			
 					
 			if (!StringUtils.isEmpty(filtro.getAnoLetivo())) {
@@ -102,14 +102,14 @@ public class MatriculasImpl implements MatriculasQueries {
 			}
 			
 			if (!StringUtils.isEmpty(filtro.getDataCriacao())) {
-				criteria.add(Restrictions.eq("dataCriacao", filtro.getMatricula().getDataCriacao()));
+				criteria.add(Restrictions.eq("dataCriacao", filtro.getDataCriacao()));
 			}
 			if (!StringUtils.isEmpty(filtro.getDataInicioCurso())) {
-				criteria.add(Restrictions.eq("dataInicioCurso", filtro.getMatricula().getDataInicioCurso()));
+				criteria.add(Restrictions.eq("dataInicioCurso", filtro.getDataInicioCurso()));
 			}
 			
 			if (!StringUtils.isEmpty(filtro.getDataFinalCurso())) {
-				criteria.add(Restrictions.eq("dataFinalCurso", filtro.getMatricula().getDataFinalCurso()));
+				criteria.add(Restrictions.eq("dataFinalCurso", filtro.getDataFinalCurso()));
 			}
 			
 			if (filtro.getCursos() != null && !filtro.getCursos().isEmpty()) {
