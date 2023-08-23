@@ -29,6 +29,7 @@ import br.mil.eb.decex.sisaluno.enumerated.Ano;
 import br.mil.eb.decex.sisaluno.enumerated.Periodo;
 import br.mil.eb.decex.sisaluno.enumerated.SituacaoNoCurso;
 import br.mil.eb.decex.sisaluno.model.Curso;
+import br.mil.eb.decex.sisaluno.model.ItemMatricula;
 import br.mil.eb.decex.sisaluno.model.Matricula;
 import br.mil.eb.decex.sisaluno.repository.Alunos;
 import br.mil.eb.decex.sisaluno.repository.Cursos;
@@ -50,18 +51,19 @@ public class MatriculasController {
 	@Autowired
 	private TabelasItensSession tabelaItens;
 	
-	
-	@Autowired
-	private Matriculas matriculas;
-	
 	@Autowired
 	private CadastroMatriculaService cadastroMatriculaService;
 	
 	@Autowired
-	private Alunos alunos;
+	private MatriculaValidator matriculaValidator;
 	
 	@Autowired
-	private MatriculaValidator matriculaValidator;
+	private Matriculas matriculas;
+	
+	
+	@Autowired
+	private Alunos alunos;
+	
 	
 	@InitBinder("matricula")
 	public void inicializarValidador(WebDataBinder binder) {
@@ -72,14 +74,13 @@ public class MatriculasController {
 	public ModelAndView nova(Matricula matricula) {
 		ModelAndView mv = new ModelAndView("matricula/MatriculaAluno");
 		
-		if(StringUtils.isEmpty(matricula.getUuid())) {
-			matricula.setUuid(UUID.randomUUID().toString());
-		}
+		setUuid(matricula);
+		
 //		mv.addObject("matriculas", matriculas.findAll());
+		mv.addObject("itens", matricula.getItens());
 		mv.addObject("situacoes", SituacaoNoCurso.values());
 		mv.addObject("anosLetivo", Ano.values());
 		mv.addObject("periodos", Periodo.values());
-		mv.addObject("itens", matricula.getItens());
 		
 		return mv;
 	}
@@ -149,11 +150,33 @@ public class MatriculasController {
 		mv.addObject("alunos", alunos.findAll());
 		mv.addObject("anosLetivo", Ano.values());
 		
-		PageWrapper<Matricula> paginaWrapper = new PageWrapper<>(matriculas.filtrar(matriculaFilter, pageable), httpServletRequest);
-		mv.addObject("pagina", paginaWrapper);
-		
+		PageWrapper<Matricula> paginaWrapper = new PageWrapper<>(matriculas.filtrar(matriculaFilter, pageable)
+				, httpServletRequest);
+		mv.addObject("pagina", paginaWrapper);		
 		
 		return mv;
-	}	
+	}
+	
+	@GetMapping("/{codigo}")
+	public ModelAndView editar(@PathVariable Long codigo) {
+		
+		Matricula matricula = matriculas.buscarComCurso(codigo);
+		
+		setUuid(matricula);
+		for(ItemMatricula item : matricula.getItens()) {
+			tabelaItens.adicionarItem(matricula.getUuid(), item.getCurso(), 1);
+		}
+		
+		ModelAndView mv = nova(matricula);
+		mv.addObject(matricula);
+		return mv;
+	}
+	
+	private void setUuid(Matricula matricula) {
+
+		if(StringUtils.isEmpty(matricula.getUuid())) {
+			matricula.setUuid(UUID.randomUUID().toString());
+		}
+	}
 
 }

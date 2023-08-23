@@ -5,7 +5,6 @@ import java.util.List;
 
 import br.mil.eb.decex.sisaluno.enumerated.Ano;
 import br.mil.eb.decex.sisaluno.model.Curso;
-import br.mil.eb.decex.sisaluno.model.Matricula;
 
 public class MatriculaFilter {
 	

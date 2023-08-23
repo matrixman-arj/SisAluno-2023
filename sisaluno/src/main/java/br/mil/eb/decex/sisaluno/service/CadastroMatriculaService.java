@@ -40,11 +40,11 @@ public class CadastroMatriculaService {
 			throw new CpfParaAnoLetivoJaCadastradoException("CPF já cadastrado para o ano letivo");
 		}		
 		
-		if(matricula.isNova()) {
-			
-			
-			matricula.setDataCriacao(LocalDate.now());
-						
+		if(matricula.isNova()) {			
+			matricula.setDataCriacao(LocalDate.now());						
+		}else {
+			Matricula matriculaExistente2 = matriculas.findOne(matricula.getCodigo());
+			matricula.setDataCriacao(matriculaExistente2.getDataCriacao());
 		}
 		
 		BigDecimal notaTFM = (Optional.ofNullable(matricula.getTfm()).orElse(BigDecimal.ZERO))

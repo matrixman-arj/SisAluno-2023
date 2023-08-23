@@ -26,7 +26,7 @@
 					<h1 th:unless="${matricula.nova}">Atitudinal: [[${matricula.totalAtitudinal}]]</h1>									
 				</div>
 				<div class="col-xs-3">					
-					<h1 th:unless="${matricula.nova}">TFM: [[${matricula.notaTfm}]]</h1>					
+					<h1 th:unless="${matricula.nova}">TFM: </h1>					
 				</div>
 			<div class="col-xs-2">					
 					<div class="decex-page-header-controls">
@@ -41,16 +41,16 @@
 	</div>
 	
 	
-	<div class="container-fluid">				
-		<form method="POST" th:object="${matricula}" class="form-vertical  js-form-loading" autocomplete="off" 
+	<div class="container-fluid">
+								
+		<form method="POST" th:object="${matricula}" class="js-formulario-principal" autocomplete="off" 
 				th:action="${matricula.nova} ? @{/matriculas/nova} : @{/matriculas/{codigo}(codigo=${matricula.codigo})}">
 													
-			<sisaluno:message/>
-						
-			<input  type="hidden" th:field="*{codigo}">			
+			<sisaluno:message/>						
 			
-			<input type="hidden" id="uuid" th:field="*{uuid}"/>
-						
+			<input type="hidden" id="uuid" th:field="*{uuid}"/>						
+			<input  type="hidden" th:field="*{codigo}">	
+					
 			<div class="row">
 				<div class="col-sm-3">
 					<div class="decex-box">
@@ -301,14 +301,14 @@
 			<div class="row" style="clear: both">
 				<div class="col-lg-12">
 					<div class="btn-group">
-					  <button type="submit" class="btn  btn-primary">Salvar</button>
+					  <button type="submit" class="btn  btn-primary js-submit-btn" data:acao="salvar">Salvar</button>
 					  <button type="button" class="btn  btn-primary  dropdown-toggle" data-toggle="dropdown">
 					    <span class="caret"></span>
 					  </button>
 					  
 					  <ul class="dropdown-menu">
-					    <li><a href="#">Salvar e emitir</a></li>
-					    <li><a href="#">Salvar e enviar por e-mail</a></li>
+					    <li><a href="#" class="js-submit-btn">Salvar e emitir</a></li>
+					    <li><a href="#" class="js-submit-btn">Salvar e enviar por e-mail</a></li>
 					  </ul>
 					</div>
 				
@@ -330,6 +330,7 @@
 	<script th:src="@{/javascripts/matricula.autocomplete-cursos.js}"></script>
 	<script th:src="@{/javascripts/matricula.tabela-itens.js}"></script>
 	<script th:src="@{/javascripts/matricula.js}"></script>
+	<script th:src="@{/javascripts/matricula.botoes-submit.js}"></script>
 	
 	<script>
 	$(function() {

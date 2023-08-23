@@ -101,9 +101,7 @@ public class Matricula {
     
     @Max(value = 10L, message = "A nota do TFM 3 deve ser maior que 0,01 e menor ou igual a 10,00")
     @Column
-    private BigDecimal tfm3;
-    
-//    private BigDecimal notaTfm;
+    private BigDecimal tfm3;    
     
     @Enumerated(EnumType.STRING)
     @Column(name = "situacao_no_curso")
@@ -116,7 +114,7 @@ public class Matricula {
    
     private Periodo periodo;
     
-    @OneToMany(mappedBy = "matricula", cascade = CascadeType.ALL)    
+    @OneToMany(mappedBy = "matricula", cascade = CascadeType.ALL, orphanRemoval = true)    
     private List<ItemMatricula> itens = new ArrayList<>();
     
     private String uuid;
@@ -154,6 +152,7 @@ public class Matricula {
 	public void setCpfAluno(String cpfAluno) {
 		this.cpfAluno = cpfAluno;
 	}
+	
 	
 	public Usuario getUsuario() {
 		return usuario;
@@ -302,6 +301,7 @@ public class Matricula {
 	}
 	
 	
+	
 	@PrePersist
     private void prePersist() {
 		
@@ -364,5 +364,6 @@ public class Matricula {
 		Matricula other = (Matricula) obj;
 		return Objects.equals(codigo, other.codigo);
 	}
+	
 		
 }
