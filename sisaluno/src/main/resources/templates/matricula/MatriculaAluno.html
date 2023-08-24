@@ -43,9 +43,9 @@
 	
 	<div class="container-fluid">
 								
-		<form method="POST" th:object="${matricula}" class="js-formulario-principal" autocomplete="off" 
-				th:action="${matricula.nova} ? @{/matriculas/nova} : @{/matriculas/{codigo}(codigo=${matricula.codigo})}">
-													
+<!-- 		<form method="POST" th:object="${matricula}" class="form-vertical  js-form-loading" autocomplete="off"  -->
+<!-- 				th:action="${matricula.nova} ? @{/matriculas/nova} : @{/matriculas/{codigo}(codigo=${matricula.codigo})}"> -->
+			<form method="POST" th:action="@{/matriculas/nova}" th:object="${matricula}" class="js-formulario-principal">										
 			<sisaluno:message/>						
 			
 			<input type="hidden" id="uuid" th:field="*{uuid}"/>						
@@ -209,7 +209,7 @@
 				<div class="form-group  col-lg-12">
 					<ul class="nav nav-tabs" role="tablist">
 					  <li class="nav-item active sc-required" role="presentation">
-					  	<a  href="#tabCursos"  id="linkCursos" data-toggle="tab" role="tab" aria-controls="tabCursos">
+					  	<a  href="cursos"  id="linkCursos" data-toggle="tab" role="tab" aria-controls="cursos">
 					  		Curso
 					  	</a>					  
 					  </li>
@@ -224,17 +224,18 @@
 			</div>
 			
 			<!-- Início do Espaço para toda a tabela de conteúdo do id meusCursos  -->
-			<div class="tab-content" id="meusCursos">
+			<div class="tab-content">
 				
 				<!-- Início do Espaço para a área do formulário onde serão inseridos os cursos do id tabCursos  -->
-				<div class="tab-pane active sc-required" id="tabCursos" role="tabpanel" aria-labelledby="linkCursos">
+				<div class="tab-pane active id="id="cursos" aria-labelledby="linkCursos">
 					<div class="row">
-						<div class="form-group  col-lg-12 sc-required" sisaluno:classforerror="itens" >
+						<div class="form-group  col-lg-12" >
 							<input type="text" class="form-control js-sku-descr-curso-input" id="curso" 
 								placeholder="Pesquise e adicione o curso pelo SKU ou Descrição" autofocus="autofocus" 
 								data:url="@{/cursos}"/>
 						</div>
-					</div>					
+					</div>
+										
 					<div class="sc-tabela-matriculas js-tabela-cursos-container">						
 						<th:block th:replace="matricula/TabelaItensMatricula"/>						
 					</div>

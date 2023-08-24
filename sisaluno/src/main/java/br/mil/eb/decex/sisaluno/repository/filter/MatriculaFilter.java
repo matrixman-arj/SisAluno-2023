@@ -8,6 +8,7 @@ import br.mil.eb.decex.sisaluno.model.Curso;
 
 public class MatriculaFilter {
 	
+	private Long codigo;
 	private String cpf;
 	private String matricula;
 	private String nomeAluno;
@@ -19,6 +20,15 @@ public class MatriculaFilter {
 	private List<Curso> cursos;
 	
 //	private List<ItemMatricula> itens;
+	
+	
+	
+	public Long getCodigo() {
+		return codigo;
+	}
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
+	}
 	
 	public String getCpf() {
 		return cpf;

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -38,6 +40,7 @@ import br.mil.eb.decex.sisaluno.repository.filter.MatriculaFilter;
 import br.mil.eb.decex.sisaluno.security.UsuarioSistema;
 import br.mil.eb.decex.sisaluno.service.CadastroMatriculaService;
 import br.mil.eb.decex.sisaluno.service.exception.CpfParaAnoLetivoJaCadastradoException;
+import br.mil.eb.decex.sisaluno.service.exception.ImpossivelExcluirEntidadeException;
 import br.mil.eb.decex.sisaluno.session.TabelasItensSession;
 
 
@@ -158,8 +161,7 @@ public class MatriculasController {
 	}
 	
 	@GetMapping("/{codigo}")
-	public ModelAndView editar(@PathVariable Long codigo) {
-		
+	public ModelAndView editar(@PathVariable Long codigo) {		
 		Matricula matricula = matriculas.buscarComCurso(codigo);
 		
 		setUuid(matricula);
@@ -177,6 +179,17 @@ public class MatriculasController {
 		if(StringUtils.isEmpty(matricula.getUuid())) {
 			matricula.setUuid(UUID.randomUUID().toString());
 		}
+	}
+	
+	@DeleteMapping("/{codigo}")
+	public @ResponseBody ResponseEntity<?> excluir(@PathVariable("codigo") Matricula matricula){
+		try {
+			cadastroMatriculaService.excluir(matricula);
+				
+		} catch (ImpossivelExcluirEntidadeException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+		return ResponseEntity.ok().build();	
 	}
 
 }

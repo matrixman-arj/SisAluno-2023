@@ -85,6 +85,10 @@ public class MatriculasImpl implements MatriculasQueries {
 		criteria.createAlias("aluno", "a");
 		
 		if(filtro != null) {
+			if (!StringUtils.isEmpty(filtro.getCodigo())) {
+				criteria.add(Restrictions.eq("codigo", filtro.getCodigo()));
+			}
+			
 			if (!StringUtils.isEmpty(filtro.getCpf())) {
 				criteria.add(Restrictions.eq("a.cpf", filtro.getCpf()));
 			}
