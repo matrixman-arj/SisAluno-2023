@@ -35,6 +35,7 @@ import br.mil.eb.decex.sisaluno.enumerated.OrigemEscolar;
 import br.mil.eb.decex.sisaluno.enumerated.OrigemExercito;
 import br.mil.eb.decex.sisaluno.enumerated.OrigemMarinha;
 import br.mil.eb.decex.sisaluno.enumerated.Paises;
+import br.mil.eb.decex.sisaluno.enumerated.PostoGraduacao;
 import br.mil.eb.decex.sisaluno.enumerated.Religiao;
 import br.mil.eb.decex.sisaluno.enumerated.RendaFamiliar;
 import br.mil.eb.decex.sisaluno.enumerated.ResideCom;
@@ -102,14 +103,15 @@ public class AlunosController {
 	}
 	
 	@GetMapping
-	public ModelAndView pesquisar(AlunoFilter alunoFilter, BindingResult result, @PageableDefault(size = 12) Pageable pageable, HttpServletRequest httpServletRequest, @AuthenticationPrincipal UsuarioSistema sistema ) { 
+	public ModelAndView pesquisar(AlunoFilter alunoFilter, BindingResult result, @PageableDefault(size = 5) Pageable pageable, HttpServletRequest httpServletRequest) {
 		ModelAndView mv = new ModelAndView("aluno/PesquisaAlunos");
+		mv.addObject("postos", PostoGraduacao.values());
 		
-		PageWrapper<Aluno> paginaWrapper  = new PageWrapper<>(alunos.filtrar(alunoFilter, pageable), httpServletRequest);		
-		mv.addObject("pagina", paginaWrapper );		
+//		mv.addObject("alunos", alunos.filtrar(alunoFilter, pageable));
 		
-		PageWrapper<Aluno> paginaWrapper2 = new PageWrapper<>(alunos.filtrarPelaOmUsuLogado(alunoFilter, pageable, sistema), httpServletRequest);
-		mv.addObject("paginaOmUsuLogado", paginaWrapper2);
+		PageWrapper<Aluno> paginaWrapper = new PageWrapper<>(alunos.filtrar(alunoFilter, pageable), httpServletRequest);
+		mv.addObject("pagina", paginaWrapper);
+		
 		
 		return mv;
 	}

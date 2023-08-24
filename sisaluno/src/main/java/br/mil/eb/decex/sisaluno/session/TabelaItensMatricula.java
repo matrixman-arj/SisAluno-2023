@@ -6,12 +6,16 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.mil.eb.decex.sisaluno.model.Curso;
 import br.mil.eb.decex.sisaluno.model.ItemMatricula;
 
-class TabelaItensMatricula {
+@SessionScope
+@Component
+public class TabelaItensMatricula {
 	
 	private String uuid;
 	private List<ItemMatricula> itens = new ArrayList<>();	
