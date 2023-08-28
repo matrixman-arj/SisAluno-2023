@@ -4,9 +4,9 @@ Sisaluno.PesquisaRapidaAluno = (function() {
 	
 	function PesquisaRapidaAluno() {
 		this.pesquisaRapidaAlunosModal = $('#pesquisaRapidaAlunos');
-		this.cpfInput = $('#cpfAlunoModal');
-		
-		this.pesquisaRapidaBtn = $('.js-pesquisa-rapida-alunos-btn'); 
+		this.cpfInput = $('#cpfAlunoModal');		
+		this.pesquisaRapidaBtn = $('.js-pesquisa-rapida-alunos-btn');
+		 
 		this.containerTabelaPesquisa = $('#containerTabelaPesquisaRapidaAlunos');
 		this.htmlTabelaPesquisa = $('#tabela-pesquisa-rapida-aluno').html();
 		this.template = Handlebars.compile(this.htmlTabelaPesquisa);
