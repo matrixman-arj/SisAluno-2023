@@ -9,10 +9,8 @@ import br.mil.eb.decex.sisaluno.model.Aluno;
 import br.mil.eb.decex.sisaluno.model.Matricula;
 import br.mil.eb.decex.sisaluno.repository.helper.matricula.MatriculasQueries;
 
-public interface Matriculas extends JpaRepository<Matricula, Long>, MatriculasQueries{
-
+public interface Matriculas extends JpaRepository<Matricula, Long>, MatriculasQueries {
 	
 	public Optional<Matricula> findByAlunoAndAnoLetivo(Aluno aluno, Ano anoLetivo);
-		
-	
+
 }

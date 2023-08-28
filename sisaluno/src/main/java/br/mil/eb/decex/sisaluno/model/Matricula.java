@@ -7,23 +7,25 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import br.mil.eb.decex.sisaluno.enumerated.Ano;
 import br.mil.eb.decex.sisaluno.enumerated.Periodo;
@@ -53,11 +55,15 @@ public class Matricula {
 	@JoinColumn(name = "codigo_usuario")
 	private Usuario usuario;
 	
-//	@Size(min = 1, message = "Selecione ao menos um curso")
-//	@ManyToMany(fetch = FetchType.EAGER)
-//	@JoinTable(name = "ensino.item_matricula", joinColumns = @JoinColumn(name = "codigo_matricula")
-//	 						, inverseJoinColumns = @JoinColumn(name = "codigo_curso"))
-//	private List<ItemMatricula> itens;
+	@ManyToOne
+	@JoinColumn(name = "codigo_curso")
+	private Curso curso; 
+	
+	@Size(min = 1, message = "Selecione ao menos um curso")
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "ensino.item_matricula", joinColumns = @JoinColumn(name = "codigo_matricula")
+	 						, inverseJoinColumns = @JoinColumn(name = "codigo_curso"))
+	private List<ItemMatricula> itens = new ArrayList<>();
 	
 	@OneToOne
 	@JoinColumn(name = "codigo_om")
@@ -114,8 +120,8 @@ public class Matricula {
    
     private Periodo periodo;
     
-    @OneToMany(mappedBy = "matricula", cascade = CascadeType.ALL, orphanRemoval = true)    
-    private List<ItemMatricula> itens = new ArrayList<>();
+//    @OneToMany(mappedBy = "matricula", cascade = CascadeType.ALL, orphanRemoval = true)    
+//    private List<ItemMatricula> itens = new ArrayList<>();
     
     private String uuid;
     
@@ -159,12 +165,18 @@ public class Matricula {
 	}
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}		
+	
+	public Curso getCurso() {
+		return curso;
 	}
-		
-	public OrganizacaoMilitar getOm() {
-		return om;
+	public void setCurso(Curso curso) {
+		this.curso = curso;
 	}
 	
+	public OrganizacaoMilitar getOm() {
+		return om;
+	}	
 	public void setOm(OrganizacaoMilitar om) {
 		this.om = om;
 	}	

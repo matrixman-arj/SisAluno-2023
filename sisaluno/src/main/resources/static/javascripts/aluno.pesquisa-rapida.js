@@ -5,7 +5,7 @@ Sisaluno.PesquisaRapidaAluno = (function() {
 	function PesquisaRapidaAluno() {
 		this.pesquisaRapidaAlunosModal = $('#pesquisaRapidaAlunos');
 		this.cpfInput = $('#cpfAlunoModal');
-		this.nomeInput = $('#nomeAlunoModal');
+		
 		this.pesquisaRapidaBtn = $('.js-pesquisa-rapida-alunos-btn'); 
 		this.containerTabelaPesquisa = $('#containerTabelaPesquisaRapidaAlunos');
 		this.htmlTabelaPesquisa = $('#tabela-pesquisa-rapida-aluno').html();
@@ -30,8 +30,7 @@ Sisaluno.PesquisaRapidaAluno = (function() {
 			url: this.pesquisaRapidaAlunosModal.find('form').attr('action'),
 			method: 'GET',
 			contentType: 'application/json',
-			data: {
-				nome: this.nomeInput.val(),
+			data: {				
 				cpf: this.cpfInput.val()
 			}, 
 			success: onPesquisaConcluida.bind(this),			
@@ -51,7 +50,7 @@ Sisaluno.PesquisaRapidaAluno = (function() {
 	} 
 	
 	function onErroPesquisa() {
-		if(cpfInput <= 3 && nomeInput <= 3){
+		if(this.cpfInput <= 3){
 			this.mensagemErro.removeClass('hidden');
 		}
 	}

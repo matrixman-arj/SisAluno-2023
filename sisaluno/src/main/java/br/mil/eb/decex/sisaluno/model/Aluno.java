@@ -21,7 +21,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.util.StringUtils;
 
@@ -42,7 +41,6 @@ import br.mil.eb.decex.sisaluno.validation.CPF;
 
 @Entity
 @Table(name = "aluno", schema = "ensino")
-@DynamicUpdate
 public class Aluno implements Serializable{
 	private static final long serialVersionUID = 1L;
 	

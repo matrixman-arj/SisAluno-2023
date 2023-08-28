@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.mil.eb.decex.sisaluno.model.Ano;
 import br.mil.eb.decex.sisaluno.repository.Anos;
-import br.mil.eb.decex.sisaluno.service.exception.CpfParaAnoLetivoJaCadastradoException;
+import br.mil.eb.decex.sisaluno.service.exception.AnoJaCadastradoException;
 import br.mil.eb.decex.sisaluno.service.exception.ImpossivelExcluirEntidadeException;
 
 @Service
@@ -23,7 +23,7 @@ public class CadastroAnoService {
 	public void salvar(Ano ano) {
 		Optional<Ano> anoExistente = anos.findByAno(ano.getAno());
 		if(anoExistente.isPresent() && !anoExistente.get().equals(ano)) {
-			throw new CpfParaAnoLetivoJaCadastradoException("Ano já cadastrado!");
+			throw new AnoJaCadastradoException("Ano já cadastrado!");
 		}		
 		anos.saveAndFlush(ano);
 	}

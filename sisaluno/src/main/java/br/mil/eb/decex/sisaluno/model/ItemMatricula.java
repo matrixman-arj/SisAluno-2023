@@ -63,8 +63,6 @@ public class ItemMatricula {
 			return false;
 		ItemMatricula other = (ItemMatricula) obj;
 		return Objects.equals(codigo, other.codigo);
-	}
-	
-	
+	}	
 	
 }

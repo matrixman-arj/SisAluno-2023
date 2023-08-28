@@ -5,6 +5,7 @@ CREATE TABLE ensino.matricula(
 	cpf_aluno character varying(20),
 	codigo_aluno bigint NOT NULL,
 	codigo_usuario bigint NOT NULL,
+	codigo_curso bigint NOT NULL,
 	periodo character varying(100),
 	codigo_om bigint NOT NULL,
 	uete character varying(100),

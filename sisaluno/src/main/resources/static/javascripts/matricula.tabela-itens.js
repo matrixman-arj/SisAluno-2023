@@ -51,12 +51,3 @@ Sisaluno.TabelaItens = (function(){
 	return TabelaItens;
 	
 }());
-
-$(function(){
-	
-	var autocomplete = new Sisaluno.Autocomplete();
-	autocomplete.iniciar();
-	
-	var tabelaItens = new Sisaluno.TabelaItens(autocomplete);
-	tabelaItens.iniciar();
-})

@@ -26,7 +26,7 @@
 					<h1 th:unless="${matricula.nova}">Atitudinal: [[${matricula.totalAtitudinal}]]</h1>									
 				</div>
 				<div class="col-xs-3">					
-					<h1 th:unless="${matricula.nova}">TFM: </h1>					
+					<h1 th:unless="${matricula.nova}">TFM: [[${matricula.totalTFM}]]</h1>					
 				</div>
 			<div class="col-xs-2">					
 					<div class="decex-page-header-controls">
@@ -40,17 +40,16 @@
 		</div>
 	</div>
 	
-	
-	<div class="container-fluid">
-								
-<!-- 		<form method="POST" th:object="${matricula}" class="form-vertical  js-form-loading" autocomplete="off"  -->
-<!-- 				th:action="${matricula.nova} ? @{/matriculas/nova} : @{/matriculas/{codigo}(codigo=${matricula.codigo})}"> -->
-			<form method="POST" th:action="@{/matriculas/nova}" th:object="${matricula}" class="js-formulario-principal">										
-			<sisaluno:message/>						
+	<div class="container-fluid">				
+		<form method="POST" th:object="${matricula}" class="form-vertical  js-form-loading" autocomplete="off" 
+				th:action="${matricula.nova} ? @{/matriculas/nova} : @{/matriculas/{codigo}(codigo=${matricula.codigo})}">
+		
+			<sisaluno:message/>
+						
+			<input  type="hidden" th:field="*{codigo}">			
 			
-			<input type="hidden" id="uuid" th:field="*{uuid}"/>						
-			<input  type="hidden" th:field="*{codigo}">	
-					
+			<input type="hidden" id="uuid" th:field="*{uuid}"/>
+			
 			<div class="row">
 				<div class="col-sm-3">
 					<div class="decex-box">
@@ -107,8 +106,6 @@
 			</div>
 						
 			<div class="row">
-				
-				
 				<div class="form-group  col-sm-12" style="text-align: center;">
 					<label class="control-label" for="Aluno">Dados do aluno:</label>
 				</div>
@@ -117,11 +114,10 @@
 			  <div class="row">
 			  	
 			  	<div class="form-group  col-sm-4  sc-required" sisaluno:classforerror="aluno.codigo">
-					<label class="control-label" for="nomeAluno">Aluno</label>
+					<label class="control-label" for="cpfAluno">CPF do aluno</label>
 					<div class="input-group">
 				      <input id="cpfAluno" type="text" readonly="readonly" class="form-control" th:field="*{aluno.cpf}"
-				      						placeholder="Clique na lupa para pesquisar o aluno"/>
-				      <input id="nomeAluno" type="text" readonly="readonly" class="form-control" th:field="*{aluno.nome}"/>
+				      						placeholder="Clique na lupa para pesquisar o aluno"/>				     
 				      <input id="codigoAluno" type="hidden" th:field="*{aluno}"/>
 				      <span class="input-group-btn">
 				        <button class="btn  btn-default  js-tooltip" type="button" title="Pesquisa avançada"
@@ -132,19 +128,19 @@
 				    </div>
 				</div>
 				
-<!-- 				<div hidden="true"> -->
-<!-- 					<select id="om" class="form-control" th:field="*{om}">											 -->
-<!-- 						<option th:value="${#authentication.principal.usuario.om.codigo}">12</option> -->
-<!-- 					</select> -->
-<!-- 				</div> -->
-														
+				<div class="form-group  col-sm-6">
+					<label class="control-label" for="nomeAluno">Nome do aluno</label>								      
+				    <input id="nomeAluno" type="text" readonly="readonly" 
+				    		class="form-control" th:field="*{aluno.nome}"/>					    
+				</div>
+			  	
+										
 			</div>
 			
 			<div class="row">
 				<div class="form-group  col-sm-12" style="text-align: center;">
 					<label class="control-label" for="Aluno"></label>
 				</div>
-				
 			</div>
 			<div class="row">
 				<div class="form-group  col-sm-12" style="text-align: center;">
@@ -153,27 +149,27 @@
 			</div>
 				
 			<div class="row">
-				<div class="form-group  col-sm-4">
+				<div class="form-group col-sm-4">
 					<label class="control-label" for="tfm">TFM</label>
 					<div class="input-group">
 	      				<div class="input-group-addon">I</div> 
-						<input id="tfm" placeholder="Informe a nota do primeiro TFM" type="text" maxlength="6" class="form-control  js-nota"  th:field="*{tfm}"/>
-					</div>
-				</div>
-								
-				<div class="form-group  col-sm-4">
-					<label class="control-label" for="tfm2">TFM II</label>
-					<div class="input-group">
-	      				<div class="input-group-addon">II</div> 
-						<input id="tfm2" placeholder="Informe a nota do segundo TFM" type="text" maxlength="6" class="form-control  js-nota"  th:field="*{tfm2}" />
+						<input id="tfm" placeholder="Informe a primeira nota do TAF" type="text" step="0,01" min="0,01" max="10,00" maxlength="4" class="form-control  js-nota" th:field="*{tfm}"/>
 					</div>
 				</div>
 				
-				<div class="form-group  col-sm-4">
+				<div class="form-group col-sm-4">
+					<label class="control-label" for="tfm2">TFM II</label>
+					<div class="input-group">
+	      				<div class="input-group-addon">II</div> 
+						<input id="tfm2" placeholder="Informe a segunda nota do TAF" type="text" maxlength="6" class="form-control  js-nota" th:field="*{tfm2}"/>
+					</div>
+				</div>
+				
+				<div class="form-group  col-sm-4 sc-required">
 					<label class="control-label" for="tfm3">TFM III</label>
 					<div class="input-group">
 	      				<div class="input-group-addon">III</div> 
-						<input id="tfm3" placeholder="Informe a nota do terceiro TFM" type="text" maxlength="6" class="form-control  js-nota" th:field="*{tfm3}" />
+						<input id="tfm3" placeholder="Informe a terceira nota do TAF" type="text" maxlength="6" class="form-control  js-nota" th:field="*{tfm3}"/>
 					</div>
 				</div>
 			</div>
@@ -207,45 +203,54 @@
 			
 			<div class="row">
 				<div class="form-group  col-lg-12">
-					<ul class="nav nav-tabs" role="tablist">
-					  <li class="nav-item active sc-required" role="presentation">
-					  	<a  href="cursos"  id="linkCursos" data-toggle="tab" role="tab" aria-controls="cursos">
-					  		Curso
-					  	</a>					  
-					  </li>
-					  
-					  <li class="nav-item" role="presentation">
-					  	<a href="#tabPrevisao" class="nav-link" id="linkPrevisao" data-toggle="tab" role="tab" aria-controls="tabPrevisao">
-					  		Previsão					  	
-					  	</a>
-					  </li>
+					<ul class="nav nav-tabs js-abas-matricula">
+					   <li role="presentation" class="active"><a href="#cursos">Curso</a></li>
+					   <li role="presentation"><a href="#previsao">Previsão</a></li>					  					  
 					</ul>
 				</div>
 			</div>
 			
-			<!-- Início do Espaço para toda a tabela de conteúdo do id meusCursos  -->
-			<div class="tab-content">
-				
-				<!-- Início do Espaço para a área do formulário onde serão inseridos os cursos do id tabCursos  -->
-				<div class="tab-pane active id="id="cursos" aria-labelledby="linkCursos">
-					<div class="row">
-						<div class="form-group  col-lg-12" >
-							<input type="text" class="form-control js-sku-descr-curso-input" id="curso" 
+<!-- 			<div class="row"> -->
+<!-- 				<div class="form-group  col-lg-12"> -->
+<!-- 					<ul class="nav nav-tabs" role="tablist"> -->
+<!-- 					   <li class="nav-item active sc-required" role="presentation"> -->
+<!-- 					  	<a  href="#tabCursos"  id="linkCursos" data-toggle="tab" role="tab" aria-controls="tabCursos"> -->
+<!-- 					  		Curso -->
+<!-- 					  	</a>					   -->
+<!-- 					  </li> -->
+					  
+<!-- 					  <li class="nav-item" role="presentation"> -->
+<!-- 					  	<a href="#tabPrevisao" class="nav-link" id="linkPrevisao" data-toggle="tab" role="tab" aria-controls="tabPrevisao"> -->
+<!-- 					  		Previsão					  	 -->
+<!-- 					  	</a> -->
+<!-- 					  </li> -->
+					  
+<!-- 					</ul> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+			
+			 <div class="tab-content">
+			 	<div class="tab-pane active" id="cursos">
+			 		<div class="row">
+			 			<div class="form-group col-lg-12">
+			 				<input type="text" class="form-control js-sku-descr-curso-input" id="curso" 
 								placeholder="Pesquise e adicione o curso pelo SKU ou Descrição" autofocus="autofocus" 
-								data:url="@{/cursos}"/>
-						</div>
-					</div>
-										
-					<div class="sc-tabela-matriculas js-tabela-cursos-container">						
+								data:url="@{/cursos}" th:field="*{curso}"/>
+			 			</div>			 		
+			 		</div>
+			 		<div class="sc-tabela-matriculas js-tabela-cursos-container">						
 						<th:block th:replace="matricula/TabelaItensMatricula"/>						
 					</div>
-				</div>
-				<!-- Fim do Espaço para a área do formulário onde serão inseridos os cursos do id tabCursos  -->		
-				
-				<!-- Início do Espaço para a área do formulário onde serão inseridos os dados de previsão do id tabPrevisao  -->
-				<div class="tab-pane fade sc-required" id="tabPrevisao" role="tabpanel" aria-labelledby="linkPrevisao">					
-					<div class="row">	
-						<div class="form-group  col-sm-3">
+			 	</div>
+			 	
+			 	<div class="tab-pane" id="previsao">
+			 		<div class="row">
+			 			<div class="form-group  col-sm-2">
+							
+						</div>
+			 		</div>
+			 		<div class="row">
+			 			<div class="form-group  col-sm-2">
 							
 						</div>
 						
@@ -258,12 +263,12 @@
 							<label class="control-label" for="dataConclusao">Previsão de conclusão</label>
 							<input type="text" class="form-control js-date" id="dataFinalCurso" th:field="*{dataFinalCurso}"/>
 						</div>
-					</div>
-				
-				
-					<div class="row">
+			 		
+			 		</div>
+			 		
+			 		<div class="row">					
 						
-						<div class="form-group  col-sm-3">
+						<div class="form-group  col-sm-2">
 							
 						</div>
 						
@@ -289,33 +294,28 @@
 			                    <option value="">Selecione no qual período o aluno se encontra</option>
 			                    <option th:each="periodo : ${periodos}" th:value="${periodo}" th:text="${periodo.descricao}">1º Ano</option>
 			                </select>
-						</div>
-						
-						
-					</div>
-				</div>
-				<!-- Fim do Espaço para a área do formulário onde serão inseridos os dados de previsão do id tabPrevisao  -->
-							
-			</div>
-			<!-- Fim do Espaço para toda a tabela de conteúdo do id meusCursos -->			
+						</div>						
+					</div>			 					 	
+			 	</div>			 				 
+			 </div>
 			
-			<div class="row" style="clear: both">
-				<div class="col-lg-12">
-					<div class="btn-group">
-					  <button type="submit" class="btn  btn-primary js-submit-btn" data:acao="salvar">Salvar</button>
-					  <button type="button" class="btn  btn-primary  dropdown-toggle" data-toggle="dropdown">
-					    <span class="caret"></span>
-					  </button>
-					  
-					  <ul class="dropdown-menu">
-					    <li><a href="#" class="js-submit-btn">Salvar e emitir</a></li>
-					    <li><a href="#" class="js-submit-btn">Salvar e enviar por e-mail</a></li>
-					  </ul>
+				<div class="row" style="clear: both">
+					<div class="col-lg-12">
+						<div class="btn-group">
+						  <button type="submit" class="btn  btn-primary">Salvar</button>
+						  <button type="button" class="btn  btn-primary  dropdown-toggle" data-toggle="dropdown">
+						    <span class="caret"></span>
+						  </button>
+						  
+						  <ul class="dropdown-menu">
+						    <li><a href="#">Salvar e emitir</a></li>
+						    <li><a href="#">Salvar e enviar por e-mail</a></li>
+						  </ul>
+						</div>
+					
+						<button class="btn  btn-danger">Cancelar</button>
 					</div>
-				
-					<button class="btn  btn-danger">Cancelar</button>
 				</div>
-			</div>
 		</form>
 	</div>
 	
@@ -324,23 +324,25 @@
 </section>
 
 <th:block layout:fragment="javascript-extra">
+	
+	<script>
+		$(function() {
+			$('.js-abas-matricula a').click(function (e) {
+				e.preventDefault();
+				$(this).tab('show');
+			});
+		});
+	</script>
+	
 	<script th:src="@{/javascripts/vendors/jquery.easy-autocomplete.min.js}"></script>
 	<script th:src="@{/javascripts/vendors/handlebars.min.js}"></script>
 	<script th:src="@{/javascripts/aluno.pesquisa-rapida.js}"></script>
 	<script th:src="@{/layout/javascripts/aluno-mascara-nota.js}"></script>
-	<script th:src="@{/javascripts/matricula.autocomplete-itens.js}"></script>
+	<script th:src="@{/javascripts/matricula.autocomplete-cursos.js}"></script>
 	<script th:src="@{/javascripts/matricula.tabela-itens.js}"></script>
 	<script th:src="@{/javascripts/matricula.js}"></script>
-	<script th:src="@{/javascripts/matricula.botoes-submit.js}"></script>
 	
-	<script>
-	$(function() {
-		$('.js-abas-matricula a').click(function (e) {
-			e.preventDefault();
-			$(this).tab('show');
-		});
-	});
-	</script>	
+		
 </th:block>
 
 </html>

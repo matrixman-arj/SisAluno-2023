@@ -22,7 +22,7 @@ public class MatriculaValidator implements Validator{
 		
 		Matricula matricula = (Matricula) target;		
 		ValidarSeDataFinalEMenorQueInicial(errors, matricula);
-		validarSeInformouUmCurso(errors, matricula);
+//		validarSeInformouUmCurso(errors, matricula);
 		
 		verificaSeInformouPeriodo(errors, matricula);
 		verificaSeInformouDataDeInicio(errors, matricula);
@@ -32,11 +32,11 @@ public class MatriculaValidator implements Validator{
 	}
 
 	
-	private void validarSeInformouUmCurso(Errors errors, Matricula matricula) {
-		if(matricula.getItens().isEmpty()) {
-			errors.rejectValue("","", "Adicione um curso para continuar com a matricula!");
-		}
-	}
+//	private void validarSeInformouUmCurso(Errors errors, Matricula matricula) {
+//		if(matricula.getItens().isEmpty()) {
+//			errors.rejectValue("","", "Adicione um curso para continuar com a matricula!");
+//		}
+//	}
 
 	private void ValidarSeDataFinalEMenorQueInicial(Errors errors, Matricula matricula) {
 		if(matricula.getDataFinalCurso() != null && matricula.getDataFinalCurso().isBefore(matricula.getDataInicioCurso())){

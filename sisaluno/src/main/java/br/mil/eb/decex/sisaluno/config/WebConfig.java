@@ -44,6 +44,7 @@ import br.mil.eb.decex.sisaluno.converter.CidadeConverter;
 import br.mil.eb.decex.sisaluno.converter.CursoConverter;
 import br.mil.eb.decex.sisaluno.converter.EstadoConverter;
 import br.mil.eb.decex.sisaluno.converter.GrupoConverter;
+import br.mil.eb.decex.sisaluno.converter.ItemMatriculaConverter;
 import br.mil.eb.decex.sisaluno.converter.NporConverter;
 import br.mil.eb.decex.sisaluno.converter.OrganizacaoMilitarConverter;
 import br.mil.eb.decex.sisaluno.converter.PermissaoConverter;
@@ -128,14 +129,12 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		conversionService.addConverter(new AnoConverter());
 		conversionService.addConverter(new SituacaoConverter());
 		conversionService.addConverter(new CursoConverter());
-		
+		conversionService.addConverter(new ItemMatriculaConverter());
 		
 
 		// API de Datas do Java 8
 		DateTimeFormatterRegistrar dateTimeFormatter = new DateTimeFormatterRegistrar();
 		dateTimeFormatter.setDateFormatter(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-		dateTimeFormatter.setTimeFormatter(DateTimeFormatter.ofPattern("HH:mm"));
-//		dateTimeFormatter.setDateFormatter(DateTimeFormatter.ofPattern("yyyy"));
 		dateTimeFormatter.registerFormatters(conversionService);
 		
 		NumberStyleFormatter bigDecimalFormatter = new NumberStyleFormatter("#,##0.00");

@@ -23,7 +23,7 @@
 				<div class="col-sm-2">
 					<div class="decex-page-header-controls">
 					
-						<a class="btn btn-default" th:href="@{/usuarios/novo}">
+						<a class="btn btn-default" th:href="@{/usuarios/novo}" sec:authorize="hasRole('ROLE_ADMINISTRACAO')">
 							<i class="glyphicon  glyphicon-plus-sign"></i> <span class="hidden-xs  hidden-sm">Novo usuário</span>
 						</a>
 					</div>
@@ -149,7 +149,7 @@
 </section>
 <th:block layout:fragment="javascript-extra">
 	<script th:src="@{/javascripts/multiselecao.js}"></script>
-	<script th:src="@{/javascripts/sisaluno.dialogo-excluir.js}"></script>
+	<script th:src="@{/javascripts/siscomplemento.dialogo-excluir.js}"></script>
 </th:block>
 </body>
 </html>

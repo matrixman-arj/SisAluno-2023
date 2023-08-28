@@ -162,12 +162,12 @@ public class MatriculasController {
 	
 	@GetMapping("/{codigo}")
 	public ModelAndView editar(@PathVariable Long codigo) {		
-		Matricula matricula = matriculas.buscarComCurso(codigo);
+		Matricula matricula = matriculas.getOne(codigo);
 		
-		setUuid(matricula);
-		for(ItemMatricula item : matricula.getItens()) {
-			tabelaItens.adicionarItem(matricula.getUuid(), item.getCurso(), 1);
-		}
+//		setUuid(matricula);
+//		for(ItemMatricula item : matricula.getItens()) {
+//			tabelaItens.adicionarItem(matricula.getUuid(), item.getCurso(), 1);
+//		}
 		
 		ModelAndView mv = nova(matricula);
 		mv.addObject(matricula);

@@ -58,21 +58,21 @@ public class MatriculasImpl implements MatriculasQueries {
 		adicionarFiltro(filtro, criteria);
 		
 		List<Matricula> filtradas = criteria.list();		
-		filtradas.forEach(m -> Hibernate.initialize(m.getItens()));
+		filtradas.forEach(m -> Hibernate.initialize(m.getCodigo()));
 		return new PageImpl<>(filtradas, pageable, total(filtro));
 	
   }
 	
-	@Transactional(readOnly = true)
-	@Override
-	public Matricula buscarComCurso(Long codigo) {
-		Criteria criteria = manager.unwrap(Session.class).createCriteria(Matricula.class);
-		criteria.createAlias("itens", "i", JoinType.LEFT_OUTER_JOIN);
-		criteria.add(Restrictions.eq("codigo", codigo));
-		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		return (Matricula) criteria.uniqueResult();
-		
-	}
+//	@Transactional(readOnly = true)
+//	@Override
+//	public Matricula buscarComCurso(Long codigo) {
+//		Criteria criteria = manager.unwrap(Session.class).createCriteria(Matricula.class);
+//		criteria.createAlias("itens", "i", JoinType.LEFT_OUTER_JOIN);
+//		criteria.add(Restrictions.eq("codigo", codigo));
+//		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+//		return (Matricula) criteria.list();
+//		
+//	}
 		
 	private Long total(MatriculaFilter filtro) {
 		Criteria criteria = manager.unwrap(Session.class).createCriteria(Matricula.class);
@@ -116,20 +116,20 @@ public class MatriculasImpl implements MatriculasQueries {
 				criteria.add(Restrictions.eq("dataFinalCurso", filtro.getDataFinalCurso()));
 			}
 			
-			if (filtro.getCursos() != null && !filtro.getCursos().isEmpty()) {
-				List<Criterion> subqueries = new ArrayList<>();
-				for (Long codigoCurso : filtro.getCursos().stream().mapToLong(Curso::getCodigo).toArray()) {
-					DetachedCriteria dc = DetachedCriteria.forClass(ItemMatricula.class);
-					dc.add(Restrictions.eq("id.curso.codigo", codigoCurso));
-					dc.setProjection(Projections.property("id.matricula"));
-					
-					subqueries.add(Subqueries.propertyIn("codigo", dc));
-				}
-				
-				Criterion[] criterions = new Criterion[subqueries.size()];
-				criteria.add(Restrictions.and(subqueries.toArray(criterions)));
-			
-		}
+//			if (filtro.getCursos() != null && !filtro.getCursos().isEmpty()) {
+//				List<Criterion> subqueries = new ArrayList<>();
+//				for (Long codigoCurso : filtro.getCursos().stream().mapToLong(Curso::getCodigo).toArray()) {
+//					DetachedCriteria dc = DetachedCriteria.forClass(ItemMatricula.class);
+//					dc.add(Restrictions.eq("id.curso.codigo", codigoCurso));
+//					dc.setProjection(Projections.property("id.matricula"));
+//					
+//					subqueries.add(Subqueries.propertyIn("codigo", dc));
+//				}
+//				
+//				Criterion[] criterions = new Criterion[subqueries.size()];
+//				criteria.add(Restrictions.and(subqueries.toArray(criterions)));
+//			
+//		}
 	}
 }	
 
