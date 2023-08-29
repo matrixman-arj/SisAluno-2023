@@ -49,9 +49,11 @@ Sisaluno.PesquisaRapidaAluno = (function() {
 	} 
 	
 	function onErroPesquisa() {
-		if(this.cpfInput <= 3){
-			this.mensagemErro.removeClass('hidden');
-		}
+		$('.js-mensagem-erro').removeClass('hidden');
+		
+//		if(this.cpfInput <= 3){
+//			this.mensagemErro.removeClass('hidden');
+//		}
 	}
 	
 	return PesquisaRapidaAluno;
