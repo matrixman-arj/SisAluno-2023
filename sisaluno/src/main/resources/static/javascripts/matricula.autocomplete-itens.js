@@ -48,3 +48,9 @@ Sisaluno.Autocomplete = (function() {
 	
 }());
 
+$(function(){
+	
+	var autocomplete = new Sisaluno.Autocomplete();
+	autocomplete.iniciar();
+})
+
