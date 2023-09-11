@@ -68,6 +68,8 @@ public class MatriculasController {
 	private Alunos alunos;
 	
 	
+	
+	
 	@InitBinder("matricula")
 	public void inicializarValidador(WebDataBinder binder) {
 		binder.setValidator(matriculaValidator);
@@ -77,10 +79,13 @@ public class MatriculasController {
 	public ModelAndView nova(Matricula matricula) {
 		ModelAndView mv = new ModelAndView("matricula/MatriculaAluno");
 		
+//		if(StringUtils.isEmpty(matricula.getUuid())) {
+//			matricula.setUuid(UUID.randomUUID().toString());
+//		}
 		setUuid(matricula);
 		
 //		mv.addObject("matriculas", matriculas.findAll());
-		mv.addObject("itens", matricula.getItens());
+//		mv.addObject("itens", matricula.getItens());/*Esse objeto serve para preecher os itens da TabelaItensMatricula.html*/
 		mv.addObject("situacoes", SituacaoNoCurso.values());
 		mv.addObject("anosLetivo", Ano.values());
 		mv.addObject("periodos", Periodo.values());
@@ -91,6 +96,7 @@ public class MatriculasController {
 	@RequestMapping(value = { "/nova", "{\\d+}" }, method = RequestMethod.POST )
 	public ModelAndView salvar (Matricula matricula, BindingResult result, Model model, RedirectAttributes attributes, @AuthenticationPrincipal UsuarioSistema usuarioSistema) {
 		matricula.adicionarItens(tabelaItens.getItens(matricula.getUuid()));
+//		matricula.setItens(tabelaItens.getItens(matricula.getUuid()));
 		
 		
 		matriculaValidator.validate(matricula, result);
@@ -101,8 +107,6 @@ public class MatriculasController {
 		
 		matricula.setOm(usuarioSistema.getUsuario().getOm());
 		matricula.setUsuario(usuarioSistema.getUsuario());
-		
-				
 		
 		try {			
 			cadastroMatriculaService.salvar(matricula);			
@@ -127,29 +131,29 @@ public class MatriculasController {
 	
 	
 	@PostMapping("/item")
-	public ModelAndView adicionarItem(Long codigoCurso, String uuid) {
+	public ModelAndView adicionarItem(Long codigoCurso, String uuid, Integer quantidade) {
 		Curso curso = cursos.findOne(codigoCurso);
 		tabelaItens.adicionarItem(uuid, curso, 1);
 		return mvTabelaItensMatricula(uuid);
+		
+		
 	}
 	
 	
 	@DeleteMapping("/item/{uuid}/{codigoCurso}")
-	public ModelAndView excluirItem(@PathVariable("codigoCurso")Curso curso, @PathVariable String uuid) {		
+	public ModelAndView excluirItem(@PathVariable("codigoCurso")Curso curso 
+			, @PathVariable String uuid) {		
 		tabelaItens.excluirItem(uuid, curso);
 		return mvTabelaItensMatricula(uuid);
 	}
 
-	private ModelAndView mvTabelaItensMatricula(String uuid) {
-		ModelAndView mv = new ModelAndView("matricula/TabelaItensMatricula");
-		mv.addObject("itens", tabelaItens.getItens(uuid));
-		return mv;
-	}
+	
 	
 	@GetMapping
-	public ModelAndView pesquisar(MatriculaFilter matriculaFilter, 
+	public ModelAndView pesquisar(Matricula matricula, MatriculaFilter matriculaFilter, 
 			BindingResult result, @PageableDefault(size = 5) Pageable pageable, HttpServletRequest httpServletRequest) {
 		ModelAndView mv = new ModelAndView("matricula/PesquisaMatriculas");
+		mv.addObject("itens", matricula.getItens());
 		mv.addObject("alunos", alunos.findAll());
 		mv.addObject("anosLetivo", Ano.values());
 		
@@ -161,18 +165,27 @@ public class MatriculasController {
 	}
 	
 	@GetMapping("/{codigo}")
-	public ModelAndView editar(@PathVariable Long codigo) {		
-		Matricula matricula = matriculas.getOne(codigo);
+	public ModelAndView editar(@PathVariable Long codigo) {
+		
+		Matricula matricula = matriculas.findOne(codigo);
 		
 //		setUuid(matricula);
 //		for(ItemMatricula item : matricula.getItens()) {
-//			tabelaItens.adicionarItem(matricula.getUuid(), item.getCurso(), 1);
+//			tabelaItens.adicionarItem(matricula.getUuid(), item.getCurso(), item.getQuantidade());
 //		}
 		
 		ModelAndView mv = nova(matricula);
 		mv.addObject(matricula);
+		
 		return mv;
 	}
+	
+	private ModelAndView mvTabelaItensMatricula(String uuid) {
+		ModelAndView mv = new ModelAndView("matricula/TabelaItensMatricula");
+		mv.addObject("itens", tabelaItens.getItens(uuid));
+		return mv;
+	}
+	
 	
 	private void setUuid(Matricula matricula) {
 

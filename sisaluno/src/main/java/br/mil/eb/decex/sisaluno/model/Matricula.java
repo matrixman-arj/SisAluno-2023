@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -19,13 +20,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.mil.eb.decex.sisaluno.enumerated.Ano;
 import br.mil.eb.decex.sisaluno.enumerated.Periodo;
@@ -59,11 +63,12 @@ public class Matricula {
 	@JoinColumn(name = "codigo_curso")
 	private Curso curso; 
 	
-	@Size(min = 1, message = "Selecione ao menos um curso")
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "ensino.item_matricula", joinColumns = @JoinColumn(name = "codigo_matricula")
-	 						, inverseJoinColumns = @JoinColumn(name = "codigo_curso"))
-	private List<ItemMatricula> itens = new ArrayList<>();
+//	@Size(min = 1, message = "Selecione ao menos um curso")
+//	@ManyToMany(fetch = FetchType.LAZY)
+//	@JoinTable(name = "ensino.matricula", joinColumns = @JoinColumn(name = "codigo_matricula")
+//	 						, inverseJoinColumns = @JoinColumn(name = "codigo_curso"))
+	@OneToMany(mappedBy = "matricula", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<ItemMatricula> itens  = new ArrayList<>();
 	
 	@OneToOne
 	@JoinColumn(name = "codigo_om")
@@ -123,6 +128,7 @@ public class Matricula {
 //    @OneToMany(mappedBy = "matricula", cascade = CascadeType.ALL, orphanRemoval = true)    
 //    private List<ItemMatricula> itens = new ArrayList<>();
     
+    @Transient
     private String uuid;
     
     @Column(name = "total_tfm")

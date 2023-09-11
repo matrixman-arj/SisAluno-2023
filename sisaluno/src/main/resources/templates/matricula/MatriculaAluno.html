@@ -46,9 +46,9 @@
 		
 			<sisaluno:message/>
 						
-			<input  type="hidden" th:field="*{codigo}">			
-			
 			<input type="hidden" id="uuid" th:field="*{uuid}"/>
+			<input type="hidden" th:field="*{codigo}"/>			
+			
 			
 			<div class="row">
 				<div class="col-sm-3">
@@ -235,7 +235,7 @@
 			 			<div class="form-group col-lg-12">
 			 				<input type="text" class="form-control js-sku-descr-curso-input" id="curso" 
 								placeholder="Pesquise e adicione o curso pelo SKU ou Descrição" autofocus="autofocus" 
-								data:url="@{/cursos}" th:field="*{curso}"/>
+								data:url="@{/cursos}" />
 			 			</div>			 		
 			 		</div>
 			 		<div class="sc-tabela-matriculas js-tabela-cursos-container">						
@@ -325,14 +325,7 @@
 
 <th:block layout:fragment="javascript-extra">
 	
-	<script>
-		$(function() {
-			$('.js-abas-matricula a').click(function (e) {
-				e.preventDefault();
-				$(this).tab('show');
-			});
-		});
-	</script>
+	
 	
 	<script th:src="@{/javascripts/vendors/jquery.easy-autocomplete.min.js}"></script>
 	<script th:src="@{/javascripts/vendors/handlebars.min.js}"></script>
@@ -342,6 +335,14 @@
 	<script th:src="@{/javascripts/matricula.tabela-itens.js}"></script>
 	<script th:src="@{/javascripts/matricula.js}"></script>
 	
+	<script>
+		$(function() {
+			$('.js-abas-matricula a').click(function (e) {
+				e.preventDefault();
+				$(this).tab('show');
+			});
+		});
+	</script>
 		
 </th:block>
 

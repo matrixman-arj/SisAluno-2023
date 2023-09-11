@@ -2,11 +2,8 @@ package br.mil.eb.decex.sisaluno.session;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.IntStream;
-
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.mil.eb.decex.sisaluno.model.Curso;
 import br.mil.eb.decex.sisaluno.model.ItemMatricula;
@@ -20,32 +17,39 @@ class TabelaItensMatricula {
 		this.uuid = uuid;
 	}
 
-	public void adicionarItem(Curso curso, RedirectAttributes attributes) {
-		
-		Optional<ItemMatricula> itemMatriculaOptional = itens.stream()
-			.filter(i -> i.getCurso().equals(curso))
-			.findAny();
+	public void adicionarItem(Curso curso, Integer quantidade) {		
+		Optional<ItemMatricula> itemMatriculaOptional = buscarItemPorCurso(curso);
 		
 		ItemMatricula itemMatricula = null;
 		if(itemMatriculaOptional.isPresent()) {
 			itemMatricula = itemMatriculaOptional.get();
-			itemMatricula = null;
+			itemMatricula.setQuantidade(itemMatricula.getQuantidade() + quantidade);
 		}else {
 			
 			itemMatricula = new ItemMatricula();
 			itemMatricula.setCurso(curso);
-			
+			itemMatricula.setQuantidade(quantidade);
 			itens.add(0, itemMatricula);
+			
+			System.out.println("quantidade: " + getItens().size());
 		}
 		
+	}
+	
+	public void alterarQuantidadeItens(Curso curso, Integer quantidade) {
+		ItemMatricula itemMatricula = buscarItemPorCurso(curso).get();
+		itemMatricula.setQuantidade(quantidade);
 	}
 	
 	public void excluirItem(Curso curso) {
 		int indice = IntStream.range(0, itens.size())
 				.filter(i -> itens.get(i).getCurso().equals(curso))
-				.findAny().getAsInt();
+				.findAny().orElse(0);
 		itens.remove(indice);
+		
+		System.out.println("quantidade: " + getItens().size());
 	}
+	
 	
 	public int total() {
 		return itens.size();
@@ -53,9 +57,8 @@ class TabelaItensMatricula {
 
 	public List<ItemMatricula> getItens() {		
 		return itens;
-	}
+	}	
 	
-	@SuppressWarnings("unused")
 	private Optional<ItemMatricula> buscarItemPorCurso(Curso curso) {
 		return itens.stream()
 				.filter(i -> i.getCurso().equals(curso))
@@ -66,16 +69,14 @@ class TabelaItensMatricula {
 	public String getUuid() {
 		return uuid;
 	}
-	
-	
-
-	public void setItens(List<ItemMatricula> itens) {
-		this.itens = itens;
-	}
+		
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(uuid);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
+		return result;
 	}
 
 	@Override
@@ -87,8 +88,12 @@ class TabelaItensMatricula {
 		if (getClass() != obj.getClass())
 			return false;
 		TabelaItensMatricula other = (TabelaItensMatricula) obj;
-		return Objects.equals(uuid, other.uuid);
-	}
-	
+		if (uuid == null) {
+			if (other.uuid != null)
+				return false;
+		} else if (!uuid.equals(other.uuid))
+			return false;
+		return true;
+	}	
 	
 }

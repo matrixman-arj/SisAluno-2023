@@ -78,7 +78,7 @@ public class CadastroMatriculaService {
 //			throw new DataMatriculaInferiorException("A data de previsão de conclusão, não pode ser menor que a data de inicio do curso.");
 //		}
 		
-		matriculas.saveAndFlush(matricula);	
+		matriculas.save(matricula);	
 	}	
 
 	@Transactional

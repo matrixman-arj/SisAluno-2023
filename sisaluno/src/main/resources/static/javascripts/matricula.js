@@ -5,9 +5,13 @@ Sisaluno.Matricula = (function (){
 	}
 	
 	Matricula.prototype.iniciar = function(){
-		this.tabelaItens.on('tabela-itens-atualizada', onTabelaItensAtualizada.bind(this));
+//		this.tabelaItens.on('tabela-itens-atualizada', onTabelaItensAtualizada.bind(this));
 		
 	}
+	
+//	function onTabelaItensAtualizada(evento){
+//		
+//	}
 	
 	return Matricula;
 	

@@ -15,10 +15,19 @@ import br.mil.eb.decex.sisaluno.model.ItemMatricula;
 public class TabelasItensSession {
 	
 	private Set<TabelaItensMatricula> tabelas = new HashSet<>();
+	
+	
+//	public void adicionarItem(String uuid, Curso curso, Integer quantidade) {
+//		TabelaItensMatricula tabela = tabelas.stream()
+//				.filter(tab -> tab.getUuid().equals(uuid))
+//				.findAny().orElse(new TabelaItensMatricula(uuid));
+//		tabela.adicionarItem(curso, quantidade);
+//		tabelas.add(tabela);
+//	}
 
-	public void adicionarItem(String uuid, Curso curso, int i) {
+	public void adicionarItem(String uuid, Curso curso, int quantidade) {
 		TabelaItensMatricula tabela = buscarTabelaPorUuid(uuid);
-		tabela.adicionarItem(curso, null);
+		tabela.adicionarItem(curso, quantidade);
 		tabelas.add(tabela);
 	}
 
@@ -30,6 +39,9 @@ public class TabelasItensSession {
 	}
 	
 	
+	public List<ItemMatricula> getItens(String uuid) {		
+		return buscarTabelaPorUuid(uuid).getItens();
+	}
 	
 	private TabelaItensMatricula buscarTabelaPorUuid(String uuid) {
 		TabelaItensMatricula tabela = tabelas.stream()
@@ -37,11 +49,6 @@ public class TabelasItensSession {
 				.findAny()
 				.orElse(new TabelaItensMatricula(uuid));
 		return tabela;
-	}
-
-
-	public List<ItemMatricula> getItens(String uuid) {		
-		return buscarTabelaPorUuid(uuid).getItens();
 	}
 
 }

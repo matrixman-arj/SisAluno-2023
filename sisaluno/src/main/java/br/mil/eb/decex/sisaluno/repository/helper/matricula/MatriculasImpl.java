@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
@@ -27,6 +28,7 @@ import org.springframework.util.StringUtils;
 import br.mil.eb.decex.sisaluno.model.Curso;
 import br.mil.eb.decex.sisaluno.model.ItemMatricula;
 import br.mil.eb.decex.sisaluno.model.Matricula;
+import br.mil.eb.decex.sisaluno.model.Usuario;
 import br.mil.eb.decex.sisaluno.repository.filter.MatriculaFilter;
 import br.mil.eb.decex.sisaluno.repository.paginacao.PaginacaoUtil;
 
@@ -62,17 +64,16 @@ public class MatriculasImpl implements MatriculasQueries {
 		return new PageImpl<>(filtradas, pageable, total(filtro));
 	
   }
-	
-//	@Transactional(readOnly = true)
-//	@Override
-//	public Matricula buscarComCurso(Long codigo) {
-//		Criteria criteria = manager.unwrap(Session.class).createCriteria(Matricula.class);
-//		criteria.createAlias("itens", "i", JoinType.LEFT_OUTER_JOIN);
-//		criteria.add(Restrictions.eq("codigo", codigo));
-//		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-//		return (Matricula) criteria.list();
-//		
-//	}
+		
+	@Transactional(readOnly = true)
+	@Override
+	public Matricula buscarComItens(Long codigo) {
+		Criteria criteria = manager.unwrap(Session.class).createCriteria(Matricula.class);
+		criteria.createAlias("itens", "i", JoinType.LEFT_OUTER_JOIN);
+		criteria.add(Restrictions.eq("codigo", codigo));
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		return (Matricula) criteria.list();
+	}
 		
 	private Long total(MatriculaFilter filtro) {
 		Criteria criteria = manager.unwrap(Session.class).createCriteria(Matricula.class);
@@ -83,6 +84,7 @@ public class MatriculasImpl implements MatriculasQueries {
 
 	private void adicionarFiltro(MatriculaFilter filtro, Criteria criteria) {
 		criteria.createAlias("aluno", "a");
+		criteria.createAlias("itens", "i");
 		
 		if(filtro != null) {
 			if (!StringUtils.isEmpty(filtro.getCodigo())) {
