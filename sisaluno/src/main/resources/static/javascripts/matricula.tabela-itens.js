@@ -12,6 +12,7 @@ Sisaluno.TabelaItens = (function(){
 		this.autocomplete.on('item-selecionado', onItemSelecionado.bind(this));
 		
 		bindQuantidade.call(this);
+		bindTabelaItem.call(this);
 	}
 	
 	function onItemSelecionado(evento, item){
@@ -32,10 +33,10 @@ Sisaluno.TabelaItens = (function(){
 		this.tabelaCursosContainer.html(html);
 		
 		bindQuantidade.call(this);
-		bindTabelaItem.call(this);
+		
 		
 		var tabelaItem = bindTabelaItem.call(this);		
-		this.emitter.trigger('tabela-itens-atualizada')
+		this.emitter.trigger('tabela-itens-atualizada');
 	}
 	
 	function onQuantidadeItemAlterado(evento) {
@@ -75,8 +76,7 @@ Sisaluno.TabelaItens = (function(){
 		resposta.done(onItemAtualizadoNoServidor.bind(this));
 	}
 	
-	function bindQuantidade(){
-		
+	function bindQuantidade(){		
 		var quantidadeItemInput = $('.js-tabela-curso-quantidade-item');
 		quantidadeItemInput.on('change', onQuantidadeItemAlterado.bind(this));
 	}

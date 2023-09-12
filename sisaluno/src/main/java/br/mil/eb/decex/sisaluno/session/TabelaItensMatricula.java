@@ -28,7 +28,7 @@ class TabelaItensMatricula {
 			
 			itemMatricula = new ItemMatricula();
 			itemMatricula.setCurso(curso);
-			itemMatricula.setQuantidade(quantidade);
+			itemMatricula.setQuantidade(1);
 			itens.add(0, itemMatricula);
 			
 			System.out.println("quantidade: " + getItens().size());

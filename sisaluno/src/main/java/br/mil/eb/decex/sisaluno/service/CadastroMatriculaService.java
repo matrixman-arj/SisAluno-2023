@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.mil.eb.decex.sisaluno.model.Aluno;
 import br.mil.eb.decex.sisaluno.model.Matricula;
+import br.mil.eb.decex.sisaluno.repository.Alunos;
 import br.mil.eb.decex.sisaluno.repository.Matriculas;
 import br.mil.eb.decex.sisaluno.service.exception.CpfParaAnoLetivoJaCadastradoException;
 import br.mil.eb.decex.sisaluno.service.exception.ImpossivelExcluirEntidadeException;
@@ -24,6 +26,11 @@ public class CadastroMatriculaService {
 		
 	@Autowired
 	private Matriculas matriculas;
+	
+	private Aluno aluno;
+	
+	
+	
 	
 	@PersistenceContext
 	private EntityManager manager;
@@ -78,7 +85,19 @@ public class CadastroMatriculaService {
 //			throw new DataMatriculaInferiorException("A data de previsão de conclusão, não pode ser menor que a data de inicio do curso.");
 //		}
 		
-		matriculas.save(matricula);	
+		
+		if(!matricula.isNova()) {
+						
+			aluno = matriculas.findByAluno(matricula.getAluno());
+		}
+		
+		//aluno = alunos.findById(matricula.getAluno().getId());
+		//matricula.setAluno(aluno);
+		
+		matricula.setAluno(aluno);
+		
+		matriculas.saveAndFlush(matricula);
+		
 	}	
 
 	@Transactional

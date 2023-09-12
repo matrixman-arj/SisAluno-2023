@@ -26,12 +26,17 @@ CREATE TABLE ensino.matricula(
 	situacao_no_curso_descr character varying(100),
 	uuid character varying(50),
 	
-	CONSTRAINT matricula_pkey PRIMARY KEY (codigo)	
+	CONSTRAINT matricula_pkey PRIMARY KEY (codigo),
+	FOREIGN KEY (codigo_curso)REFERENCES ensino.curso(codigo),
+	FOREIGN KEY (codigo_aluno)REFERENCES ensino.aluno(codigo),
+	FOREIGN KEY (codigo_om)REFERENCES comum.om(codigo),
+	FOREIGN KEY (codigo_usuario)REFERENCES comum.usuario(codigo)
 	
 );
 
 CREATE TABLE ensino.item_matricula(
 	codigo serial NOT NULL,
+	quantidade INTEGER NOT NULL,
 	codigo_curso bigint NOT NULL,
 	codigo_matricula bigint NOT NULL,	
 	CONSTRAINT item_matricula_pkey PRIMARY KEY (codigo),

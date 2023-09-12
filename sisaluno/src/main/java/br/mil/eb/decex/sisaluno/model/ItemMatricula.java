@@ -27,7 +27,7 @@ public class ItemMatricula {
 	@JoinColumn(name = "codigo_matricula")
 	private Matricula matricula;
 	
-	@Transient
+	
 	private Integer quantidade;
 	
 	public Long getCodigo() {

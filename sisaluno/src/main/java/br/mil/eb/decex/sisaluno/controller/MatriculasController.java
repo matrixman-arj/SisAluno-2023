@@ -85,7 +85,7 @@ public class MatriculasController {
 		setUuid(matricula);
 		
 //		mv.addObject("matriculas", matriculas.findAll());
-//		mv.addObject("itens", matricula.getItens());/*Esse objeto serve para preecher os itens da TabelaItensMatricula.html*/
+		mv.addObject("itens", matricula.getItens());/*Esse objeto serve para preecher os itens da TabelaItensMatricula.html*/
 		mv.addObject("situacoes", SituacaoNoCurso.values());
 		mv.addObject("anosLetivo", Ano.values());
 		mv.addObject("periodos", Periodo.values());
@@ -104,6 +104,14 @@ public class MatriculasController {
 			model.addAttribute(matricula);
 			return nova(matricula);			
 		}
+		
+		for(ItemMatricula item : matricula.getItens()) {
+//			tabelaItens.adicionarItem(matricula.getUuid(), item.getCurso(), item.getQuantidade());
+		
+		
+		matricula.setCurso(item.getCurso());
+		}
+
 		
 		matricula.setOm(usuarioSistema.getUsuario().getOm());
 		matricula.setUsuario(usuarioSistema.getUsuario());
@@ -131,7 +139,7 @@ public class MatriculasController {
 	
 	
 	@PostMapping("/item")
-	public ModelAndView adicionarItem(Long codigoCurso, String uuid, Integer quantidade) {
+	public ModelAndView adicionarItem(Long codigoCurso, String uuid) {
 		Curso curso = cursos.findOne(codigoCurso);
 		tabelaItens.adicionarItem(uuid, curso, 1);
 		return mvTabelaItensMatricula(uuid);
@@ -165,14 +173,13 @@ public class MatriculasController {
 	}
 	
 	@GetMapping("/{codigo}")
-	public ModelAndView editar(@PathVariable Long codigo) {
-		
+	public ModelAndView editar(@PathVariable Long codigo) {		
 		Matricula matricula = matriculas.findOne(codigo);
 		
-//		setUuid(matricula);
-//		for(ItemMatricula item : matricula.getItens()) {
-//			tabelaItens.adicionarItem(matricula.getUuid(), item.getCurso(), item.getQuantidade());
-//		}
+		setUuid(matricula);
+		for(ItemMatricula item : matricula.getItens()) {
+			tabelaItens.adicionarItem(matricula.getUuid(), item.getCurso(), item.getQuantidade());
+		}
 		
 		ModelAndView mv = nova(matricula);
 		mv.addObject(matricula);

@@ -17,8 +17,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -49,7 +47,7 @@ public class Matricula {
 	
 	@ManyToOne
 	@JoinColumn(name = "codigo_aluno")
-	@NotNull(message = "É obrigatório selecionar um aluno para a matricula")
+	@JsonIgnore
 	private Aluno aluno;
 	
 	@Column(name = "cpf_aluno")
@@ -67,7 +65,7 @@ public class Matricula {
 //	@ManyToMany(fetch = FetchType.LAZY)
 //	@JoinTable(name = "ensino.matricula", joinColumns = @JoinColumn(name = "codigo_matricula")
 //	 						, inverseJoinColumns = @JoinColumn(name = "codigo_curso"))
-	@OneToMany(mappedBy = "matricula", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "matricula", cascade = CascadeType.ALL, orphanRemoval = true, fetch=FetchType.EAGER)
 	private List<ItemMatricula> itens  = new ArrayList<>();
 	
 	@OneToOne
@@ -124,10 +122,7 @@ public class Matricula {
     @Enumerated(EnumType.STRING)
    
     private Periodo periodo;
-    
-//    @OneToMany(mappedBy = "matricula", cascade = CascadeType.ALL, orphanRemoval = true)    
-//    private List<ItemMatricula> itens = new ArrayList<>();
-    
+        
     @Transient
     private String uuid;
     
@@ -344,7 +339,10 @@ public class Matricula {
 				Random gerador = new Random();
 				setNumeroMatricula(this.anoLetivoDescr + "-" +  gerador.nextInt(900)*10);
 			}
+			
+						
 			System.out.println("Matricula: " + getNumeroMatricula());
+			
 		}
 	}
 		

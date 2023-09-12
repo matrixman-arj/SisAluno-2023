@@ -4,6 +4,7 @@
 	  xmlns:data="http://www.thymeleaf.org/extras/data">
 
 	<div class="sc-tabela-curso js-tabela-item" th:each="item : ${itens}">
+<!-- 		<input type="hidden" id="uuid" th:field="*{uuid}"/> -->
 		<div class="sc-tabela-curso__coluna sc-tabela-curso__coluna--foto ">							
 			<img th:src="@{/fotos/thumbnail.{foto}(foto=${item.curso.fotoOuMock})}" class="img-responsive">
 		</div>					

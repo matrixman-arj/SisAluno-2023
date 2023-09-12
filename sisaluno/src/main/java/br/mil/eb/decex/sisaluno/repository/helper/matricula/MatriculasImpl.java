@@ -1,22 +1,17 @@
 package br.mil.eb.decex.sisaluno.repository.helper.matricula;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.Subqueries;
 import org.hibernate.sql.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,10 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import br.mil.eb.decex.sisaluno.model.Curso;
-import br.mil.eb.decex.sisaluno.model.ItemMatricula;
 import br.mil.eb.decex.sisaluno.model.Matricula;
-import br.mil.eb.decex.sisaluno.model.Usuario;
 import br.mil.eb.decex.sisaluno.repository.filter.MatriculaFilter;
 import br.mil.eb.decex.sisaluno.repository.paginacao.PaginacaoUtil;
 
@@ -67,12 +59,22 @@ public class MatriculasImpl implements MatriculasQueries {
 		
 	@Transactional(readOnly = true)
 	@Override
+	public Matricula buscarComCurso(Long codigo) {
+		Criteria criteria = manager.unwrap(Session.class).createCriteria(Matricula.class);
+		criteria.createAlias("curso", "c", JoinType.LEFT_OUTER_JOIN);
+		criteria.add(Restrictions.eq("codigo", codigo));
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		return (Matricula) criteria.list();
+	}
+	
+	@Transactional(readOnly = true)
+	@Override
 	public Matricula buscarComItens(Long codigo) {
 		Criteria criteria = manager.unwrap(Session.class).createCriteria(Matricula.class);
 		criteria.createAlias("itens", "i", JoinType.LEFT_OUTER_JOIN);
 		criteria.add(Restrictions.eq("codigo", codigo));
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		return (Matricula) criteria.list();
+		return (Matricula) criteria.uniqueResult();
 	}
 		
 	private Long total(MatriculaFilter filtro) {
@@ -83,8 +85,8 @@ public class MatriculasImpl implements MatriculasQueries {
 	}
 
 	private void adicionarFiltro(MatriculaFilter filtro, Criteria criteria) {
-		criteria.createAlias("aluno", "a");
 		criteria.createAlias("itens", "i");
+		criteria.createAlias("aluno", "a");
 		
 		if(filtro != null) {
 			if (!StringUtils.isEmpty(filtro.getCodigo())) {

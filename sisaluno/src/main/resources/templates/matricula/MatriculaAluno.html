@@ -41,7 +41,7 @@
 	</div>
 	
 	<div class="container-fluid">				
-		<form method="POST" th:object="${matricula}" class="form-vertical  js-form-loading" autocomplete="off" 
+		<form method="POST" th:object="${matricula}" class="js-formulario-principal" autocomplete="off" 
 				th:action="${matricula.nova} ? @{/matriculas/nova} : @{/matriculas/{codigo}(codigo=${matricula.codigo})}">
 		
 			<sisaluno:message/>
@@ -128,11 +128,11 @@
 				    </div>
 				</div>
 				
-				<div class="form-group  col-sm-6">
-					<label class="control-label" for="nomeAluno">Nome do aluno</label>								      
-				    <input id="nomeAluno" type="text" readonly="readonly" 
-				    		class="form-control" th:field="*{aluno.nome}"/>					    
-				</div>
+<!-- 				<div class="form-group  col-sm-6"> -->
+<!-- 					<label class="control-label" for="nomeAluno">Nome do aluno</label>								       -->
+<!-- 				    <input id="nomeAluno" type="text" readonly="readonly"  -->
+<!-- 				    		class="form-control" th:field="*{aluno.nome}"/>					     -->
+<!-- 				</div> -->
 			  	
 										
 			</div>
@@ -235,7 +235,7 @@
 			 			<div class="form-group col-lg-12">
 			 				<input type="text" class="form-control js-sku-descr-curso-input" id="curso" 
 								placeholder="Pesquise e adicione o curso pelo SKU ou Descrição" autofocus="autofocus" 
-								data:url="@{/cursos}" />
+								data:url="@{/cursos}"/>
 			 			</div>			 		
 			 		</div>
 			 		<div class="sc-tabela-matriculas js-tabela-cursos-container">						
@@ -302,7 +302,7 @@
 				<div class="row" style="clear: both">
 					<div class="col-lg-12">
 						<div class="btn-group">
-						  <button type="submit" class="btn  btn-primary">Salvar</button>
+						  <button type="submit" class="btn  btn-primary js-submit-btn" data:acao="salvar">Salvar</button>
 						  <button type="button" class="btn  btn-primary  dropdown-toggle" data-toggle="dropdown">
 						    <span class="caret"></span>
 						  </button>
@@ -323,10 +323,7 @@
 	<th:block th:replace="hbs/TemplateAutocompleteCurso"></th:block>
 </section>
 
-<th:block layout:fragment="javascript-extra">
-	
-	
-	
+<th:block layout:fragment="javascript-extra">	
 	<script th:src="@{/javascripts/vendors/jquery.easy-autocomplete.min.js}"></script>
 	<script th:src="@{/javascripts/vendors/handlebars.min.js}"></script>
 	<script th:src="@{/javascripts/aluno.pesquisa-rapida.js}"></script>
@@ -334,6 +331,7 @@
 	<script th:src="@{/javascripts/matricula.autocomplete-itens.js}"></script>
 	<script th:src="@{/javascripts/matricula.tabela-itens.js}"></script>
 	<script th:src="@{/javascripts/matricula.js}"></script>
+	<script th:src="@{/javascripts/matricula.botoes-submit.js}"></script>
 	
 	<script>
 		$(function() {

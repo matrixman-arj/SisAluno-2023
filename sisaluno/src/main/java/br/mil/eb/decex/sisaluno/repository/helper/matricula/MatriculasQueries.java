@@ -17,6 +17,8 @@ public interface MatriculasQueries {
 
 
 	public Matricula buscarComItens(Long codigo);
+	
+	public Matricula buscarComCurso(Long codigo);
 		
 	
 	

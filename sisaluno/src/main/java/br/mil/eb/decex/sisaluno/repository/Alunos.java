@@ -16,5 +16,6 @@ public interface Alunos extends JpaRepository<Aluno, Long>, AlunosQueries, JpaSp
 	public Optional<Aluno> findByCpf(String cpf);	
 
 	public List<Aluno> findByCpfStartingWithIgnoreCase(String cpf);
+
+	
 }
- 
