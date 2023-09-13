@@ -30,7 +30,6 @@ import br.mil.eb.decex.sisaluno.controller.validator.MatriculaValidator;
 import br.mil.eb.decex.sisaluno.enumerated.Ano;
 import br.mil.eb.decex.sisaluno.enumerated.Periodo;
 import br.mil.eb.decex.sisaluno.enumerated.SituacaoNoCurso;
-import br.mil.eb.decex.sisaluno.model.Aluno;
 import br.mil.eb.decex.sisaluno.model.Curso;
 import br.mil.eb.decex.sisaluno.model.ItemMatricula;
 import br.mil.eb.decex.sisaluno.model.Matricula;
@@ -109,6 +108,8 @@ public class MatriculasController {
 		
 		
 		matricula.setCurso(item.getCurso());
+		
+		
 		}
 		
 		

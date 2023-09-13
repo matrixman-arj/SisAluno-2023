@@ -18,12 +18,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import br.mil.eb.decex.sisaluno.model.Usuario;
 import br.mil.eb.decex.sisaluno.repository.Alunos;
+import br.mil.eb.decex.sisaluno.repository.Cursos;
 
 
 
 @Configuration
 @ComponentScan(basePackageClasses = Alunos.class)
-@EnableJpaRepositories(basePackageClasses = Alunos.class, enableDefaultTransactions = false)
+@EnableJpaRepositories(basePackageClasses = Cursos.class, enableDefaultTransactions = false)
 @EnableTransactionManagement
 public class JPAConfig {
 	

@@ -1,6 +1,7 @@
 package br.mil.eb.decex.sisaluno.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -28,6 +29,8 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.util.StringUtils;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.mil.eb.decex.sisaluno.enumerated.PostoGraduacao;
 import br.mil.eb.decex.sisaluno.validation.AtributoConfirmacao;
@@ -90,11 +93,11 @@ public class Usuario implements Serializable {
 
 	private Boolean ativo;
 	
-	@Size(min = 1, message = "Selecione ao menos um grupo")
+//	@Size(min = 1, message = "Selecione ao menos um grupo")
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "comum.usuario_grupo", joinColumns = @JoinColumn(name = "codigo_usuario")
-	 						, inverseJoinColumns = @JoinColumn(name = "codigo_grupo"))
-	private List<Grupo> grupos;
+	 						, inverseJoinColumns = @JoinColumn(name = "codigo_grupo"))	
+	private List<Grupo> grupos = new ArrayList<>();
 		
 	private String foto;
 	

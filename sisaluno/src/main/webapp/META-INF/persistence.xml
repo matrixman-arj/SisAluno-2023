@@ -12,8 +12,7 @@
       <properties>
          <!-- Bind entity manager factory to JNDI at java:jboss/myEntityManagerFactory -->
          <property name="jboss.entity.manager.factory.jndi.name" value="java:jboss/myEntityManagerFactory" />
-         <property name="jboss.entity.manager.jndi.name" value="java:/myEntityManager"/>
-         <property name="hibernate.enable_lazy_load_no_trans" value="true" />
+         <property name="jboss.entity.manager.jndi.name" value="java:/myEntityManager"/>        
        </properties>
    </persistence-unit>
 </persistence>

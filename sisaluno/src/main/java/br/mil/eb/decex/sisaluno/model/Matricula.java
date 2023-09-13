@@ -21,13 +21,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Max;
-import javax.validation.constraints.NotNull;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.mil.eb.decex.sisaluno.enumerated.Ano;
 import br.mil.eb.decex.sisaluno.enumerated.Periodo;
@@ -46,8 +44,7 @@ public class Matricula {
 	private String numeroMatricula;
 	
 	@ManyToOne
-	@JoinColumn(name = "codigo_aluno")
-	@JsonIgnore
+	@JoinColumn(name = "codigo_aluno")	
 	private Aluno aluno;
 	
 	@Column(name = "cpf_aluno")
@@ -131,7 +128,40 @@ public class Matricula {
     
     @Column(name = "total_atitudinal")
     private BigDecimal totalAtitudinal = BigDecimal.ZERO;
-
+    
+    
+    @PrePersist
+    private void prePersist() {
+		
+		
+		if(isNova()) {
+			
+			if (this.situacao != null) {
+				this.situacaoNoCursoDescr = this.situacao.getDescricao();
+			}
+			
+			this.dataCriacao = LocalDate.now();
+			
+			if(this.anoLetivo != null) {
+				this.anoLetivoDescr = this.anoLetivo.getDescricao();
+			}
+			
+			if(this.aluno != null) {
+				this.cpfAluno = this.aluno.getCpf().replaceAll("\\.|-", "");
+			}
+			
+			if(this.anoLetivo != null) {
+				Random gerador = new Random();
+				setNumeroMatricula(this.anoLetivoDescr + "-" +  gerador.nextInt(900)*10);
+			}
+			
+						
+			System.out.println("Matricula: " + getNumeroMatricula());
+			
+		}
+		
+	}
+	
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -313,40 +343,6 @@ public class Matricula {
 		this.totalAtitudinal = totalAtitudinal;
 	}
 	
-	
-	
-	@PrePersist
-    private void prePersist() {
-		
-		
-		if(isNova()) {
-			
-			if (this.situacao != null) {
-				this.situacaoNoCursoDescr = this.situacao.getDescricao();
-			}
-			
-			this.dataCriacao = LocalDate.now();
-			
-			if(this.anoLetivo != null) {
-				this.anoLetivoDescr = this.anoLetivo.getDescricao();
-			}
-			
-			if(this.aluno != null) {
-				this.cpfAluno = this.aluno.getCpf().replaceAll("\\.|-", "");
-			}
-			
-			if(this.anoLetivo != null) {
-				Random gerador = new Random();
-				setNumeroMatricula(this.anoLetivoDescr + "-" +  gerador.nextInt(900)*10);
-			}
-			
-						
-			System.out.println("Matricula: " + getNumeroMatricula());
-			
-		}
-	}
-		
-		
 	
 	public boolean isNova() {
 		return codigo == null;
