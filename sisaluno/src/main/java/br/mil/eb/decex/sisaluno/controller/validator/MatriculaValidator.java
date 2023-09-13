@@ -46,7 +46,7 @@ public class MatriculaValidator implements Validator{
 	
 	private void verificaSeInformouPeriodo(Errors errors, Matricula matricula) {
 		if(matricula.getPeriodo() == null) {
-			errors.rejectValue("periodo","", "O Campo período é obrigatório");
+			errors.rejectValue("periodo","", "O Campo período na aba previsão é obrigatório");
 		}
 	}
 	

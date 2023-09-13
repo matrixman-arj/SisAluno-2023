@@ -23,8 +23,7 @@ CREATE TABLE ensino.matricula(
 	tfm3 numeric(10,2),
 	total_tfm numeric(10,2),
 	situacao_no_curso character varying(100),	
-	situacao_no_curso_descr character varying(100),
-	uuid character varying(50),
+	situacao_no_curso_descr character varying(100),	
 	
 	CONSTRAINT matricula_pkey PRIMARY KEY (codigo),
 	FOREIGN KEY (codigo_curso)REFERENCES ensino.curso(codigo),
@@ -44,3 +43,7 @@ CREATE TABLE ensino.item_matricula(
 	FOREIGN KEY (codigo_matricula)REFERENCES ensino.matricula(codigo)
 	
 );
+
+ALTER SEQUENCE ensino.matricula_codigo_seq RESTART WITH 1
+
+ALTER SEQUENCE ensino.item_matricula_codigo_seq RESTART WITH 1

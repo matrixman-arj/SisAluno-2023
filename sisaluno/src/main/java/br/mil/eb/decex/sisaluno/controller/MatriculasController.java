@@ -30,6 +30,7 @@ import br.mil.eb.decex.sisaluno.controller.validator.MatriculaValidator;
 import br.mil.eb.decex.sisaluno.enumerated.Ano;
 import br.mil.eb.decex.sisaluno.enumerated.Periodo;
 import br.mil.eb.decex.sisaluno.enumerated.SituacaoNoCurso;
+import br.mil.eb.decex.sisaluno.model.Aluno;
 import br.mil.eb.decex.sisaluno.model.Curso;
 import br.mil.eb.decex.sisaluno.model.ItemMatricula;
 import br.mil.eb.decex.sisaluno.model.Matricula;
@@ -67,9 +68,7 @@ public class MatriculasController {
 	@Autowired
 	private Alunos alunos;
 	
-	
-	
-	
+		
 	@InitBinder("matricula")
 	public void inicializarValidador(WebDataBinder binder) {
 		binder.setValidator(matriculaValidator);
@@ -111,6 +110,14 @@ public class MatriculasController {
 		
 		matricula.setCurso(item.getCurso());
 		}
+		
+		
+		
+//		if(!matricula.isNova()) {
+//			Aluno aluno = new Aluno();
+//			aluno = matriculas.findByAluno(matricula.getAluno());
+//			matricula.setAluno(aluno);
+//		}
 
 		
 		matricula.setOm(usuarioSistema.getUsuario().getOm());

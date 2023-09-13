@@ -86,7 +86,7 @@ public class MatriculasImpl implements MatriculasQueries {
 
 	private void adicionarFiltro(MatriculaFilter filtro, Criteria criteria) {
 		criteria.createAlias("itens", "i");
-		criteria.createAlias("aluno", "a");
+//		criteria.createAlias("aluno", "a");
 		
 		if(filtro != null) {
 			if (!StringUtils.isEmpty(filtro.getCodigo())) {

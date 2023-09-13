@@ -31,7 +31,7 @@ Sisaluno.PesquisaRapidaAluno = (function() {
 			contentType: 'application/json',
 			data: {				
 				cpf: this.cpfInput.val(),
-				nome: thi.nomeInput.val()
+				
 			}, 
 			success: onPesquisaConcluida.bind(this),			
 			error: onErroPesquisa.bind(this)
