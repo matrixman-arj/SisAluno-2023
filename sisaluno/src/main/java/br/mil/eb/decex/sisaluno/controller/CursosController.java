@@ -33,6 +33,7 @@ import br.mil.eb.decex.sisaluno.enumerated.Universo;
 import br.mil.eb.decex.sisaluno.enumerated.Vinculo;
 import br.mil.eb.decex.sisaluno.model.Curso;
 import br.mil.eb.decex.sisaluno.repository.Cursos;
+import br.mil.eb.decex.sisaluno.repository.Uetes;
 import br.mil.eb.decex.sisaluno.repository.filter.CursoFilter;
 import br.mil.eb.decex.sisaluno.security.UsuarioSistema;
 import br.mil.eb.decex.sisaluno.service.CadastroCursoService;
@@ -49,6 +50,9 @@ public class CursosController {
 	@Autowired
 	private Cursos cursos;
 	
+	@Autowired
+	private Uetes uetes;
+	
 	
 
 		
@@ -61,6 +65,7 @@ public class CursosController {
 		mv.addObject("armas",EspecialidadeArma.values());
 		mv.addObject("vinculos",Vinculo.values());
 		mv.addObject("tiposVinculo",TipoVinculo.values());
+		mv.addObject("uetes", uetes.findAll());
 		
 		return mv;
 	}	

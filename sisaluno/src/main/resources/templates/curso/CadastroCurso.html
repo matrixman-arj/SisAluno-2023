@@ -64,43 +64,6 @@
 	                </select>
 				</div>
 				
-				<div class="col-sm-3 form-group">
-					<label for="descr" class="control-label">Especialidade</label>
-					<select id="cfgsCurso" class="form-control" th:field="*{descr}" onchange="verificaEspSgt(this.value)">
-	                    <option value="">Selecione a especialidade ou arma</option>
-	                    <option th:each="especialidade : ${armas}" th:value="${especialidade.descricao}" th:text="${especialidade.descricao}">ARTILHARIA</option>
-	                </select>
-				</div>
-				
-				<!-- Select para quem estiver cadastrando um curso, informar para qual universo está disponível o curso -->
-				<div class="col-sm-3 form-group sc-required" sisaluno:classforerror="universo">
-					<label for="universo" class="control-label">Universo</label>
-					<select id="universo" class="form-control" th:field="*{universo}" onchange="verificaFormac(this.value)">
-	                    <option value="">Selecione o universo</option>
-	                    <option th:each="universo : ${universos}" th:value="${universo}" th:text="${universo.descricao}">FORM_GRAD_OF</option>
-	                </select>
-				</div>
-			</div>
-			<!--############################## Final da primeira linha ###################################### -->
-			
-			<!--############################## Inicio da segnda linha ###################################### -->	
-			<div class="row">
-				<div class="col-sm-3 form-group sc-required" sisaluno:classforerror="vinculo">
-					<label for="vinculo" class="control-label">Vinculo</label>
-					<select id="vinculo" class="form-control" th:field="*{vinculo}" onchange="verificaFormac(this.value)">
-	                    <option value="">Selecione o vinculo</option>
-	                    <option th:each="vinculo : ${vinculos}" th:value="${vinculo}" th:text="${vinculo.descricao}">CARREIRA</option>
-	                </select>
-				</div>
-				
-				<div class="col-sm-3 form-group sc-required" sisaluno:classforerror="tipoVinculo">
-					<label for="tipoVinculo" class="control-label">Tipo de Vinculo</label>
-					<select id="tipoVinculo" class="form-control" th:field="*{tipoVinculo}" onchange="verificaFormac(this.value)">
-	                    <option value="">Selecione o tipo de vinculo</option>
-	                    <option th:each="tipoVinculo : ${tiposVinculo}" th:value="${tipoVinculo}" th:text="${tipoVinculo}">OTT</option>
-	                </select>
-				</div>
-				
 				<!-- Select para quem estiver cadastrando um curso, informar a qual linha pertence o curso -->
 				<div class="col-sm-3 form-group sc-required">
 					<label for="linha" class="control-label">Linha</label>
@@ -110,6 +73,53 @@
 	                </select>
 				</div>
 				
+				<div class="col-sm-3 form-group">
+					<label for="descr" class="control-label">Especialidade</label>
+					<select id="cfgsCurso" class="form-control" th:field="*{descr}" onchange="verificaEspSgt(this.value)">
+	                    <option value="">Selecione a especialidade ou arma</option>
+	                    <option th:each="especialidade : ${armas}" th:value="${especialidade.descricao}" th:text="${especialidade.descricao}">ARTILHARIA</option>
+	                </select>
+				</div>				
+			</div>
+			<!--############################## Final da primeira linha ###################################### -->
+			
+			<!--############################## Inicio da segnda linha ###################################### -->	
+			<div class="row">
+				
+				<!-- Select para quem estiver cadastrando um curso, informar para qual universo está disponível o curso -->
+				<div class="col-sm-3 form-group sc-required" sisaluno:classforerror="universo">
+					<label for="universo" class="control-label">Universo</label>
+					<select id="universo" class="form-control" th:field="*{universo}" onchange="verificaUniverso(this.value)">
+	                    <option value="">Selecione o universo</option>
+	                    <option th:each="universo : ${universos}" th:value="${universo}" th:text="${universo.descricao}">FORM_GRAD_OF</option>
+	                </select>
+				</div>
+				
+				<!--Select para alunos a sargentos informarem a Unidade Escolar Tecnológica do Exército -->											
+				<div class="col-sm-3 form-group sc-required" hidden="true" id="divUETE">
+					<label for="uete" class="control-label">UETE</label>
+					<select id="uete" class="form-control" th:field="*{uete}">
+	                    <option value="">Selecione a Unidade Escolar Tecnológica do Exército</option>
+	                    <option th:each="uete : ${uetes}" th:value="${uete.codigo}" th:text="${uete.sigla}">20º RCB</option>
+	                </select>
+				</div>
+				
+				<div class="col-sm-3 form-group sc-required" sisaluno:classforerror="vinculo">
+					<label for="vinculo" class="control-label">Vinculo</label>
+					<select id="vinculo" class="form-control" th:field="*{vinculo}" onchange="verificaVinculo(this.value)">
+	                    <option value="">Selecione o vinculo</option>
+	                    <option th:each="vinculo : ${vinculos}" th:value="${vinculo}" th:text="${vinculo.descricao}">CARREIRA</option>
+	                </select>
+				</div>
+				
+				<div class="col-sm-3 form-group sc-required" sisaluno:classforerror="tipoVinculo" hidden="true" id="divVinculo">
+					<label for="tipoVinculo" class="control-label">Tipo de Vinculo</label>
+					<select id="tipoVinculo" class="form-control" th:field="*{tipoVinculo}">
+	                    <option value="">Selecione o tipo de vinculo</option>
+	                    <option th:each="tipoVinculo : ${tiposVinculo}" th:value="${tipoVinculo}" th:text="${tipoVinculo}">OTT</option>
+	                </select>
+				</div>
+								
 			</div>			
 			<!--############################## Final da segunda linha ###################################### -->				
 			<div class="row">
@@ -153,7 +163,9 @@
 	<script th:src="@{/layout/javascripts/colegio.js}"></script>
 	<script th:src="@{/layout/javascripts/formacao.js}"></script>
 	<script th:src="@{/layout/javascripts/EspecialidadeSgt.js}"></script>
-	<script th:src="@{/layout/javascripts/EspecialidadeOF.js}"></script>	
+	<script th:src="@{/layout/javascripts/EspecialidadeOF.js}"></script>
+	<script th:src="@{/layout/javascripts/verifica-vinculo.js}"></script>
+	<script th:src="@{/layout/javascripts/verifica-universo.js}"></script>	
 		
 	<script th:src="@{/javascripts/vendors/uikit.min.js}"></script>
 	<script th:src="@{/javascripts/vendors/upload.min.js}"></script>

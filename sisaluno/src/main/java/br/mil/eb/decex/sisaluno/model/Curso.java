@@ -58,6 +58,8 @@ public class Curso implements Serializable{
 	@Column(name = "vinculo_descr")
 	private String vinculoDescr;
 	
+	private Uete uete;
+	
 	
 	@Column(name = "tipo_vinculo")
 	private String tipoVinculo;	
@@ -171,6 +173,16 @@ public class Curso implements Serializable{
 
 	public void setTipoVinculoDescr(String tipoVinculoDescr) {
 		this.tipoVinculoDescr = tipoVinculoDescr;
+	}
+	
+	
+
+	public Uete getUete() {
+		return uete;
+	}
+
+	public void setUete(Uete uete) {
+		this.uete = uete;
 	}
 
 	public String getFoto() {
