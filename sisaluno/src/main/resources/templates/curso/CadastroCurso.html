@@ -112,9 +112,9 @@
 	                </select>
 				</div>
 				
-				<div class="col-sm-3 form-group sc-required" sisaluno:classforerror="tipoVinculo" hidden="true" id="divVinculo">
+				<div class="col-sm-3 form-group sc-required" hidden="true" id="divTipoVinculo">
 					<label for="tipoVinculo" class="control-label">Tipo de Vinculo</label>
-					<select id="tipoVinculo" class="form-control" th:field="*{tipoVinculo}">
+					<select id="tipoVinculo" class="form-control" th:field="*{tipoVinculo}" onchange="verificaTipoVinculo(this.value)">
 	                    <option value="">Selecione o tipo de vinculo</option>
 	                    <option th:each="tipoVinculo : ${tiposVinculo}" th:value="${tipoVinculo}" th:text="${tipoVinculo}">OTT</option>
 	                </select>
@@ -122,6 +122,17 @@
 								
 			</div>			
 			<!--############################## Final da segunda linha ###################################### -->				
+			
+			<div class="row">
+				<div class="col-sm-3 form-group sc-required" hidden="true" id="divCporEstado">
+					<label for="cporEstado" class="control-label">CPOR</label>
+					<select id="cporEstado" class="form-control" th:field="*{cporEstado}">
+	                    <option value="">Selecione em qual CPOR será realizao o curso</option>
+	                    <option th:each="cporEstado : ${cporEstados}" th:value="${cporEstado}" th:text="${cporEstado}">OTT</option>
+	                </select>
+				</div>
+			</div>
+			
 			<div class="row">
 				<div class="form-group  col-sm-12">
 					<input type="hidden" th:field="*{foto}">
@@ -164,8 +175,9 @@
 	<script th:src="@{/layout/javascripts/formacao.js}"></script>
 	<script th:src="@{/layout/javascripts/EspecialidadeSgt.js}"></script>
 	<script th:src="@{/layout/javascripts/EspecialidadeOF.js}"></script>
+	<script th:src="@{/layout/javascripts/verifica-universo.js}"></script>
 	<script th:src="@{/layout/javascripts/verifica-vinculo.js}"></script>
-	<script th:src="@{/layout/javascripts/verifica-universo.js}"></script>	
+	<script th:src="@{/layout/javascripts/verifica.tipo-vinculo.js}"></script>	
 		
 	<script th:src="@{/javascripts/vendors/uikit.min.js}"></script>
 	<script th:src="@{/javascripts/vendors/upload.min.js}"></script>

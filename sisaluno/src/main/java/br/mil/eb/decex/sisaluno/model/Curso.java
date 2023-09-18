@@ -20,6 +20,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.util.StringUtils;
 
+import br.mil.eb.decex.sisaluno.enumerated.CPOREstado;
 import br.mil.eb.decex.sisaluno.enumerated.Linha;
 import br.mil.eb.decex.sisaluno.enumerated.Modalidade;
 import br.mil.eb.decex.sisaluno.enumerated.Universo;
@@ -66,6 +67,10 @@ public class Curso implements Serializable{
 	
 	@Column(name = "tipo_vinculo_descr")
 	private String tipoVinculoDescr;
+	
+	@Column(name = "cpor_estado")
+	@Enumerated(EnumType.STRING)
+	private CPOREstado cporEstado;
     
     private String foto;
 	
@@ -105,9 +110,7 @@ public class Curso implements Serializable{
 
 	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
-	}	
-
-	
+	}		
 
 	public Universo getUniverso() {
 		return universo;
@@ -155,9 +158,7 @@ public class Curso implements Serializable{
 
 	public void setVinculoDescr(String vinculoDescr) {
 		this.vinculoDescr = vinculoDescr;
-	}	
-
-	
+	}
 
 	public String getTipoVinculo() {
 		return tipoVinculo;
@@ -173,9 +174,7 @@ public class Curso implements Serializable{
 
 	public void setTipoVinculoDescr(String tipoVinculoDescr) {
 		this.tipoVinculoDescr = tipoVinculoDescr;
-	}
-	
-	
+	}	
 
 	public Uete getUete() {
 		return uete;
@@ -183,6 +182,13 @@ public class Curso implements Serializable{
 
 	public void setUete(Uete uete) {
 		this.uete = uete;
+	}	
+
+	public CPOREstado getCporEstado() {
+		return cporEstado;
+	}
+	public void setCporEstado(CPOREstado cporEstado) {
+		this.cporEstado = cporEstado;
 	}
 
 	public String getFoto() {

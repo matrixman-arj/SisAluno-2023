@@ -1,18 +1,18 @@
 function verificaVinculo(value){
 	
-	var divVinculo = document.getElementById("divVinculo");
+	var divTipoVinculo = document.getElementById("divTipoVinculo");
 		
 	
 	if (value == '') {
 		console.log(value);
-		divVinculo.hidden = true;
+		divTipoVinculo.hidden = true;
 		
 		
 	} else if (value == 'CARREIRA') {
-		divVinculo.hidden = true;
+		divTipoVinculo.hidden = true;
 		
 	} else if (value == 'TEMPORARIO') {
-		divVinculo.hidden = false;
+		divTipoVinculo.hidden = false;
 		
 	}
 };

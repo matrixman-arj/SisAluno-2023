@@ -8,6 +8,7 @@ CREATE TABLE ensino.curso (
 	linha character varying(100),
 	vinculo character varying(100),
 	tipo_vinculo character varying(100),
+	vinculo character varying(100),
 	uete character varying(50),
 	foto character varying(100),
 	content_type character varying(100),

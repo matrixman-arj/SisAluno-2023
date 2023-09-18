@@ -25,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.mil.eb.decex.sisaluno.controller.page.PageWrapper;
 import br.mil.eb.decex.sisaluno.dto.CursoDTO;
+import br.mil.eb.decex.sisaluno.enumerated.CPOREstado;
 import br.mil.eb.decex.sisaluno.enumerated.EspecialidadeArma;
 import br.mil.eb.decex.sisaluno.enumerated.Linha;
 import br.mil.eb.decex.sisaluno.enumerated.Modalidade;
@@ -66,6 +67,7 @@ public class CursosController {
 		mv.addObject("vinculos",Vinculo.values());
 		mv.addObject("tiposVinculo",TipoVinculo.values());
 		mv.addObject("uetes", uetes.findAll());
+		mv.addObject("cporEstados",CPOREstado.values());
 		
 		return mv;
 	}	
