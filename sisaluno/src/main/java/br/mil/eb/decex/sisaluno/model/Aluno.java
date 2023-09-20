@@ -24,6 +24,8 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.util.StringUtils;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.mil.eb.decex.sisaluno.enumerated.ColegioMiltar;
 import br.mil.eb.decex.sisaluno.enumerated.Escolaridade;
 import br.mil.eb.decex.sisaluno.enumerated.Etnia;
@@ -152,7 +154,7 @@ public class Aluno implements Serializable{
     @NotNull( message = "Informe se é cotista ou não")
     private String cotista;
     
-    
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "dados_inseridos_por")
     private Usuario inseridoPor;

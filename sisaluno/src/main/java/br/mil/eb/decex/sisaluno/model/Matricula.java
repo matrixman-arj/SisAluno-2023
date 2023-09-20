@@ -47,7 +47,7 @@ public class Matricula {
 	private Aluno aluno;
 	
 	@Column(name = "cpf_aluno")
-	private String cpfAluno;
+	private String cpfDoAluno;
 	
 	@ManyToOne
 	@JoinColumn(name = "codigo_usuario")
@@ -146,7 +146,7 @@ public class Matricula {
 			}
 			
 			if(this.aluno != null) {
-				this.cpfAluno = this.aluno.getCpf().replaceAll("\\.|-", "");
+				this.cpfDoAluno = this.aluno.getCpf().replaceAll("\\.|-", "");
 			}
 			
 			if(this.anoLetivo != null) {
@@ -180,16 +180,16 @@ public class Matricula {
 	}
 	public void setAluno(Aluno aluno) {
 		this.aluno = aluno;
-	}	
+	}		
 	
-	public String getCpfAluno() {
-		return cpfAluno;
+	public String getCpfDoAluno() {
+		return cpfDoAluno;
 	}
-	public void setCpfAluno(String cpfAluno) {
-		this.cpfAluno = cpfAluno;
+
+	public void setCpfDoAluno(String cpfDoAluno) {
+		this.cpfDoAluno = cpfDoAluno;
 	}
-	
-	
+
 	public Usuario getUsuario() {
 		return usuario;
 	}

@@ -41,7 +41,7 @@ Sisaluno.Autocomplete = (function() {
 	}
 	
 	function template(descr, curso){
-		return this.template(descr, curso);
+		return this.template(curso);
 	}
 				
 	return Autocomplete

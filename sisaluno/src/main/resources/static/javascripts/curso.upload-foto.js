@@ -11,7 +11,7 @@ Sisaluno.UploadFoto = (function() {
             this.htmlFotoCursoTemplate = $('#foto-curso').html();
             this.template = Handlebars.compile(this.htmlFotoCursoTemplate);
 
-            this.containerFotoCurso = $('.js-container-foto-curso');
+            this.containerFotoCurso = $('.js-container-foto-usuario');
 
             this.uploadDrop = $('#upload-drop');
         }
