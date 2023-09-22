@@ -175,7 +175,11 @@ public class MatriculasController {
 		
 		PageWrapper<Matricula> paginaWrapper = new PageWrapper<>(matriculas.filtrar(matriculaFilter, pageable)
 				, httpServletRequest);
-		mv.addObject("pagina", paginaWrapper);		
+		mv.addObject("pagina", paginaWrapper);
+		
+		PageWrapper<Matricula> paginaWrapper2 = new PageWrapper<>(matriculas.filtrarMatriculaPorEstEsino(matriculaFilter, pageable, null, null)
+				, httpServletRequest);
+		mv.addObject("paginaMatrPorEstEns", paginaWrapper2);	
 		
 		return mv;
 	}

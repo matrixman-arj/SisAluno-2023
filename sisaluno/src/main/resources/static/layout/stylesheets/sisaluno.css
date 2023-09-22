@@ -150,6 +150,38 @@
 	color: red;
 }
 
+/* Colunas - Pesquisa de Matrículas */
+
+.table-matriculas-col-cpf {
+	width: 200px;
+	
+}
+
+.table-matriculas-col-matricula {
+	width: 200px;
+}
+
+.table-matriculas-col-aluno {
+	width: 200px;
+}
+
+.table-matriculas-col-ano {
+	width: 100px;
+}
+
+.table-matriculas-col-inicio {
+	width: 150px;
+}
+
+.table-matriculas-col-termino {
+	width: 150px;
+}
+
+
+.table-usuarios-col-acoes {
+	width: 80px;
+}
+
 
 /* Tabela Cursos página de Matriculas */
 .sc-tabela-matriculas {

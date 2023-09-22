@@ -99,7 +99,7 @@
 						
 					<tr th:each="sisaluno : ${paginaOmUsuLogado.conteudo}" sec:authorize="hasRole('ROLE_USUARIO')">	
 						<td class="text-center">
-							<img th:src="@{/fotos/thumbnail.{foto}(foto=${curso.fotoOuMock})}" class="img-responsive">
+							<img th:src="@{/fotos/thumbnail.{foto}(foto=${sisaluno.fotoOuMock})}" class="img-responsive">
 						</td>
 						<td th:text="${sisaluno.cpf}">CPF</td>
 						<td th:text="${sisaluno.nome}">Nome</td>

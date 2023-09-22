@@ -13,6 +13,6 @@ public interface Matriculas extends JpaRepository<Matricula, Long>, MatriculasQu
 	
 	public Optional<Matricula> findByAlunoAndAnoLetivo(Aluno aluno, Ano anoLetivo);
 
-	public Aluno findByAluno(Aluno aluno);
+	public Aluno findByAluno(Aluno aluno);	
 
 }

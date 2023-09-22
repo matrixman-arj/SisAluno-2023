@@ -59,8 +59,7 @@ public class Curso implements Serializable{
 	@Column(name = "vinculo_descr")
 	private String vinculoDescr;
 	
-	private Uete uete;
-	
+	private Uete uete;	
 	
 	@Column(name = "tipo_vinculo")
 	private String tipoVinculo;	
