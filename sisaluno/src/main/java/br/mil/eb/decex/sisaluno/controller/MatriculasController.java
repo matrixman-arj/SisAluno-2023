@@ -1,7 +1,11 @@
 package br.mil.eb.decex.sisaluno.controller;
 
+import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -166,16 +170,21 @@ public class MatriculasController {
 	
 	
 	@GetMapping
-	public ModelAndView pesquisar(Matricula matricula, MatriculaFilter matriculaFilter, 
+	public ModelAndView pesquisar(Matricula matricula, MatriculaFilter matriculaFilter, CriteriaBuilder criteriaBuilder, CriteriaQuery<Matricula> query, List<Predicate> predicates,
 			BindingResult result, @PageableDefault(size = 5) Pageable pageable, HttpServletRequest httpServletRequest) {
 		ModelAndView mv = new ModelAndView("matricula/PesquisaMatriculas");
 		mv.addObject("itens", matricula.getItens());
 		mv.addObject("alunos", alunos.findAll());
 		mv.addObject("anosLetivo", Ano.values());
 		
+				
 		PageWrapper<Matricula> paginaWrapper = new PageWrapper<>(matriculas.filtrar(matriculaFilter, pageable)
 				, httpServletRequest);
-		mv.addObject("pagina", paginaWrapper);		
+		mv.addObject("pagina", paginaWrapper);
+		
+		PageWrapper<Matricula> paginaWrapper2 = new PageWrapper<>(matriculas.filtrarPelaOmUsuLogado(matriculaFilter, pageable, null)
+				, httpServletRequest);
+		mv.addObject("paginaDaMesmaOm", paginaWrapper2);	
 		
 		return mv;
 	}

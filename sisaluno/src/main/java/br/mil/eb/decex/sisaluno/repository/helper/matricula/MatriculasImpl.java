@@ -23,6 +23,7 @@ import org.springframework.util.StringUtils;
 import br.mil.eb.decex.sisaluno.model.Matricula;
 import br.mil.eb.decex.sisaluno.repository.filter.MatriculaFilter;
 import br.mil.eb.decex.sisaluno.repository.paginacao.PaginacaoUtil;
+import br.mil.eb.decex.sisaluno.security.UsuarioSistema;
 
 public class MatriculasImpl implements MatriculasQueries {
 	
@@ -86,7 +87,7 @@ public class MatriculasImpl implements MatriculasQueries {
 
 	private void adicionarFiltro(MatriculaFilter filtro, Criteria criteria) {
 		criteria.createAlias("itens", "i");
-//		criteria.createAlias("aluno", "a");
+		criteria.createAlias("aluno", "a");
 		
 		if(filtro != null) {
 			if (!StringUtils.isEmpty(filtro.getCodigo())) {
@@ -135,6 +136,13 @@ public class MatriculasImpl implements MatriculasQueries {
 //			
 //		}
 	}
-}	
+}
+
+
+	@Override
+	public Page<Matricula> filtrarPelaOmUsuLogado(MatriculaFilter filtro, Pageable pageable, UsuarioSistema sistema) {
+		// TODO Auto-generated method stub
+		return null;
+	}	
 
 }
