@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- ############################################ INÍCIO DO HTML DA PÁGINA ######################################## -->
 <html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"	
@@ -10,9 +11,12 @@
 <head>
 	<title>Pesquisar matriculas</title>	
 </head>
-
-<body>	
+<!-- ############################################ INÍCIO DO CORPO DA PÁGINA ######################################## -->	
+<body>
+<!-- ############################################ INÍCIO DA SESSÃO DA PÁGINA ######################################## -->	
 <section layout:fragment="conteudo">
+
+<!-- ############################################ INÍCIO DO CABEÇALHO DA PÁGINA ######################################## -->
 	<div class="page-header">
 		<div class="container-fluid">
 			<div class="row">
@@ -31,8 +35,12 @@
 			</div>
 		</div>	
 	 </div>
-	 	 
+<!-- ############################################ FIM DO CABEÇALHO DA PÁGINA ######################################## -->	 
+	
+<!-- ############################################ INÍCIO DO CONTAINER DA PÁGINA ######################################## -->	 
 	 <div class="container-fluid">
+	 
+<!-- ############################################ INÍCIO DO FORMULÁRIO DA PÁGINA ######################################## -->
 		<form method="GET" th:object="${matriculaFilter}" th:action="@{/matriculas}">
 			<div class="row">
 				<div class="form-group col-sm-4">
@@ -76,16 +84,24 @@
 			
 			<button type="submit" class="btn btn-primary">Pesquisar</button>
 		</form>
+<!-- ############################################ FINAL DO FORMULÁRIO DA PÁGINA ######################################## -->
 		
-		<div class="table-responsive sc-tabela-simples">
+		
+<!-- ############################################ INÍCIO DA TABELA DA PÁGINA ######################################## -->
+		<div class="table-responsive sc-tabela-simples">		
 			<table class="table table-hover">
+			<!-- ################### INÍCIO DO CABEÇALHO DA TABELA ######################### -->
 				<thead>
 					<tr>
 						<th class="table-usuarios-col-cpf">CPF</th>
 						<th class="table-usuarios-col-matricula">Matricula</th>
 						
-						<th class="table-usuarios-col-nomeGuerra">
+						<th class="table-usuarios-col-nomeGuerra" sec:authorize="hasRole('ROLE_ADMINISTRACAO')">
 							<sisaluno:order page="${pagina}" field="a.nome" text="Aluno"/>
+						</th>
+						
+						<th class="table-usuarios-col-nomeGuerra" sec:authorize="hasRole('ROLE_USUARIO')">
+							<sisaluno:order page="${paginaDaMesmaOm}" field="a.nome" text="Aluno"/>
 						</th>
 						<th class="table-usuarios-col-ano">Ano letivo</th>
 						<th class="table-usuarios-col-inicio">Início</th>
@@ -93,9 +109,11 @@
 						<th class="table-usuarios-col-acoes">Ações</th>
 					</tr>
 				</thead>
-				
+			<!-- ################### FINAL DO CABEÇALHO DA TABELA ######################### -->
+			
+			<!-- ################### INÍCIO DO CORPO DA TABELA (ADMINISTRADOR) ######################### -->
 				<tbody>
-					<tr th:each="matricula : ${pagina.conteudo}">						
+					<tr th:each="matricula : ${pagina.conteudo}" sec:authorize="hasRole('ROLE_ADMINISTRACAO')">						
 						<td th:text="${matricula.aluno.cpf}">CPF</td>
 						<td th:text="${matricula.numeroMatricula}">Matricula</td>
 						<td th:text="${matricula.aluno.nome}">Nome do aluno</td>
@@ -110,28 +128,58 @@
 							
 							<a class="btn btn-link btn-xs js-tooltip js-exclusao-btn" title="Excluir" href="#" 
 									data:url="@{/matriculas/{codigo}(codigo=${matricula.codigo})}"
-									data:codigo="${matricula.codigo}" data:objeto="${matricula.numeroMatricula}">
+									data:codigo="${matricula.codigo}" data:objeto="${matricula.numeroMatricula}" 
+									sec:authorize="hasRole('ROLE_ADMINISTRACAO')">
 								<i class="glyphicon glyphicon-remove"></i>
 							</a>
 							
 						</td>
 					</tr>
-					<tr th:if="${pagina.vazia}">
-						<td colspan="8" style="text-align: center; color: red;">Nenhum matricula encontrada encontrado</td>
+					<tr th:if="${pagina.vazia}" sec:authorize="hasRole('ROLE_ADMINISTRACAO')">
+						<td colspan="8" style="text-align: center; color: red;">Nenhum matricula encontrada</td>
 					</tr>
 				</tbody>
-				
+			<!-- ################### FINAL DO CORPO DA TABELA (ADMINISTRADOR) ######################### -->
+			
+				<!-- ################### INÍCIO DO CORPO DA TABELA (USUARIO) ######################### -->
+				<tbody>
+					<tr th:each="matricula : ${paginaDaMesmaOm.conteudo}" sec:authorize="hasRole('ROLE_USUARIO')">						
+						<td th:text="${matricula.aluno.cpf}">CPF</td>
+						<td th:text="${matricula.numeroMatricula}">Matricula</td>
+						<td th:text="${matricula.aluno.nome}">Nome do aluno</td>
+						<td th:text="${matricula.anoLetivo.descricao}">Ano letivo</td>
+						<td th:text="${matricula.dataInicioCurso}">Início</td>
+						<td th:text="${matricula.dataFinalCurso}">Término</td>													
+						<td class="text-center">														
+							<a class="btn btn-link btn-xs js-tooltip" title="Editar" 
+									th:href="@{/matriculas/{codigo}(codigo=${matricula.codigo})}">
+								<i class="glyphicon glyphicon-pencil"></i>
+							</a>
+							
+						</td>
+					</tr>
+					<tr th:if="${paginaDaMesmaOm.vazia}" sec:authorize="hasRole('ROLE_USUARIO')">
+						<td colspan="8" style="text-align: center; color: red;">Nenhum matricula encontrada</td>
+					</tr>
+				</tbody>
+			<!-- ################### FINAL DO CORPO DA TABELA (USUARIO) ######################### -->
+			
 			</table>
 		</div>
-		
-		<sisaluno:pagination page="${pagina}"/>
-		
+<!-- ############################################ FINAL DA TABELA DA PÁGINA ######################################## -->		
+		<sisaluno:pagination page="${pagina}" sec:authorize="hasRole('ROLE_ADMINISTRACAO')"/>
+		<sisaluno:pagination page="${paginaDaMesmaOm}" sec:authorize="hasRole('ROLE_USUARIO')"/>
 	</div>
+<!-- ############################################ FIM DO CONTAINER DA PÁGINA ######################################## -->
 	 			
 </section>
+<!-- ############################################ FIM DA SESSÃO DA PÁGINA ######################################## -->
+
 <th:block layout:fragment="javascript-extra">
 	<script th:src="@{/javascripts/multiselecao.js}"></script>
 	<script th:src="@{/javascripts/sisaluno.dialogo-excluir.js}"></script>
 </th:block>
 </body>
+<!-- ############################################ FINAL DO CORPO DA PÁGINA ######################################## -->	
 </html>
+<!-- ############################################ FINAL DO HTML DA PÁGINA ######################################## -->

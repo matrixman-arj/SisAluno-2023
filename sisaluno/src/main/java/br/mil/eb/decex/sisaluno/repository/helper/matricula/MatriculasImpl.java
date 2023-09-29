@@ -5,6 +5,11 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
@@ -21,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import br.mil.eb.decex.sisaluno.model.Matricula;
+import br.mil.eb.decex.sisaluno.model.OrganizacaoMilitar;
 import br.mil.eb.decex.sisaluno.repository.filter.MatriculaFilter;
 import br.mil.eb.decex.sisaluno.repository.paginacao.PaginacaoUtil;
 import br.mil.eb.decex.sisaluno.security.UsuarioSistema;
@@ -67,6 +73,26 @@ public class MatriculasImpl implements MatriculasQueries {
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return (Matricula) criteria.list();
 	}
+	
+	public List<Matricula> buscarMatriculasPorOM(MatriculaFilter filtro, Pageable pageable, UsuarioSistema sistema, Criteria criteria) {
+        CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
+        CriteriaQuery<Matricula> query = criteriaBuilder.createQuery(Matricula.class);
+        Root<Matricula> matriculaRoot = query.from(Matricula.class);
+
+        // Crie uma junção com a entidade OM, supondo que Matricula tenha um relacionamento com OM
+        Join<Matricula, OrganizacaoMilitar> omJoin = matriculaRoot.join("om");
+
+        // Verifique se a OM da matrícula é igual à OM do usuário logado
+        Predicate condicaoOM = criteriaBuilder.equal(omJoin, sistema);
+
+        // Aplicar a condição à consulta
+        query.where(condicaoOM);
+        
+        paginacaoUtil.preparar(criteria, pageable);		
+		adicionarFiltro(filtro, criteria);
+
+        return manager.createQuery(query).getResultList();
+    }
 	
 	@Transactional(readOnly = true)
 	@Override
@@ -139,10 +165,5 @@ public class MatriculasImpl implements MatriculasQueries {
 }
 
 
-	@Override
-	public Page<Matricula> filtrarPelaOmUsuLogado(MatriculaFilter filtro, Pageable pageable, UsuarioSistema sistema) {
-		// TODO Auto-generated method stub
-		return null;
-	}	
-
+	
 }

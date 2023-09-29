@@ -8,6 +8,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -70,7 +71,6 @@ public class MatriculasController {
 	
 	@Autowired
 	private Alunos alunos;
-	
 		
 	@InitBinder("matricula")
 	public void inicializarValidador(WebDataBinder binder) {
@@ -171,7 +171,7 @@ public class MatriculasController {
 	
 	@GetMapping
 	public ModelAndView pesquisar(Matricula matricula, MatriculaFilter matriculaFilter, CriteriaBuilder criteriaBuilder, CriteriaQuery<Matricula> query, List<Predicate> predicates,
-			BindingResult result, @PageableDefault(size = 5) Pageable pageable, HttpServletRequest httpServletRequest) {
+			BindingResult result, @PageableDefault(size = 5) Pageable pageable, HttpServletRequest httpServletRequest, @AuthenticationPrincipal UsuarioSistema sistema, Criteria criteria) {
 		ModelAndView mv = new ModelAndView("matricula/PesquisaMatriculas");
 		mv.addObject("itens", matricula.getItens());
 		mv.addObject("alunos", alunos.findAll());
@@ -182,9 +182,9 @@ public class MatriculasController {
 				, httpServletRequest);
 		mv.addObject("pagina", paginaWrapper);
 		
-		PageWrapper<Matricula> paginaWrapper2 = new PageWrapper<>(matriculas.filtrarPelaOmUsuLogado(matriculaFilter, pageable, null)
-				, httpServletRequest);
-		mv.addObject("paginaDaMesmaOm", paginaWrapper2);	
+//		PageWrapper<Matricula> paginaWrapper2 = new PageWrapper<>(matriculas.buscarMatriculasPorOM(matriculaFilter, pageable, sistema, criteria)
+//				, httpServletRequest);
+//		mv.addObject("paginaDaMesmaOm", paginaWrapper2);	
 		
 		return mv;
 	}

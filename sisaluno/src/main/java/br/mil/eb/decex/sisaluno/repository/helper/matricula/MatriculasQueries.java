@@ -3,11 +3,7 @@ package br.mil.eb.decex.sisaluno.repository.helper.matricula;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
+import org.hibernate.Criteria;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -23,10 +19,14 @@ public interface MatriculasQueries {
 	
 	public Matricula buscarComCurso(Long codigo);
 	
-	public Page<Matricula> filtrarPelaOmUsuLogado(MatriculaFilter filtro, Pageable pageable, UsuarioSistema sistema);
+//	public Page<Matricula> filtrarPelaOmUsuLogado(MatriculaFilter filtro, Pageable pageable);
 
 
 	public Page<Matricula> filtrar(MatriculaFilter filtro,  Pageable pageable);
+	
+	public List<Matricula> buscarMatriculasPorOM(MatriculaFilter filtro, Pageable pageable, UsuarioSistema sistema, Criteria criteria);
+
+
 		
 	
 	
