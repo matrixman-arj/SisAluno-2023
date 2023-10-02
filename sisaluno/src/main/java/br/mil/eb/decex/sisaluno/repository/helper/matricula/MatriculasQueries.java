@@ -1,9 +1,7 @@
 package br.mil.eb.decex.sisaluno.repository.helper.matricula;
 
-import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.Criteria;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -24,7 +22,7 @@ public interface MatriculasQueries {
 
 	public Page<Matricula> filtrar(MatriculaFilter filtro,  Pageable pageable);
 	
-	public List<Matricula> buscarMatriculasPorOM(MatriculaFilter filtro, Pageable pageable, UsuarioSistema sistema, Criteria criteria);
+	public Page<Matricula> buscarMatriculasPorOM(MatriculaFilter filtro, Pageable pageable, UsuarioSistema sistema);
 
 
 		

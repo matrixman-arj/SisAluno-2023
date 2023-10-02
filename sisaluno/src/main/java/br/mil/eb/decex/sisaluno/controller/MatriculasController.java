@@ -182,9 +182,9 @@ public class MatriculasController {
 				, httpServletRequest);
 		mv.addObject("pagina", paginaWrapper);
 		
-//		PageWrapper<Matricula> paginaWrapper2 = new PageWrapper<>(matriculas.buscarMatriculasPorOM(matriculaFilter, pageable, sistema, criteria)
-//				, httpServletRequest);
-//		mv.addObject("paginaDaMesmaOm", paginaWrapper2);	
+		PageWrapper<Matricula> paginaWrapper2 = new PageWrapper<>(matriculas.buscarMatriculasPorOM(matriculaFilter, pageable, sistema)
+				, httpServletRequest);
+		mv.addObject("paginaDaMesmaOm", paginaWrapper2);	
 		
 		return mv;
 	}

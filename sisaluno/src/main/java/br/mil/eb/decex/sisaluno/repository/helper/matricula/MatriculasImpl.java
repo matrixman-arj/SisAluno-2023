@@ -5,11 +5,6 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
@@ -22,11 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import br.mil.eb.decex.sisaluno.model.Matricula;
-import br.mil.eb.decex.sisaluno.model.OrganizacaoMilitar;
 import br.mil.eb.decex.sisaluno.repository.filter.MatriculaFilter;
 import br.mil.eb.decex.sisaluno.repository.paginacao.PaginacaoUtil;
 import br.mil.eb.decex.sisaluno.security.UsuarioSistema;
@@ -63,6 +58,23 @@ public class MatriculasImpl implements MatriculasQueries {
 		return new PageImpl<>(filtradas, pageable, total(filtro));
 	
   }
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional(readOnly = true)
+	public Page<Matricula> buscarMatriculasPorOM(MatriculaFilter filtro,  Pageable pageable, @AuthenticationPrincipal UsuarioSistema sistema) {
+		Criteria criteria = manager.unwrap(Session.class).createCriteria(Matricula.class);
+				
+		criteria.add(Restrictions.eq("om.codigo", sistema.getUsuario().getOm().getCodigo()));
+		
+		paginacaoUtil.preparar(criteria, pageable);		
+		adicionarFiltro(filtro, criteria);
+		
+		List<Matricula> filtradas = criteria.list();		
+		filtradas.forEach(m -> Hibernate.initialize(m.getCodigo()));
+		return new PageImpl<>(filtradas, pageable, total(filtro));
+	
+  }
 		
 	@Transactional(readOnly = true)
 	@Override
@@ -74,25 +86,27 @@ public class MatriculasImpl implements MatriculasQueries {
 		return (Matricula) criteria.list();
 	}
 	
-	public List<Matricula> buscarMatriculasPorOM(MatriculaFilter filtro, Pageable pageable, UsuarioSistema sistema, Criteria criteria) {
-        CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
-        CriteriaQuery<Matricula> query = criteriaBuilder.createQuery(Matricula.class);
-        Root<Matricula> matriculaRoot = query.from(Matricula.class);
-
-        // Crie uma junção com a entidade OM, supondo que Matricula tenha um relacionamento com OM
-        Join<Matricula, OrganizacaoMilitar> omJoin = matriculaRoot.join("om");
-
-        // Verifique se a OM da matrícula é igual à OM do usuário logado
-        Predicate condicaoOM = criteriaBuilder.equal(omJoin, sistema);
-
-        // Aplicar a condição à consulta
-        query.where(condicaoOM);
-        
-        paginacaoUtil.preparar(criteria, pageable);		
-		adicionarFiltro(filtro, criteria);
-
-        return manager.createQuery(query).getResultList();
-    }
+//	@SuppressWarnings("unchecked")
+//	@Transactional(readOnly = true)
+//	public Page<Matricula> buscarMatriculasPorOM(MatriculaFilter filtro, Pageable pageable, UsuarioSistema sistema, Criteria criteria) {
+//        CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
+//        CriteriaQuery<Matricula> query = criteriaBuilder.createQuery(Matricula.class);
+//        Root<Matricula> matriculaRoot = query.from(Matricula.class);
+//
+//        // Crie uma junção com a entidade OM, supondo que Matricula tenha um relacionamento com OM
+//        Join<Matricula, OrganizacaoMilitar> omJoin = matriculaRoot.join("om");
+//
+//        // Verifique se a OM da matrícula é igual à OM do usuário logado
+//        Predicate condicaoOM = criteriaBuilder.equal(omJoin, sistema);
+//
+//        // Aplicar a condição à consulta
+//        query.where(condicaoOM);
+//        
+//        paginacaoUtil.preparar(criteria, pageable);		
+//		adicionarFiltro(filtro, criteria);
+//
+//        return (Page<Matricula>) manager.createQuery(query).getResultList();
+//    }
 	
 	@Transactional(readOnly = true)
 	@Override
