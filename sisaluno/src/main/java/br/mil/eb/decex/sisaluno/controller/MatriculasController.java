@@ -123,6 +123,10 @@ public class MatriculasController {
 //			aluno = matriculas.findByAluno(matricula.getAluno());
 //			matricula.setAluno(aluno);
 //		}
+		
+		if(!matricula.isNova() & matricula.getAluno().getSexo() == null) {
+			matricula.getAluno().setSexo("NI");
+		}
 
 		
 		matricula.setOm(usuarioSistema.getUsuario().getOm());

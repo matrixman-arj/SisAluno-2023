@@ -99,7 +99,7 @@
 						
 					<tr th:each="sisaluno : ${paginaOmUsuLogado.conteudo}" sec:authorize="hasRole('ROLE_USUARIO')">	
 						<td class="text-center">
-							<img th:src="@{/fotos/thumbnail.{foto}(foto=${curso.fotoOuMock})}" class="img-responsive">
+							<img th:src="@{/fotos/thumbnail.{foto}(foto=${sisaluno.fotoOuMock})}" class="img-responsive">
 						</td>
 						<td th:text="${sisaluno.cpf}">CPF</td>
 						<td th:text="${sisaluno.nome}">Nome</td>
@@ -111,13 +111,13 @@
 <!-- 							<span th:each="situacao : ${sisaluno.situacoes}" th:text="|${situacao.nome}${situacaoStat.last ? '' : ', '}|"></span> -->
 <!-- 						</td> -->
 						<td class="text-center">
-							<a class="btn btn-link btn-xs js-tooltip" title="Editar" th:href="@{/sisalunos/{codigo}(codigo=${sisaluno.codigo})}"  >
+							<a class="btn btn-link btn-xs js-tooltip" title="Editar" th:href="@{/alunos/{codigo}(codigo=${sisaluno.codigo})}"  >
 								<i class="glyphicon glyphicon-pencil"></i>
 							</a>
 							
 							<a class="btn btn-link btn-xs js-tooltip js-exclusao-btn" title="Excluir" href="#" 
-									data:url="@{/sisalunos/{codigo}(codigo=${sisaluno.codigo})}"
-									data:codigo="${sisaluno.codigo}" data:objeto="${sisaluno.nome}" sec:authorize="hasRole('ROLE_ADMINISTRACAO')">
+									data:url="@{/alunos/{codigo}(codigo=${sisaluno.codigo})}"
+									data:codigo="${sisaluno.codigo}" data:objeto="${sisaluno.nome}" sec:authorize="hasRole('ROLE_USUARIO')">
 								<i class="glyphicon glyphicon-remove"></i>
 							</a>
 						</td>

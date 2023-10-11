@@ -57,7 +57,7 @@
 							<th class="table-alunos-col-origemEscolar">Linha</th>
 							<th class="table-alunos-col-origemEscolar">Vinculo</th>
 							<th class="table-alunos-col-origemEscolar">Tipo de Vinculo</th>
-							<th class="table-alunos-col-acoes">Ações</th>
+							<th class="table-alunos-col-acoes" sec:authorize="hasRole('ROLE_ADMINISTRACAO')">Ações</th>
 						</tr>
 					</thead>
 					
@@ -80,7 +80,7 @@
 							<td th:text="${curso.vinculo}">Viculo</td>
 							<td th:text="${curso.tipoVinculo}">Viculo</td>
 													
-							<td class="text-left">
+							<td class="text-left" sec:authorize="hasRole('ROLE_ADMINISTRACAO')">
 								<a class="btn btn-link btn-xs js-tooltip" title="Editar" th:href="@{/cursos/{codigo}(codigo=${curso.codigo})}"  >
 									<i class="glyphicon glyphicon-pencil"></i>
 								</a>
